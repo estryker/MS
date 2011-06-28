@@ -1,0 +1,23 @@
+<h1>New Squeek</h1>
+
+<%= form_for(@squeek) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :squeek %><br />
+    <%= f.text_field :text %>
+  </div>
+  <div class="field">
+    <%= select_tag :duration, options_for_select([2,4,8]) %>
+  </div>
+    <div class="actions">
+    <%= f.submit "Squeek!" %>
+  </div>
+<% end %>

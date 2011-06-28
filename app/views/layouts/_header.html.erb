@@ -1,0 +1,35 @@
+<header>
+	<nav class="round">
+		<ul>
+			<li>
+				<%= link_to "Home", root_path %>
+			</li>
+            <li>
+				<%= link_to "Get Mapsqueek", get_path %>
+			</li>
+			<li>
+				<%= link_to "Gallery", gallery_path %>
+			</li>
+			<li>
+				<%= link_to "News", news_path %>
+			</li>
+			<li>
+				<%= link_to "About Us", about_path %>
+			</li>
+			<li>
+				<%= link_to "Terms and Conditions", terms_path %>
+			</li>
+			<li>
+				<%= link_to "Contact Us", contact_path %>
+			</li>
+		
+    <li> 
+ 	<%= link_to logo, root_path %>
+	</li>
+	<li><h1>MapSqueek</h1></li>
+ 	
+</ul>
+	</nav>
+
+<%= yield :head %> 
+</header>
