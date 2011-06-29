@@ -15,7 +15,9 @@
     <%= f.text_field :text %>
   </div>
   <div class="field">
+	Expires after
     <%= select_tag :duration, options_for_select([2,4,8]) %>
+    hours
   </div>
     <div class="actions">
     <%= f.submit "Squeek!" %>
