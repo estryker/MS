@@ -3,9 +3,9 @@ class CreateSqueeks < ActiveRecord::Migration
     create_table :squeeks do |t|
       t.float :latitude
       t.float :longitude
-      t.time :time_utc
+      t.datetime :time_utc
       t.string :text
-      t.time :expires
+      t.datetime :expires
 
       t.timestamps
     end

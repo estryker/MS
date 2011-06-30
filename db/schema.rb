@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(:version => 20110627210906) do
   create_table "squeeks", :force => true do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.time     "time_utc"
+    t.datetime "time_utc"
     t.string   "text"
-    t.time     "expires"
+    t.datetime "expires"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "gmaps"
