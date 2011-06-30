@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def home
     now = Time.now
-    @json = Squeek.all(:conditions => ["expires > ?",Time.now]).to_gmaps4rails
+    @json = Squeek.all(:conditions => ["expires > ?",Time.now.utc]).to_gmaps4rails
   end
 
   def get
