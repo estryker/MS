@@ -9,6 +9,7 @@ MapsqueekProto::Application.routes.draw do
   match '/terms',    :to => 'pages#terms'
   match '/contact',    :to => 'pages#contact'
   root :to => 'pages#home'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

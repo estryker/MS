@@ -9,6 +9,8 @@ gem 'sqlite3'
 
 gem 'gmaps4rails' 
 
+gem "jquery-rails"
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
