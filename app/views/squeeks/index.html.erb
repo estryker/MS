@@ -1,1 +1,1 @@
-<%= @json %>
+<%= gmaps("map_options" => { "detect_location" => true, "center_on_user" => true, "zoom" => 6},"markers" => { "data" => @json}) %>
