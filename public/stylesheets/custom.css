@@ -1,14 +1,20 @@
 .container {
-  width: 910px;
+  /*width: 95%;*/
+ width:950px;
+  /*position:relative;*/ 
+  margin-left:auto;
+margin-right:auto;
 }
 
 body {
+  text-align: center;
   background: #006E72;
 }
 
 header {
-  padding-top: 20px;
+  padding-top: 10px;
 }
+
 header h1 {
   font-size: 200%;
   color: #006E72;
@@ -23,6 +29,7 @@ section {
   font-size: 120%;
   padding: 20px;
   background: #fff;
+  /*position:absolute;*/
 }
 
 section h1 {
@@ -107,7 +114,7 @@ a.signup_button {
 footer {
   text-align: center;
   margin-top: 10px;
-  width: 910px;
+  width: 95%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -123,7 +130,7 @@ table.profile {
 }
 
 td.main {
-  width: 70%;
+  width: 90%;
   padding: 1em;
 }
 
