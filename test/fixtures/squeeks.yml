@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: squeeks
+#
+#  id         :integer         not null, primary key
+#  latitude   :float
+#  longitude  :float
+#  time_utc   :datetime
+#  text       :string(255)
+#  expires    :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  gmaps      :boolean
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:

@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: squeeks
+#
+#  id         :integer         not null, primary key
+#  latitude   :float
+#  longitude  :float
+#  time_utc   :datetime
+#  text       :string(255)
+#  expires    :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  gmaps      :boolean
+#
+
 class Squeek < ActiveRecord::Base
  
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!

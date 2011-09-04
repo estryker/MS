@@ -1,4 +1,8 @@
 MapsqueekProto::Application.routes.draw do
+  get "sessions/new"
+
+  get "users/new"
+
   resources :squeeks
   get "squeeks/new"
 
@@ -10,7 +14,14 @@ MapsqueekProto::Application.routes.draw do
   match '/contact',    :to => 'pages#contact'
   root :to => 'squeeks#index'
   
-  # The priority is based upon order of creation:
+  resources :users
+  resources :sessions, :only => [:new, :create, :destroy]
+
+  match '/signup',  :to => 'users#new'
+  match '/signin',  :to => 'sessions#new'
+  match '/signout', :to => 'sessions#destroy'
+  
+  #The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

@@ -1,21 +1,17 @@
 # == Schema Information
 #
-# Table name: squeeks
+# Table name: users
 #
 #  id         :integer         not null, primary key
-#  latitude   :float
-#  longitude  :float
-#  time_utc   :datetime
-#  text       :string(255)
-#  expires    :datetime
+#  name       :string(255)
+#  email      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
-#  gmaps      :boolean
 #
 
 require 'test_helper'
 
-class SqueekTest < ActiveSupport::TestCase
+class UserTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true
