@@ -135,7 +135,7 @@ td.main {
 }
 
 td.sidebar {
-  width: 30%;
+  width: 40%;
   padding: 1em;
   vertical-align: top;
   background: #ffc;
@@ -187,4 +187,58 @@ div.field, div.actions {
 #error_explanation ul li {
   font-size: 12px;
   list-style: square;
+}
+h1.squeek {
+  margin-bottom: 0.3em;
+}
+
+table.squeeks {
+  margin-top: 1em;
+}
+
+table.squeeks tr {
+  height: 70px;
+}
+
+table.squeeks tr td.gravatar {
+  border-top: 1px solid #ccc;
+  vertical-align: top;
+  width: 50px;
+}
+
+table.squeeks tr td.squeek {
+  border-top: 1px solid #ccc;
+  vertical-align: top;
+  padding-top: 10px;
+}
+
+table.squeeks tr td.squeek span.timestamp {
+  display: block;
+  font-size: 85%;
+  color: #666;
+}
+
+div.user_info img {
+  padding-right: 0.1em;
+}
+
+div.user_info a {
+  text-decoration: none;
+}
+
+div.user_info span.user_name {
+  position: absolute;
+}
+
+div.user_info span.squeeks {
+  font-size: 80%;
+}
+
+form.new_squeek {
+  margin-bottom: 2em;
+}
+
+form.new_squeek textarea {
+  height: 4em;
+  margin-bottom: 0;
 }

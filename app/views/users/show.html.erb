@@ -1,9 +1,24 @@
 <h1>
   <%= gravatar_image_tag @user.email %>
-  <%= @user.name %>
+  <%= @user.name %> 
 </h1>
 
-<h2> Number of Squeeks: <%= @squeeks.length %> </h2>
+<table class="profile">
+  <tr>
+    <td class="main">
+      <% unless @squeeks.empty? %>
+        <table class="squeeks" summary="Squeeks">
+          <h3> <%= pluralize(@num_squeeks, 'squeek') %> </h3> 
+          <%= render @squeeks %>
+        </table>
+        <%= will_paginate @squeeks %>
+        <% else %>
+        No squeeks yet. 
+      <% end %>
+    </td>
+
+  </tr>
+</table>
 
 
 

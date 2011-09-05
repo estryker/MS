@@ -6,7 +6,13 @@ class UsersController < ApplicationController
  def show
     @user = User.find(params[:id])
     @title = @user.name
-    @squeeks = Squeek.find_all_by_user_email(@user.email)
+    # without associations: @squeeks = Squeek.find_all_by_user_email(@user.email) 
+    #@num_squeeks = @user.squeeks.length # can I do a select count query type thing to make this more efficient??
+    @num_squeeks = Squeek.where(:user_email => @user.email).count
+    
+    # TODO: try to get @user.squeeks.paginate to work ...
+    @squeeks = Squeek.where(:user_email => @user.email).paginate(:page => params[:page])
+    
   end
   
   def create

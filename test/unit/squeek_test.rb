@@ -1,3 +1,12 @@
+require 'test_helper'
+
+class SqueekTest < ActiveSupport::TestCase
+  # Replace this with your real tests.
+  test "the truth" do
+    assert true
+  end
+end
+
 # == Schema Information
 #
 # Table name: squeeks
@@ -11,13 +20,6 @@
 #  created_at :datetime
 #  updated_at :datetime
 #  gmaps      :boolean
+#  user_email :string(255)
 #
 
-require 'test_helper'
-
-class SqueekTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
-end

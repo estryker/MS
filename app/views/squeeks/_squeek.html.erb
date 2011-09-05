@@ -1,0 +1,14 @@
+<tr>
+  <td class="squeek">
+    <span class="content"><%= squeek.text %></span> <br/>
+    Lat: <%= squeek.latitude %> Long <%= squeek.longitude%>
+    <span class="timestamp">
+      Posted <%= time_ago_in_words(squeek.created_at) %> ago.
+      <% if Time.now < squeek.expires %>
+        Expires in <%= time_ago_in_words(squeek.expires) %>.
+     <% else %>
+        Expired <%= time_ago_in_words(squeek.expires) %> ago.
+     <% end %>
+    </span>
+  </td>
+</tr>

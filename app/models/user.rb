@@ -1,15 +1,7 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id         :integer         not null, primary key
-#  name       :string(255)
-#  email      :string(255)
-#  created_at :datetime
-#  updated_at :datetime
-#
-
 class User < ActiveRecord::Base
+  # Note that the foreign key is specified here so that user.squeeks know which 
+  # attribute to join on
+  has_many :squeeks, :foreign_key => :user_email  
   attr_accessor :password
   attr_accessible :name, :email, :password, :password_confirmation
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -62,3 +54,17 @@ class User < ActiveRecord::Base
     end
                   
 end
+
+# == Schema Information
+#
+# Table name: users
+#
+#  id                 :integer         not null, primary key
+#  name               :string(255)
+#  email              :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#  encrypted_password :string(255)
+#  salt               :string(255)
+#
+
