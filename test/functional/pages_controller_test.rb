@@ -6,13 +6,8 @@ class PagesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get get" do
-    get :get
-    assert_response :success
-  end
-
-  test "should get gallery" do
-    get :gallery
+  test "should get mobile" do
+    get :mobile
     assert_response :success
   end
 
@@ -30,10 +25,10 @@ class PagesControllerTest < ActionController::TestCase
     get :terms
     assert_response :success
   end
-
-  test "should get contact" do
-    get :contact
+  test "should get signup" do
+    get :signup
     assert_response :success
   end
+
 
 end

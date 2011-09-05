@@ -14,6 +14,11 @@ module SessionsHelper
     self.current_user = nil
   end
   
+  def anonymous_user
+    anonymous_email = 'anonymous@anonymous.com'
+    user = User.new(:name => 'Anonymous', :email=>anonymous_email)
+  end
+  
   def current_user=(user)
     @current_user = user
   end

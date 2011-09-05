@@ -3,6 +3,7 @@ class SqueeksController < ApplicationController
   def new
     @squeek = Squeek.new
     @title = "New Squeek"
+    @user = current_user || anonymous_user
   end
   
   def create
@@ -12,10 +13,14 @@ class SqueeksController < ApplicationController
     info = params[:squeek].dup
     info.merge!({:time_utc=>now, :expires=>now + params[:duration].to_i / 24.0})
     
+     
     # TODO: jQuery will attempt to get the user's location
     info[:latitude] = params[:latitude] if params.has_key? :latitude
     info[:longitude] = params[:longitude] if params.has_key? :longitude
     
+    user = current_user || anonymous_user
+    info[:user_email] = user.email 
+       
     @squeek = Squeek.new(info)
     
     respond_to do | format |

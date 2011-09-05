@@ -6,8 +6,7 @@ MapsqueekProto::Application.routes.draw do
   resources :squeeks
   get "squeeks/new"
 
-  match '/get', :to => 'pages#get'
-  match '/gallery',   :to => 'pages#gallery'
+  match '/mobile', :to => 'pages#mobile_app'
   match '/news',    :to => 'pages#news'
   match '/about',    :to => 'pages#about'
   match '/terms',    :to => 'pages#terms'
