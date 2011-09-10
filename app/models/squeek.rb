@@ -1,5 +1,17 @@
 class Squeek < ActiveRecord::Base
  belongs_to :user, :primary_key => :user_email
+ 
+ numeric_regex = /^-?[0-9.]+$/
+ 
+ validates :latitude, :presence => true, 
+                  :format => {:with => numeric_regex}
+                
+ validates :longitude, :presence => true,
+                      :format => {:with => numeric_regex}
+                      
+ validates :text, :presence => true,
+                  :length       => { :within => 1..140 }
+ 
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!
  ### Sooooo.... we put :process_geocoding => false to skip that!
  ### here we simply specify the lat/long columns in our database, and put in dummy addresses.

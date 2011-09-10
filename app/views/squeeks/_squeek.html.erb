@@ -1,7 +1,9 @@
 <tr>
   <td class="squeek">
     <span class="content"><%= squeek.text %></span> <br/>
-    Lat: <%= squeek.latitude %> Long <%= squeek.longitude%>
+    <span class="address">
+    Lat,long:  <%=  squeek.latitude %> , <%= squeek.longitude %>
+    </span>
     <span class="timestamp">
       Posted <%= time_ago_in_words(squeek.created_at) %> ago.
       <% if Time.now < squeek.expires %>
