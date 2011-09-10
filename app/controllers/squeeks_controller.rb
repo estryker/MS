@@ -8,15 +8,13 @@ class SqueeksController < ApplicationController
   
   def create
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
-    now = DateTime.now.utc
- 
     @squeek = Squeek.new(params[:squeek])
     
     user = current_user || anonymous_user
     @squeek.user_email = user.email
        
-    @squeek.time_utc = now
-    @squeek.expires = now + params[:duration].to_i / 24.0
+    @squeek.time_utc = 0.hours.ago
+    @squeek.expires = params[:duration].to_i.hours_from_now
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?) 
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
       if geo.success?
