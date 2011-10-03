@@ -7,21 +7,27 @@ class SqueeksController < ApplicationController
   end
   
   def create
-    now = DateTime.now.utc
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
- 
-    info = params[:squeek].dup
-    info.merge!({:time_utc=>now, :expires=>now + params[:duration].to_i / 24.0})
-    
-     
-    # TODO: jQuery will attempt to get the user's location
-    info[:latitude] = params[:latitude] if params.has_key? :latitude
-    info[:longitude] = params[:longitude] if params.has_key? :longitude
+    @squeek = Squeek.new(params[:squeek])
     
     user = current_user || anonymous_user
-    info[:user_email] = user.email 
+    @squeek.user_email = user.email
        
-    @squeek = Squeek.new(info)
+    @squeek.time_utc = 0.hours.ago
+    @squeek.expires = params[:duration].to_i.hours.from_now
+    if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?) 
+      geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
+      if geo.success?
+        @squeek.latitude = geo.lat
+        @squeek.longitude = geo.lng
+      else
+        flash[:error] = "Bad Address format: \'#{params[:address]}\'"
+      end
+    else 
+      # TODO: jQuery will attempt to get the user's location
+      @squeek.latitude = params[:latitude] if params.has_key? :latitude
+      @squeek.longitude = params[:longitude] if params.has_key? :longitude
+    end
     
     respond_to do | format |
       if(@squeek.save)
@@ -35,7 +41,9 @@ class SqueeksController < ApplicationController
           render :json => @squeek, :status=>:created, :location=>@squeek
         end  
       else
-        format.html { render 'new' }
+        format.html do
+           render :new
+         end
         format.json { render :xml =>@squeek.errors, :status =>:unprocessable_entity}
       end
     end  

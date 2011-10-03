@@ -3,17 +3,24 @@
 <%= form_for(@squeek) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
+  Enter an Address:
+  <div class="field">
+    <%= text_field_tag :address, '',:placeholder => 'Enter location...' %>
+  </div>
+  <br/> 
+  Or enter a Lat/Long:
+  <br/>
   <div class="field">
     <%= f.label :latitude %><br />
-    <%= f.text_field :latitude %>
+    <%= f.text_field :latitude,:placeholder => 'Enter numeric latitude...' %>
   </div>
   <div class="field">
     <%= f.label :longitude %><br />
-    <%= f.text_field :longitude %>
+    <%= f.text_field :longitude,:placeholder => 'Enter numeric longitude...' %>
   </div>
   <div class="field">
     <%= f.label :squeek %><br />
-    <%= f.text_field :text %>
+    <%= f.text_field :text,:placeholder => 'Enter message...' %>
   </div>
   <div class="field">
 	Expires after: 

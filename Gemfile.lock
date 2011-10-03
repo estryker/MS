@@ -35,6 +35,7 @@ GEM
     diff-lcs (1.1.3)
     erubis (2.6.6)
       abstract (>= 1.0.0)
+    geokit (1.6.0)
     gmaps4rails (0.8.8)
       crack
     gravatar_image_tag (1.0.0.pre2)
@@ -93,6 +94,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate (= 2.4.0)
+  geokit
   gmaps4rails
   gravatar_image_tag (= 1.0.0.pre2)
   jquery-rails
