@@ -27,9 +27,11 @@ class SqueeksController < ApplicationController
       if(@squeek.save)
         format.html do 
           flash[:success] = "Squeek created"
-          redirect_to root_url
+          redirect_to(@squeek)
         end        
         format.json do
+          # make sure that the json has the id of the squeek so the user gets 
+          # the id in return, and can update facebook/google+ accordingly
           render :json => @squeek, :status=>:created, :location=>@squeek
         end  
       else
@@ -48,6 +50,22 @@ class SqueeksController < ApplicationController
        format.html do
         @json
        end
+    end
+  end
+  
+  def show
+    respond_to do |format|
+      @squeek = Squeek.find(params[:id])
+      @json = @squeek.to_gmaps4rails
+      format.html do 
+        # TODO: need more meaningful title
+        @title = @squeek.text 
+        @zoom = 14 # TODO: make this configurable
+        @json
+      end
+      format.json do
+       render :json => @json 
+      end
     end
   end
 end
