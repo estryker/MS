@@ -33,7 +33,12 @@ class SqueeksController < ApplicationController
       if(@squeek.save)
         format.html do 
           flash[:success] = "Squeek created"
-          redirect_to(@squeek)
+          # old way is to just call: redirect_to(@squeek)
+          @squeek
+          @zoom = 14
+          # here the json holds the markers
+          @json = @squeek.to_gmaps4rails
+          render(:action=> :edit)
         end        
         format.json do
           # make sure that the json has the id of the squeek so the user gets 
@@ -44,6 +49,7 @@ class SqueeksController < ApplicationController
         format.html do
            render :new
          end
+         #TODO: should this be render :json ??
         format.json { render :xml =>@squeek.errors, :status =>:unprocessable_entity}
       end
     end  
@@ -62,9 +68,9 @@ class SqueeksController < ApplicationController
   end
   
   def show
+    @squeek = Squeek.find(params[:id])
+    @json = @squeek.to_gmaps4rails
     respond_to do |format|
-      @squeek = Squeek.find(params[:id])
-      @json = @squeek.to_gmaps4rails
       format.html do 
         # TODO: need more meaningful title
         @title = @squeek.text 
@@ -73,6 +79,47 @@ class SqueeksController < ApplicationController
       end
       format.json do
        render :json => @json 
+      end
+    end
+  end
+  def edit
+    #TODO: make sure the current user owns this squeek
+    @squeek = Squeek.find(params[:id])
+    @json = @squeek.to_gmaps4rails
+    respond_to do |format|
+      format.html do 
+        # TODO: need more meaningful title
+        @title = @squeek.text 
+        @zoom = 14 # TODO: make this configurable
+        @squeek   
+        @json
+      end
+      format.json do
+       render :json => @json 
+      end
+    end
+  end
+  
+  def update
+    #TODO: make sure the current user owns this squeek
+    @squeek = Squeek.find(params[:id])
+    @squeek.latitude = params[:latitude]
+    @squeek.longitude = params[:longitude]
+    respond_to do | format |
+      if(@squeek.save)
+        format.html do 
+          flash[:success] = "Squeek updated"
+          #redirect_to(@squeek)
+          redirect_to root_path
+        end        
+        format.json do
+          # make sure that the json has the id of the squeek so the user gets 
+          # the id in return, and can update facebook/google+ accordingly
+          render :json => @squeek, :status=>:created, :location=>@squeek
+        end
+        else
+           flash[:error] = "Couldn't update squeek"
+           redirect_to(@squeek)
       end
     end
   end

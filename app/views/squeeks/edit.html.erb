@@ -1,0 +1,16 @@
+<%= form_for(@squeek) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Save squeek" %>
+  </div>
+<% end %>
+<%= gmaps("map_options" => { "center_latitude" => @squeek.latitude, "center_longitude" => @squeek.longitude, "zoom" => @zoom},"markers" => { "data" => @json}) %>
