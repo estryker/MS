@@ -1,6 +1,6 @@
 <h1>
   <%= gravatar_for @user %>
-  <%= @user.name %> 
+  <%= link_to @user.name,  :action => 'edit', :id => @user %> 
 </h1>
 
 <table class="profile">
