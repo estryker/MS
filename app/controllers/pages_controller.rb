@@ -1,23 +1,19 @@
 class PagesController < ApplicationController
-  def home
-  end
 
-  def get
-  end
-
-  def gallery
+  def mobile_app
+    @title = "Mobile App"
   end
 
   def news
+    @title = "News"
   end
-
-  def about
-  end
-
+  
   def terms
+    @title = "Terms"
   end
-
+  
   def contact
+    @title = "Contact"
   end
 
 end
