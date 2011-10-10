@@ -9,7 +9,7 @@ class SqueeksController < ApplicationController
   def create
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
     @squeek = Squeek.new(params[:squeek])
-    
+    @title = "Create Squeek"
     user = current_user || anonymous_user
     @squeek.user_email = user.email
        
@@ -70,7 +70,7 @@ class SqueeksController < ApplicationController
   def show 
     user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    
+    @title = "Show Squeek"
     respond_to do |format|
       
       if @squeek and @squeek.user_email == user.email
@@ -99,7 +99,7 @@ class SqueeksController < ApplicationController
   def edit 
     user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    
+    @title = "Edit Squeek"
     respond_to do |format|
       
       if @squeek and @squeek.user_email == user.email
@@ -129,6 +129,7 @@ class SqueeksController < ApplicationController
   def update
     user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
+    @title = "Update Squeek"
     if @squeek and @squeek.user_email == user.email
       
       @squeek.latitude = params[:latitude]
