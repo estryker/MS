@@ -67,59 +67,94 @@ class SqueeksController < ApplicationController
     end
   end
   
-  def show
+  def show 
+    user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    @json = @squeek.to_gmaps4rails
+    
     respond_to do |format|
-      format.html do 
-        # TODO: need more meaningful title
-        @title = @squeek.text 
-        @zoom = 14 # TODO: make this configurable
-        @json
-      end
-      format.json do
-       render :json => @json 
+      
+      if @squeek and @squeek.user_email == user.email
+        @json = @squeek.to_gmaps4rails
+        format.html do 
+          @title = @squeek.text 
+          @zoom = 14 # TODO: make this configurable
+          @squeek   
+          @json
+        end
+        format.json do 
+          render :json => @json 
+        end
+      else
+        err = "No squeek by that id is found for #{user.email}"
+        format.html do   
+          flash[:error] = err
+          redirect_to current_user
+        end
+        format.json do
+          render :json => "[:error => #{err}]"
+        end     
       end
     end
   end
-  def edit
-    #TODO: make sure the current user owns this squeek
+  def edit 
+    user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    @json = @squeek.to_gmaps4rails
+    
     respond_to do |format|
-      format.html do 
-        # TODO: need more meaningful title
-        @title = @squeek.text 
-        @zoom = 14 # TODO: make this configurable
-        @squeek   
-        @json
-      end
-      format.json do
-       render :json => @json 
+      
+      if @squeek and @squeek.user_email == user.email
+        @json = @squeek.to_gmaps4rails
+        format.html do 
+          @title = @squeek.text 
+          @zoom = 14 # TODO: make this configurable
+          @squeek   
+          @json
+        end
+        format.json do 
+          render :json => @json 
+        end
+      else
+        err = "No squeek by that id is found for #{user.email}"
+        format.html do   
+          flash[:error] = err
+          redirect_to current_user
+        end
+        format.json do
+          render :json => "[:error => #{err}]"
+        end     
       end
     end
   end
   
   def update
-    #TODO: make sure the current user owns this squeek
+    user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    @squeek.latitude = params[:latitude]
-    @squeek.longitude = params[:longitude]
-    respond_to do | format |
-      if(@squeek.save)
-        format.html do 
-          flash[:success] = "Squeek updated"
-          #redirect_to(@squeek)
-          redirect_to root_path
-        end        
-        format.json do
-          # make sure that the json has the id of the squeek so the user gets 
-          # the id in return, and can update facebook/google+ accordingly
-          render :json => @squeek, :status=>:created, :location=>@squeek
+    if @squeek and @squeek.user_email == user.email
+      
+      @squeek.latitude = params[:latitude]
+      @squeek.longitude = params[:longitude]
+      respond_to do | format |
+        if(@squeek.save)
+          format.html do 
+            flash[:success] = "Squeek updated"
+            #redirect_to(@squeek)
+            redirect_to root_path
+          end        
+          format.json do
+            # make sure that the json has the id of the squeek so the user gets 
+            # the id in return, and can update facebook/google+ accordingly
+            render :json => @squeek, :status=>:created, :location=>@squeek
+          end
+        else  
+          err = "Couldn't update squeek"
+          format.html do 
+            flash[:error] = err
+            redirect_to(@squeek)
+          end
+          format.json do 
+            render :json => "[:error => #{err}]"
+          end
         end
-        else
-           flash[:error] = "Couldn't update squeek"
-           redirect_to(@squeek)
       end
     end
   end
