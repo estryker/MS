@@ -8,7 +8,7 @@ class Squeek < ActiveRecord::Base
                   :numericality => {:greater_than_or_equal_to => 0,:less_than_or_equal_to => 90}
  validates :longitude, :presence => true,
                       :format => {:with => numeric_regex},
-                      :numericality => {:greater_than_or_equal_to => 0,:less_than_or_equal_to => 180}
+                      :numericality => {:greater_than_or_equal_to => -180,:less_than_or_equal_to => 180}
                       
  validates :text, :presence => true,
                   :length       => { :within => 1..140 }

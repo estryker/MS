@@ -23,7 +23,7 @@ class SqueeksController < ApplicationController
       flash[:error] = "Bad Address format: \'#{params[:address]}\'"
       end
     else
-    # TODO: jQuery will attempt to get the user's location
+    
     @squeek.latitude = params[:latitude] if params.has_key? :latitude
     @squeek.longitude = params[:longitude] if params.has_key? :longitude
     end
@@ -45,11 +45,15 @@ class SqueeksController < ApplicationController
           render :json => @squeek, :status=>:created, :location=>@squeek
         end
       else
+        err = "Couldn't create squeek"
         format.html do
+          flash[:error] = err
           render :new
         end
-        #TODO: should this be render :json ??
-        format.json { render :xml =>@squeek.errors, :status =>:unprocessable_entity}
+        
+        format.json do
+           render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+         end
       end
     end
   end
@@ -92,7 +96,7 @@ class SqueeksController < ApplicationController
           format.json do
           # make sure that the json has the id of the squeek so the user gets
           # the id in return, and can update facebook/google+ accordingly
-            render :json => @squeek, :status=>:created, :location=>@squeek
+            render :json => @squeek, :status=>:updated, :location=>@squeek
           end
         else
           err = "Couldn't update squeek"
@@ -101,13 +105,21 @@ class SqueeksController < ApplicationController
             redirect_to(@squeek)
           end
           format.json do
-            render :json => "[:error => #{err}]"
+            render :json => {:error => err}.to_json
           end
         end
       end
     else
-    flash[:error] = "No squeek with that id was created by #{user.email}"
-    render :edit
+      err = "No squeek with that id was created by #{user.email}"
+      respond_to do | format |
+        format.html do 
+          flash[:error] = err
+          render :edit
+        end
+        format.json do 
+          render :json => {:error => err}.to_json
+        end
+      end
     end
   end
 
@@ -137,7 +149,7 @@ class SqueeksController < ApplicationController
           redirect_to current_user
         end
         format.json do
-          render :json => "[:error => #{err}]"
+          render :json => {:error => err}.to_json
         end
       end
     end
