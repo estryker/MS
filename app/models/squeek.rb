@@ -4,10 +4,11 @@ class Squeek < ActiveRecord::Base
  numeric_regex = /^-?[0-9.]+$/
  
  validates :latitude, :presence => true, 
-                  :format => {:with => numeric_regex}
-                
+                  :format => {:with => numeric_regex},
+                  :numericality => {:greater_than_or_equal_to => 0,:less_than_or_equal_to => 90}
  validates :longitude, :presence => true,
-                      :format => {:with => numeric_regex}
+                      :format => {:with => numeric_regex},
+                      :numericality => {:greater_than_or_equal_to => 0,:less_than_or_equal_to => 180}
                       
  validates :text, :presence => true,
                   :length       => { :within => 1..140 }

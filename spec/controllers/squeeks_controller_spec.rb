@@ -42,10 +42,6 @@ describe SqueeksController do
         response.should render_template('edit')
       end
 
-      it "should have the right title" do
-        put :update, :id => @other_user_squeek
-        response.should have_selector("title", :content => "Edit Squeek")
-      end
       it "should flash an error" do
         put :update, :id => @other_user_squeek
         flash[:error].should =~ /No squeek/
@@ -108,4 +104,69 @@ describe SqueeksController do
       end
     end
   end
+  
+  describe "POST 'create'" do
+
+    before(:each) do
+ 
+    end
+
+    describe "failure due to bad lat squeek" do
+
+      it "should render the 'edit' page" do
+        post :create, :id => @obad_lat_squeek
+        response.should render_template('edit')
+      end
+
+      it "should have the right title" do
+        post :create, :id => @other_user_squeek
+        response.should have_selector("title", :content => "Edit Squeek")
+      end
+      it "should flash an error" do
+        post :create, :id => @other_user_squeek
+        flash[:error].should =~ /Invalid/
+      end
+    end
+    describe "failure due to bad long squeek" do
+
+      it "should render the 'edit' page" do
+        post :create, :id => @obad_long_squeek
+        response.should render_template('edit')
+      end
+
+      it "should have the right title" do
+        post :create, :id => @bad_long_squeek
+        response.should have_selector("title", :content => "Edit Squeek")
+      end
+      it "should flash an error" do
+        post :create, :id => @bad_long_squeek
+        flash[:error].should =~ /Invalid/
+      end
+    end
+    describe "success" do
+
+      before(:each) do
+        @attr = { :latitude => 51.0, :longitude => -1.0 }
+      end
+
+      it "should create the squeek's attributes" do
+        post :create, :id => @squeek
+        @squeek.reload
+        @squeek.latitude.should  == @attr[:latitude]
+        @squeek.longitude.should == @attr[:longitude]
+      end
+
+      it "should redirect to the squeeks show page" do
+        post :create, :id => @squeek
+        response.should redirect_to(squeek_path(@squeek))
+      end
+
+      it "should have a flash message" do
+        post :create, :id => @squeek
+        flash[:success].should =~ /created/
+      end
+    end
+  end
+  
+  
 end
