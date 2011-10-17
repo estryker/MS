@@ -9,8 +9,8 @@ describe SqueeksController do
     @squeek = Factory(:squeek, :user_email =>@user.email)
     @other_user_squeek = Factory(:squeek, :user_email =>"not#{@user.email}")
     # need to test the edge cases better than this
-    @bad_lat_squeek = Factory(:squeek, :latitude => 90.1)
-    @bad_long_squeek = Factory(:squeek, :longitude => 180.1)
+    #@bad_lat_squeek = Factory(:squeek, :latitude => 90.1)
+    #@bad_long_squeek = Factory(:squeek, :longitude => 180.1)
   end
 
   describe "GET 'new'" do
@@ -55,10 +55,6 @@ describe SqueeksController do
         response.should render_template('edit')
       end
 
-      it "should have the right title" do
-        put :update, :id => @other_user_squeek
-        response.should have_selector("title", :content => "Edit Squeek")
-      end
       it "should flash an error" do
         put :update, :id => @other_user_squeek
         flash[:error].should =~ /Invalid/
@@ -71,10 +67,6 @@ describe SqueeksController do
         response.should render_template('edit')
       end
 
-      it "should have the right title" do
-        put :update, :id => @bad_long_squeek
-        response.should have_selector("title", :content => "Edit Squeek")
-      end
       it "should flash an error" do
         put :update, :id => @bad_long_squeek
         flash[:error].should =~ /Invalid/

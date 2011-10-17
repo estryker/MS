@@ -47,7 +47,7 @@ class SqueeksController < ApplicationController
       else
         err = "Couldn't create squeek"
         format.html do
-          flash[:error] = err
+          #flash[:error] = err
           render :new
         end
         
@@ -81,7 +81,7 @@ class SqueeksController < ApplicationController
   def update
     user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    @title = "Update Squeek"
+    @title = "Update Squeek id #{@squeek.id}"
     if @squeek and @squeek.user_email == user.email
 
       @squeek.latitude = params[:latitude]
@@ -91,6 +91,7 @@ class SqueeksController < ApplicationController
           format.html do
             flash[:success] = "Squeek updated"
             #redirect_to(@squeek)
+            @squeek
             redirect_to root_path
           end
           format.json do
@@ -101,8 +102,9 @@ class SqueeksController < ApplicationController
         else
           err = "Couldn't update squeek"
           format.html do
+            @squeek
             flash[:error] = err
-            redirect_to(@squeek)
+            redirect_to :action => :edit
           end
           format.json do
             render :json => {:error => err}.to_json
@@ -128,13 +130,12 @@ class SqueeksController < ApplicationController
   def show_squeek(params, page_title)
     user = current_user || anonymous_user
     @squeek = Squeek.find(params[:id])
-    @title = page_title # e.g. "Show Squeek"
     respond_to do |format|
 
       if @squeek and @squeek.user_email == user.email
         @json = @squeek.to_gmaps4rails
         format.html do
-          @title = @squeek.text
+          @title = page_title
           @zoom = 14 # TODO: make this configurable
           @squeek
           @json
