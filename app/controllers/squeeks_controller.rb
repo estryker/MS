@@ -59,6 +59,13 @@ class SqueeksController < ApplicationController
   end
 
   def index
+    # TODO make sure the box is a reasonable size so we don't kill our DB getting too many squeeks
+    #min_lat = params[:min_lat].to_i
+    #max_lat = params[:max_lat].to_i
+    #min_long = params[:min_long].to_i
+    #min_long = params[:max_long].to_i
+    
+    
     respond_to do |format|
       @json = Squeek.all(:conditions => ["expires > ?",DateTime.now.utc]).to_gmaps4rails
       format.json do
@@ -84,14 +91,13 @@ class SqueeksController < ApplicationController
     @title = "Update Squeek id #{@squeek.id}"
     if @squeek and @squeek.user_email == user.email
 
-      @squeek.latitude = params[:latitude]
-      @squeek.longitude = params[:longitude]
+      @squeek.latitude = params[:squeek][:latitude]
+      @squeek.longitude = params[:squeek][:longitude]
       respond_to do | format |
         if(@squeek.save)
           format.html do
             flash[:success] = "Squeek updated"
             #redirect_to(@squeek)
-            @squeek
             redirect_to root_path
           end
           format.json do
@@ -102,7 +108,6 @@ class SqueeksController < ApplicationController
         else
           err = "Couldn't update squeek"
           format.html do
-            @squeek
             flash[:error] = err
             redirect_to :action => :edit
           end
@@ -137,8 +142,8 @@ class SqueeksController < ApplicationController
         format.html do
           @title = page_title
           @zoom = 14 # TODO: make this configurable
-          @squeek
-          @json
+          #@squeek
+          #@json
         end
         format.json do
           render :json => @json
