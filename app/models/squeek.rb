@@ -12,6 +12,10 @@ class Squeek < ActiveRecord::Base
                       
  validates :text, :presence => true,
                   :length       => { :within => 1..140 }
+                  
+ # we'll allow for some slop in this
+ validates :expires, :presence => true,
+                    :date => { :after => Time.now, :before => 8.1.hours.from_now }
  
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!
  ### Sooooo.... we put :process_geocoding => false to skip that!

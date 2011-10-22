@@ -47,7 +47,6 @@ class SqueeksController < ApplicationController
       else
         err = "Couldn't create squeek"
         format.html do
-          #flash[:error] = err
           render :new
         end
         
@@ -98,7 +97,7 @@ class SqueeksController < ApplicationController
           format.html do
             flash[:success] = "Squeek updated"
             #redirect_to(@squeek)
-            redirect_to root_path
+            redirect_to :action => 'show'
           end
           format.json do
           # make sure that the json has the id of the squeek so the user gets
@@ -108,7 +107,6 @@ class SqueeksController < ApplicationController
         else
           err = "Couldn't update squeek"
           format.html do
-            flash[:error] = err
             redirect_to :action => :edit
           end
           format.json do
@@ -121,7 +119,7 @@ class SqueeksController < ApplicationController
       respond_to do | format |
         format.html do 
           flash[:error] = err
-          render :edit
+          redirect_to current_user
         end
         format.json do 
           render :json => {:error => err}.to_json

@@ -27,6 +27,8 @@ gem "jquery-rails"
 gem 'will_paginate', '3.0.pre2'
 
 gem 'geokit'
+
+gem 'date_validator'
 # Use unicorn as the web server
 # gem 'unicorn'
 
