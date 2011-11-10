@@ -44,6 +44,11 @@ class SqueeksController < ApplicationController
         # the id in return, and can update facebook/google+ accordingly
           render :json => @squeek, :status=>:created, :location=>@squeek
         end
+        format.xml do
+        # make sure that the json has the id of the squeek so the user gets
+        # the id in return, and can update facebook/google+ accordingly
+          render :xml => @squeek, :status=>:created, :location=>@squeek
+        end
       else
         err = "Couldn't create squeek"
         format.html do
@@ -52,6 +57,9 @@ class SqueeksController < ApplicationController
         
         format.json do
            render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+         end
+         format.xml do
+           render :xml => {:error => err, :status =>:unprocessable_entity}
          end
       end
     end
