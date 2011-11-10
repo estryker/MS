@@ -136,9 +136,16 @@ describe SqueeksController do
         post :create, {:duration => @good_duration, :squeek => @good_params}
         flash[:success].should =~ /created/
       end
-      it "should return json" do
-        post :create, {:duration => @good_duration, :squeek => @good_params}.to_json
-        response.should 
+      it "should accept a json request" do
+        post :create, {:duration => @good_duration, :squeek => @good_params}, :format => :json
+        response.should be_success
+      end
+      it "responds to a json request with a json response" do
+        post :create, {:duration => @good_duration, :squeek => @good_params}, :format => :json
+        parsed_body = JSON.parse(response.body)
+        parsed_body[:squeek][:latitude].should == @good_params[:latitude]
+        parsed_body[:squeek][:longitude].should == @good_params[:longitude]        
+        parsed_body[:squeek][:text].should == @good_params[:text]                
       end
     end
   end
