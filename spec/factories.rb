@@ -11,6 +11,6 @@ Factory.define :squeek do |squeek|
   squeek.longitude  -1.4
   squeek.text  'factory update'
   squeek.time_utc 0.hours.ago
-  squeek.expires  2.hours.from_now
+  squeek.duration  2
   squeek.user_email 'e.stryker@gmail.com'
 end

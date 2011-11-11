@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: squeeks
+#
+#  id         :integer         not null, primary key
+#  latitude   :float
+#  longitude  :float
+#  time_utc   :datetime
+#  text       :string(255)
+#  expires    :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  gmaps      :boolean
+#  user_email :string(255)
+#  duration   :integer
+#
+
 class Squeek < ActiveRecord::Base
  belongs_to :user, :primary_key => :user_email
  
@@ -17,6 +34,8 @@ class Squeek < ActiveRecord::Base
  validates :expires, :presence => true,
                     :date => { :after => Time.now, :before => 8.1.hours.from_now }
  
+ validates :duration, :presence => true,
+                      :numericality => {:greater_than_or_equal_to => 2,:less_than_or_equal_to => 8}
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!
  ### Sooooo.... we put :process_geocoding => false to skip that!
  ### here we simply specify the lat/long columns in our database, and put in dummy addresses.
@@ -39,20 +58,4 @@ class Squeek < ActiveRecord::Base
     self.text
   end
 end
-
-# == Schema Information
-#
-# Table name: squeeks
-#
-#  id         :integer         not null, primary key
-#  latitude   :float
-#  longitude  :float
-#  time_utc   :datetime
-#  text       :string(255)
-#  expires    :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#  gmaps      :boolean
-#  user_email :string(255)
-#
 

@@ -93,15 +93,15 @@ describe SqueeksController do
   describe "POST 'create'" do
 
     before(:each) do
-        @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test'}
-        @good_duration = 8 
-        @bad_duration = 9  
+        @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test', :duration => 8}
+        @bad_duration = {:duration => 9}  
     end
 
     describe "failure due to bad lat squeek" do
 
       it "should render the 'new' page" do
-        post :create, {:duration => @good_duration, :squeek => @bad_lat_params}
+        #raise "#{@good_params.merge(@bad_lat_params).merge(@good_duration)}"
+        post :create, {:squeek => @good_params.merge(@bad_lat_params)}
         response.should render_template('new')
       end
 
@@ -109,7 +109,7 @@ describe SqueeksController do
     describe "failure due to bad long squeek" do
 
       it "should render the 'new' page" do
-        post :create, {:duration => @good_duration, :squeek => @bad_long_params}
+        post :create, {:squeek => @good_params.merge(@bad_long_params)}
         response.should render_template('new')
       end
 
@@ -117,7 +117,7 @@ describe SqueeksController do
     describe "failure due to bad duration" do
 
       it "should render the 'new' page" do
-        post :create, {:duration => @bad_duration, :squeek => @good_params}
+        post :create, {:squeek => @good_params.merge(@bad_duration)}
         response.should render_template('new')
       end
 
@@ -128,20 +128,24 @@ describe SqueeksController do
         
       end
       it "should render the squeeks edit page" do
-        post :create, {:duration => @good_duration, :squeek => @good_params}
+        post :create, {:squeek => @good_params}
         response.should render_template('edit')
       end
 
       it "should have a flash message" do
-        post :create, {:duration => @good_duration, :squeek => @good_params}
+        post :create, {:squeek => @good_params}
         flash[:success].should =~ /created/
       end
       it "should accept a json request" do
-        post :create, {:duration => @good_duration, :squeek => @good_params}, :format => :json
+        post :create, {:squeek => @good_params},:content_type => 'application/json'
+        response.should be_success
+      end    
+      it "should accept an xml request" do
+        post :create, {:squeek => @good_params},:content_type => 'application/xml'
         response.should be_success
       end
       it "responds to a json request with a json response" do
-        post :create, {:duration => @good_duration, :squeek => @good_params}, :format => :json
+        post(:create, {:squeek => @good_params},:content_type => 'application/json')
         parsed_body = JSON.parse(response.body)
         parsed_body[:squeek][:latitude].should == @good_params[:latitude]
         parsed_body[:squeek][:longitude].should == @good_params[:longitude]        

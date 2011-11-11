@@ -13,7 +13,7 @@ class SqueeksController < ApplicationController
     @squeek.user_email = user.email
 
     @squeek.time_utc = 0.hours.ago
-    @squeek.expires = params[:duration].to_i.hours.from_now
+    @squeek.expires = params[:squeek][:duration].to_i.hours.from_now
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
       if geo.success?
@@ -42,12 +42,12 @@ class SqueeksController < ApplicationController
         format.json do
         # make sure that the json has the id of the squeek so the user gets
         # the id in return, and can update facebook/google+ accordingly
-          render :json => @squeek, :status=>:created, :location=>@squeek
+          render :json => @squeek.to_json, :status=>:created, :location=>@squeek
         end
         format.xml do
         # make sure that the json has the id of the squeek so the user gets
         # the id in return, and can update facebook/google+ accordingly
-          render :xml => @squeek, :status=>:created, :location=>@squeek
+          render :xml => @squeek.to_xml, :status=>:created
         end
       else
         err = "Couldn't create squeek"

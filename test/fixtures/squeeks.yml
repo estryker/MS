@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: squeeks
+#
+#  id         :integer         not null, primary key
+#  latitude   :float
+#  longitude  :float
+#  time_utc   :datetime
+#  text       :string(255)
+#  expires    :datetime
+#  created_at :datetime
+#  updated_at :datetime
+#  gmaps      :boolean
+#  user_email :string(255)
+#  duration   :integer
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
@@ -13,20 +30,4 @@ two:
   time_utc: 2011-06-26 22:44:28
   text: MyString
   expires: 2011-06-26 22:44:28
-
-# == Schema Information
-#
-# Table name: squeeks
-#
-#  id         :integer         not null, primary key
-#  latitude   :float
-#  longitude  :float
-#  time_utc   :datetime
-#  text       :string(255)
-#  expires    :datetime
-#  created_at :datetime
-#  updated_at :datetime
-#  gmaps      :boolean
-#  user_email :string(255)
-#
 

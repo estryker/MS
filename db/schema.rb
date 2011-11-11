@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110905110745) do
+ActiveRecord::Schema.define(:version => 20111110224027) do
 
   create_table "squeeks", :force => true do |t|
     t.float    "latitude"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20110905110745) do
     t.datetime "updated_at"
     t.boolean  "gmaps"
     t.string   "user_email"
+    t.integer  "duration"
   end
 
   add_index "squeeks", ["created_at"], :name => "index_squeeks_on_created_at"

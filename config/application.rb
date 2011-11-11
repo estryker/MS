@@ -38,5 +38,8 @@ module MapsqueekProto
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+    
+    # adding this based on gmaps4rails git hub page
+    #config.assets.enabled = true
   end
 end

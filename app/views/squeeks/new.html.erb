@@ -23,8 +23,8 @@
     <%= f.text_field :text,:placeholder => 'Enter message...' %>
   </div>
   <div class="field">
-	Expires after: 
-	<%= select_tag :duration, options_for_select([2,4,8,9]) %>
+	<%= f.label :Expires_after %><br />
+	<%= f.select :duration, options_for_select([2,4,8]) %>
     hours
   </div>
 
