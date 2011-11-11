@@ -11,6 +11,10 @@ group :test do
   gem 'factory_girl_rails', '1.0'
 end
 
+group :production do 
+  gem 'pg'
+end
+
 gem 'gravatar_image_tag', '1.0.0.pre2'
 
 gem 'rails', '3.1.1'
@@ -29,6 +33,8 @@ gem 'will_paginate', '3.0.pre2'
 gem 'geokit'
 
 gem 'date_validator'
+
+
 # Use unicorn as the web server
 # gem 'unicorn'
 
