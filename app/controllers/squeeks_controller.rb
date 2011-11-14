@@ -72,14 +72,26 @@ class SqueeksController < ApplicationController
     #min_long = params[:min_long].to_i
     #min_long = params[:max_long].to_i
     
+    num_squeeks = (params[:num_squeeks] || 1000).to_i
+    center_lat = (params[:center_latitude] || 0).to_f
+    center_long = (params[:center_longitude] || 0).to_f
     
+    all_squeeks = Squeek.all(:conditions => ["expires > ?",DateTime.now.utc])
+    all_squeeks.sort! do |a,b| 
+      ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
+    end
+    squeeks = all_squeeks.first(num_squeeks)
     respond_to do |format|
-      @json = Squeek.all(:conditions => ["expires > ?",DateTime.now.utc]).to_gmaps4rails
+      @json = squeeks.to_gmaps4rails
       format.json do
         render :json => @json
       end
       format.html do
         @json
+      end
+      format.xml do 
+        # TODO: make a .to_minimal_xml function
+        render :xml => squeeks
       end
     end
   end
@@ -153,6 +165,9 @@ class SqueeksController < ApplicationController
         end
         format.json do
           render :json => @json
+        end
+        format.xml do 
+          render :xml => @squeek
         end
       else
         err = "No squeek by that id is found for #{user.email}"
