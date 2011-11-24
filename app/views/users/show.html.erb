@@ -6,14 +6,14 @@
 <table class="profile">
   <tr>
     <td class="main">
-      <% unless @squeeks.empty? %>
-        <table class="squeeks" summary="Squeeks">
-          <h3> <%= pluralize(@num_squeeks, 'squeek') %> </h3> 
-          <%= render @squeeks %>
+      <% unless @squeaks.empty? %>
+        <table class="squeaks" summary="Squeaks">
+          <h3> <%= pluralize(@num_squeaks, 'squeak') %> </h3> 
+          <%= render @squeaks %>
         </table>
-        <%= will_paginate @squeeks %>
+        <%= will_paginate @squeaks %>
         <% else %>
-        No squeeks yet. 
+        No squeaks yet. 
       <% end %>
     </td>
 

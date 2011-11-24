@@ -1,9 +1,9 @@
-class AddUserEmailToSqueek < ActiveRecord::Migration
+class AddUserEmailToSqueak < ActiveRecord::Migration
   def self.up
-    add_column :squeeks, :user_email, :string
+    add_column :squeaks, :user_email, :string
   end
 
   def self.down
-    remove_column :squeeks, :user_email
+    remove_column :squeaks, :user_email
   end
 end

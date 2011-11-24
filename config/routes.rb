@@ -1,17 +1,17 @@
-MapsqueekProto::Application.routes.draw do
+MapsqueakProto::Application.routes.draw do
   get "sessions/new"
 
   get "users/new"
 
-  resources :squeeks
-  get "squeeks/new"
+  resources :squeaks
+  get "squeaks/new"
 
   match '/mobile', :to => 'pages#mobile_app'
   match '/news',    :to => 'pages#news'
   match '/about',    :to => 'pages#about'
   match '/terms',    :to => 'pages#terms'
   match '/contact',    :to => 'pages#contact'
-  root :to => 'squeeks#index'
+  root :to => 'squeaks#index'
   
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]

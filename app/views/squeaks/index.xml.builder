@@ -1,5 +1,5 @@
-xml.squeeks do
-  @squeeks.each do |s|
-     xml << render(:partial => 'squeeks/squeek')
+xml.squeaks do
+  @squeaks.each do |s|
+     xml << render(:partial => 'squeaks/squeak')
   end
 end

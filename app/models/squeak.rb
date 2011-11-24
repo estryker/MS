@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: squeeks
+# Table name: squeaks
 #
 #  id         :integer         not null, primary key
 #  latitude   :float
@@ -15,7 +15,7 @@
 #  duration   :integer
 #
 
-class Squeek < ActiveRecord::Base
+class Squeak < ActiveRecord::Base
  belongs_to :user, :primary_key => :user_email
  
  numeric_regex = /^-?[0-9.]+$/
@@ -47,7 +47,7 @@ class Squeek < ActiveRecord::Base
     address.blank? || (!lat.blank? && !lng.blank?) 
   end
   
-  # TODO: consider making it possible to make a squeek by address
+  # TODO: consider making it possible to make a squeak by address
   #def gmaps4rails_address
     #describe how to retrieve the address from your model, if you use directly a db column, you can dry your code, see wiki
     #self.text

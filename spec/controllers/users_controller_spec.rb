@@ -40,7 +40,7 @@ describe UsersController do
 
     it "should have the right title" do
       get 'new'
-      response.should have_selector("title",:content=> "Mapsqueek | Sign up")
+      response.should have_selector("title",:content=> "Mapsqueak | Sign up")
     end
 
   end
@@ -89,7 +89,7 @@ describe "POST 'create'" do
        
       it "should have a welcome message" do
         post :create, :user => @attr
-        flash[:success].should =~ /welcome to mapsqueek/i
+        flash[:success].should =~ /welcome to mapsqueak/i
       end
       
       it "should sign the user in" do

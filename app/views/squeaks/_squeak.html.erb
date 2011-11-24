@@ -1,15 +1,15 @@
 <tr>
-  <td class="squeek">
-    <span class="content"><%= squeek.text %></span> <br/>
+  <td class="squeak">
+    <span class="content"><%= squeak.text %></span> <br/>
 
-    <%= link_to image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{squeek.latitude},#{squeek.longitude}&zoom=14&size=100x100&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeek.latitude},#{squeek.longitude}&sensor=true", 
-    	:border=>0, :title => squeek.text) ,:controller => 'squeeks', :action => 'show', :id => squeek %>
+    <%= link_to image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=14&size=100x100&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true", 
+    	:border=>0, :title => squeak.text) ,:controller => 'squeaks', :action => 'show', :id => squeak %>
     <span class="timestamp">
-      Posted <%= time_ago_in_words(squeek.created_at) %> ago.
-      <% if Time.now < squeek.expires %>
-        Expires in <%= time_ago_in_words(squeek.expires) %>.
+      Posted <%= time_ago_in_words(squeak.created_at) %> ago.
+      <% if Time.now < squeak.expires %>
+        Expires in <%= time_ago_in_words(squeak.expires) %>.
      <% else %>
-        Expired <%= time_ago_in_words(squeek.expires) %> ago.
+        Expired <%= time_ago_in_words(squeak.expires) %> ago.
      <% end %>
     </span>
   </td>

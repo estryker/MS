@@ -1,6 +1,6 @@
-xml.squeek do
-     xml.id squeek.id 
-     xml.latitude squeek.latitude
-     xml.longitude squeek.longitude
-     xml.text squeek.text
+xml.squeak do
+     xml.id squeak.id 
+     xml.latitude squeak.latitude
+     xml.longitude squeak.longitude
+     xml.text squeak.text
 end

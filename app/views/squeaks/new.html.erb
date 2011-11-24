@@ -1,6 +1,6 @@
-<h1>New Squeek</h1>
+<h1>New Squeak</h1>
 
-<%= form_for(@squeek) do |f| %>
+<%= form_for(@squeak) do |f| %>
   <%= render 'shared/error_messages', :object => f.object %>
 
   Enter an Address:
@@ -19,7 +19,7 @@
     <%= f.text_field :longitude,:placeholder => 'Enter numeric longitude...' %>
   </div>
   <div class="field">
-    <%= f.label :squeek %><br />
+    <%= f.label :squeak %><br />
     <%= f.text_field :text,:placeholder => 'Enter message...' %>
   </div>
   <div class="field">
@@ -29,6 +29,6 @@
   </div>
 
     <div class="actions">
-    <%= f.submit "Squeek!" %>
+    <%= f.submit "Squeak!" %>
   </div>
 <% end %>
