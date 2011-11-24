@@ -13,7 +13,7 @@ class SqueeksController < ApplicationController
     @squeek.user_email = user.email
 
     @squeek.time_utc = 0.hours.ago
-    @squeek.expires = params[:squeek][:duration].to_i.hours.from_now
+    @squeek.expires = params[:squeek][:duration].to_f.hours.from_now
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
       if geo.success?
