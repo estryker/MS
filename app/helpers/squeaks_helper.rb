@@ -1,2 +1,2 @@
-module SqueeksHelper
+module SqueaksHelper
 end

@@ -1,4 +1,4 @@
 require 'test_helper'
 
-class SqueeksHelperTest < ActionView::TestCase
+class SqueaksHelperTest < ActionView::TestCase
 end
