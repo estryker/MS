@@ -85,12 +85,14 @@ class SqueeksController < ApplicationController
       @json = squeeks.to_gmaps4rails
       format.json do
         render :json => @json
+        #render :json => squeeks
       end
       format.html do
         @json
       end
       format.xml do 
-        # TODO: make a .to_minimal_xml function
+        # to minimize the XML:  (but this will effect the index as well ...)
+        # render :partial => squeeks
         render :xml => squeeks
       end
     end
