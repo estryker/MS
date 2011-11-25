@@ -1,6 +1,6 @@
 .container {
   /*width: 95%;*/
- width:950px;
+ width:850px;
   /*position:relative;*/ 
   margin-left:auto;
 margin-right:auto;
@@ -8,7 +8,9 @@ margin-right:auto;
 
 body {
   text-align: left;
-  background: #006E72;
+  /*background: #006E72;*/
+  /*background: #FF9602;*/ 
+  background: #A0A0A0;
 }
 
 header {
@@ -17,7 +19,8 @@ header {
 
 header h1 {
   font-size: 200%;
-  color: #006E72;
+  /*color: #006E72;*/
+  color: #FF9602;
 }
 header img {
   padding: 1em;
@@ -34,13 +37,15 @@ section {
 
 section h1 {
   font-size: 200%;
-  color: #006E72;
+  /* color: #006E72; */
+  color: #FF9602;
 }
 
 /* Links */
 
 a {
-  color: #006E72;
+  /*color: #006E72;*/
+  color: #A0A0A0;
   text-decoration: none;
 }
 
@@ -50,14 +55,17 @@ a:hover {
 }
 
 a:visited {
-  color: #006E72;
+	color: #808080;
+  /*color: #006E72;*/
 }
 
 /* Navigation */
 
 nav {
   float: inherit;
+  /* float: right;*/
   padding: 10px;
+  
 }
 
 nav {
@@ -80,10 +88,12 @@ nav ul li {
 nav ul li a {
   padding: 0 5px;
   font-weight: bold;
+  color: #A0A0A0;
 }
 
 nav ul li a:visited {
-  color: #09c;
+  /*color: #09c;*/
+ color: #808080;
 }
 
 nav ul li a:hover {
@@ -95,10 +105,11 @@ a.signup_button {
   margin-left: auto;
   margin-right: auto;
   display: block;
-  text-align: center;
+  text-align: left;
   width: 190px;
   color: #fff;
-  background: #006400;
+  /* background: #006400;*/
+  background: #FF9602;
   font-size: 150%;
   font-weight: bold;
   padding: 20px;

@@ -9,8 +9,9 @@ module ApplicationHelper
     end
   end
   def logo
-    image_tag("mapsqueak_logo.jpg", :alt => "Pip", :class => "round")
+    image_tag("mapsqueak_logo.png", :alt => "Pip", :class => "round")
   end
+ 
   def name
     image_tag("mapsqueak_name.png", :alt => "Mapsqueak", :class => "round")
   end

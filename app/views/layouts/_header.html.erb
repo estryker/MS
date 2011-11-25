@@ -1,6 +1,9 @@
 <header>
-	<nav class="round">
-		<ul>
+
+	<nav class="round">	
+      <ul>
+           <li> <h1>MapSqueak! </h1> </li>	
+           <li> </li>
 			<li>
 				<%= link_to "Home", root_path %>
 			</li>
@@ -30,11 +33,14 @@
 				<%= link_to "Sign in", signin_path %>
 			</li>
 			<% end %>
-			<li> <%= link_to logo, squeaks_new_path %> </li>
-			<li><h1>MapSqueak</h1></li>
- 	
-        </ul>
+	 <li> <%= link_to logo, squeaks_new_path %> </li>
+        </ul> 
 	</nav>
-
+	<nav class="round"> 
+     <ul>
+        
+       
+     </ul> 
+    </nav>
 <%= yield :head %>
 </header>
