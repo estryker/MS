@@ -1,0 +1,4 @@
+Creating mapsqueak... done, stack is bamboo-mri-1.9.2
+http://mapsqueak.heroku.com/ | git@heroku.com:mapsqueak.git
+Git remote heroku added
+
