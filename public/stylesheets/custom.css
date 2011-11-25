@@ -40,7 +40,11 @@ section h1 {
   /* color: #006E72; */
   color: #FF9602;
 }
-
+section h2 {
+  font-size: 150%;
+  /* color: #006E72; */
+  color: #FF9602;
+}
 /* Links */
 
 a {
@@ -98,6 +102,7 @@ nav ul li a:visited {
 
 nav ul li a:hover {
   text-decoration: underline;
+  color: #c0c0c0;
 }
 /* Sign up button */
 
