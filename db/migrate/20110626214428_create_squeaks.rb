@@ -1,6 +1,6 @@
-class CreateSqueeks < ActiveRecord::Migration
+class CreateSqueaks < ActiveRecord::Migration
   def self.up
-    create_table :squeeks do |t|
+    create_table :squeaks do |t|
       t.float :latitude
       t.float :longitude
       t.datetime :time_utc
@@ -13,6 +13,6 @@ class CreateSqueeks < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :squeeks
+    drop_table :squeaks
   end
 end

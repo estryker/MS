@@ -6,12 +6,12 @@ Factory.define :user do |user|
   user.password_confirmation "foobar"
 end
 
-Factory.define :squeek do |squeek|
-  squeek.latitude   54.1
-  squeek.longitude  -1.4
-  squeek.text  'factory update'
-  squeek.time_utc 0.hours.ago
-  squeek.duration  2
-  squeek.expires  2.hours.from_now
-  squeek.user_email 'e.stryker@gmail.com'
+Factory.define :squeak do |squeak|
+  squeak.latitude   54.1
+  squeak.longitude  -1.4
+  squeak.text  'factory update'
+  squeak.time_utc 0.hours.ago
+  squeak.duration  2
+  squeak.expires  2.hours.from_now
+  squeak.user_email 'e.stryker@gmail.com'
 end

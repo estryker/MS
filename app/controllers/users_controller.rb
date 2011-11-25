@@ -9,12 +9,12 @@ class UsersController < ApplicationController
  def show
     @user = User.find(params[:id])
     @title = @user.name
-    # without associations: @squeeks = Squeek.find_all_by_user_email(@user.email) 
-    #@num_squeeks = @user.squeeks.length # can I do a select count query type thing to make this more efficient??
-    @num_squeeks = Squeek.where(:user_email => @user.email).count
+    # without associations: @squeaks = Squeak.find_all_by_user_email(@user.email) 
+    #@num_squeaks = @user.squeaks.length # can I do a select count query type thing to make this more efficient??
+    @num_squeaks = Squeak.where(:user_email => @user.email).count
     
-    # TODO: try to get @user.squeeks.paginate to work ...
-    @squeeks = Squeek.where(:user_email => @user.email).paginate(:page => params[:page])
+    # TODO: try to get @user.squeaks.paginate to work ...
+    @squeaks = Squeak.where(:user_email => @user.email).paginate(:page => params[:page])
     
   end
   
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       sign_in @user
-      flash[:success] = "Welcome to MapSqueek!"
+      flash[:success] = "Welcome to MapSqueak!"
       redirect_to @user
     else
       @title = "Sign up"

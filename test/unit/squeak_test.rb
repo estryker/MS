@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: squeeks
+# Table name: squeaks
 #
 #  id         :integer         not null, primary key
 #  latitude   :float
@@ -17,7 +17,7 @@
 
 require 'test_helper'
 
-class SqueekTest < ActiveSupport::TestCase
+class SqueakTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true

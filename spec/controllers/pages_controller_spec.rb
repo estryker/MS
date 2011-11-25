@@ -4,7 +4,7 @@ describe PagesController do
   render_views
 
   before(:each) do
-    @base_title = "Mapsqueek"
+    @base_title = "Mapsqueak"
   end
 
   describe "GET 'mobile_app'" do

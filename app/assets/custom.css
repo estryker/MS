@@ -8,7 +8,8 @@ margin-right:auto;
 
 body {
   text-align: left;
-  background: #006E72;
+  /*background: #006E72;*/
+   background: #FF9602;
 }
 
 header {
@@ -34,7 +35,9 @@ section {
 
 section h1 {
   font-size: 200%;
-  color: #006E72;
+  /*color: #006E72;*/
+   
+   background: #FF9602;
 }
 
 /* Links */
@@ -188,31 +191,31 @@ div.field, div.actions {
   font-size: 12px;
   list-style: square;
 }
-h1.squeek {
+h1.squeak {
   margin-bottom: 0.3em;
 }
 
-table.squeeks {
+table.squeaks {
   margin-top: 1em;
 }
 
-table.squeeks tr {
+table.squeaks tr {
   height: 70px;
 }
 
-table.squeeks tr td.gravatar {
+table.squeaks tr td.gravatar {
   border-top: 1px solid #ccc;
   vertical-align: top;
   width: 50px;
 }
 
-table.squeeks tr td.squeek {
+table.squeaks tr td.squeak {
   border-top: 1px solid #ccc;
   vertical-align: top;
   padding-top: 10px;
 }
 
-table.squeeks tr td.squeek span.timestamp {
+table.squeaks tr td.squeak span.timestamp {
   display: block;
   font-size: 85%;
   color: #666;
@@ -230,15 +233,15 @@ div.user_info span.user_name {
   position: absolute;
 }
 
-div.user_info span.squeeks {
+div.user_info span.squeaks {
   font-size: 80%;
 }
 
-form.new_squeek {
+form.new_squeak {
   margin-bottom: 2em;
 }
 
-form.new_squeek textarea {
+form.new_squeak textarea {
   height: 4em;
   margin-bottom: 0;
 }

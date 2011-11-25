@@ -1,6 +1,6 @@
 .container {
   /*width: 95%;*/
- width:950px;
+ width:850px;
   /*position:relative;*/ 
   margin-left:auto;
 margin-right:auto;
@@ -8,7 +8,9 @@ margin-right:auto;
 
 body {
   text-align: left;
-  background: #006E72;
+  /*background: #006E72;*/
+  /*background: #FF9602;*/ 
+  background: #A0A0A0;
 }
 
 header {
@@ -17,7 +19,8 @@ header {
 
 header h1 {
   font-size: 200%;
-  color: #006E72;
+  /*color: #006E72;*/
+  color: #FF9602;
 }
 header img {
   padding: 1em;
@@ -34,13 +37,19 @@ section {
 
 section h1 {
   font-size: 200%;
-  color: #006E72;
+  /* color: #006E72; */
+  color: #FF9602;
 }
-
+section h2 {
+  font-size: 150%;
+  /* color: #006E72; */
+  color: #FF9602;
+}
 /* Links */
 
 a {
-  color: #006E72;
+  /*color: #006E72;*/
+  color: #A0A0A0;
   text-decoration: none;
 }
 
@@ -50,14 +59,17 @@ a:hover {
 }
 
 a:visited {
-  color: #006E72;
+	color: #808080;
+  /*color: #006E72;*/
 }
 
 /* Navigation */
 
 nav {
   float: inherit;
+  /* float: right;*/
   padding: 10px;
+  
 }
 
 nav {
@@ -80,14 +92,17 @@ nav ul li {
 nav ul li a {
   padding: 0 5px;
   font-weight: bold;
+  color: #A0A0A0;
 }
 
 nav ul li a:visited {
-  color: #09c;
+  /*color: #09c;*/
+ color: #808080;
 }
 
 nav ul li a:hover {
   text-decoration: underline;
+  color: #c0c0c0;
 }
 /* Sign up button */
 
@@ -95,10 +110,11 @@ a.signup_button {
   margin-left: auto;
   margin-right: auto;
   display: block;
-  text-align: center;
+  text-align: left;
   width: 190px;
   color: #fff;
-  background: #006400;
+  /* background: #006400;*/
+  background: #FF9602;
   font-size: 150%;
   font-weight: bold;
   padding: 20px;
@@ -188,31 +204,31 @@ div.field, div.actions {
   font-size: 12px;
   list-style: square;
 }
-h1.squeek {
+h1.squeak {
   margin-bottom: 0.3em;
 }
 
-table.squeeks {
+table.squeaks {
   margin-top: 1em;
 }
 
-table.squeeks tr {
+table.squeaks tr {
   height: 70px;
 }
 
-table.squeeks tr td.gravatar {
+table.squeaks tr td.gravatar {
   border-top: 1px solid #ccc;
   vertical-align: top;
   width: 50px;
 }
 
-table.squeeks tr td.squeek {
+table.squeaks tr td.squeak {
   border-top: 1px solid #ccc;
   vertical-align: top;
   padding-top: 10px;
 }
 
-table.squeeks tr td.squeek span.timestamp {
+table.squeaks tr td.squeak span.timestamp {
   display: block;
   font-size: 85%;
   color: #666;
@@ -230,15 +246,15 @@ div.user_info span.user_name {
   position: absolute;
 }
 
-div.user_info span.squeeks {
+div.user_info span.squeaks {
   font-size: 80%;
 }
 
-form.new_squeek {
+form.new_squeak {
   margin-bottom: 2em;
 }
 
-form.new_squeek textarea {
+form.new_squeak textarea {
   height: 4em;
   margin-bottom: 0;
 }

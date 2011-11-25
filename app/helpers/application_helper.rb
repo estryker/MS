@@ -1,7 +1,7 @@
 module ApplicationHelper
   # Return a title on a per-page basis.
   def title
-    base_title = "Mapsqueek"
+    base_title = "Mapsqueak"
     if @title.nil?
       base_title
     else
@@ -9,9 +9,10 @@ module ApplicationHelper
     end
   end
   def logo
-    image_tag("mapsqueek_logo.jpg", :alt => "Pip", :class => "round")
+    image_tag("mapsqueak_logo.png", :alt => "Pip", :class => "round")
   end
+ 
   def name
-    image_tag("mapsqueek_name.png", :alt => "Mapsqueek", :class => "round")
+    image_tag("mapsqueak_name.png", :alt => "Mapsqueak", :class => "round")
   end
 end

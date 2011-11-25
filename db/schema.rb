@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(:version => 20111124001618) do
 
-  create_table "squeeks", :force => true do |t|
+  create_table "squeaks", :force => true do |t|
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "time_utc"
@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(:version => 20111124001618) do
     t.float    "duration"
   end
 
-  add_index "squeeks", ["created_at"], :name => "index_squeeks_on_created_at"
-  add_index "squeeks", ["user_email"], :name => "index_squeeks_on_user_email"
+  add_index "squeaks", ["created_at"], :name => "index_squeaks_on_created_at"
+  add_index "squeaks", ["user_email"], :name => "index_squeaks_on_user_email"
 
   create_table "users", :force => true do |t|
     t.string   "name"
