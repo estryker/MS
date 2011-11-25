@@ -49,17 +49,17 @@ section h2 {
 
 a {
   /*color: #006E72;*/
-  color: #A0A0A0;
+  color: #808080;
   text-decoration: none;
 }
 
 a:hover {
-  color: #004042;
+  color: #c0c0c0;
   text-decoration: underline;
 }
 
 a:visited {
-	color: #808080;
+	color: #A0A0A0;
   /*color: #006E72;*/
 }
 
@@ -92,12 +92,12 @@ nav ul li {
 nav ul li a {
   padding: 0 5px;
   font-weight: bold;
-  color: #A0A0A0;
+  color: #808080;
 }
 
 nav ul li a:visited {
   /*color: #09c;*/
- color: #808080;
+ color: #A0A0A0;
 }
 
 nav ul li a:hover {
