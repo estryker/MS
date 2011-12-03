@@ -1,4 +1,7 @@
 class SqueaksController < ApplicationController
+  # this will allow mobile apps to create squeaks
+  protect_from_forgery :except => [:create,:edit]
+  
   def new
     @squeak = Squeak.new
     @title = "New Squeak"

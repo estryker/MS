@@ -24,8 +24,8 @@ class SessionsController < ApplicationController
           redirect_to user
         end
         format.xml do 
-          #puts cookies.permanent.signed[:remember_token]
-          render :xml => {:cookie => 'foo'}
+          #TODO: make this more secure by adding HMAC
+          render :xml => {:user_id => "#{current_user.id}"}
         end
       end
     end
