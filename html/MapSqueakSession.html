@@ -63,7 +63,19 @@
   
 </nav>
 
-    
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="XmlHelpers.html">XmlHelpers</a>
+  
+  
+  </ul>
+</nav>
+
     <!-- Method Quickref -->
 <nav id="method-list-section" class="section">
   <h3 class="section-header">Methods</h3>
@@ -108,6 +120,8 @@
     <li><a href="./MapSqueakSession.html">MapSqueakSession</a>
   
     <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./XmlHelpers.html">XmlHelpers</a>
   
   </ul>
 </nav>
@@ -205,9 +219,10 @@ encapsulates a session with the mapsqueak server.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 18</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 27</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">host</span> = <span class="ruby-string">'http://mapsqueak.heroku.com'</span>, <span class="ruby-identifier">username</span>=<span class="ruby-keyword">nil</span>,<span class="ruby-identifier">password</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-ivar">@host</span> = <span class="ruby-identifier">host</span>
+  <span class="ruby-ivar">@cookie_file</span> = <span class="ruby-string">'anonymous@anaonymous.com.cookies'</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- new-source -->
           
@@ -229,25 +244,26 @@ encapsulates a session with the mapsqueak server.</p>
         
         <div class="method-heading">
           <span class="method-name">get_my_squeaks</span><span
-            class="method-args">(center_lat,center_long,max = 100,format=:json)</span>
+            class="method-args">(format=:json)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
 
         <div class="method-description">
           
-          <p>not implemented yet</p>
+          <p>return all of my squeaks in a specified format, either :xml or :json</p>
           
 
           
           <div class="method-source-code" id="get_my_squeaks-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 67</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_my_squeaks</span>(<span class="ruby-identifier">center_lat</span>,<span class="ruby-identifier">center_long</span>,<span class="ruby-identifier">max</span> = <span class="ruby-value">100</span>,<span class="ruby-identifier">format</span>=<span class="ruby-value">:json</span>)
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 97</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">get_my_squeaks</span>(<span class="ruby-identifier">format</span>=<span class="ruby-value">:json</span>)
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
     <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Error: must be in json or xml&quot;</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-comment"># TODO: add a hash based on the parameters requested and use session token</span>
-  <span class="ruby-node">`curl #{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&amp;center_latitude=#{center_latitude}&amp;center_longitude=#{center_longitude}`</span>
+  <span class="ruby-comment"># T</span>
+  <span class="ruby-node">`curl #{self.host}/users/#{@user_id}.#{format.to_s} --cookie #{@cookie_file}`</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- get_my_squeaks-source -->
           
@@ -278,7 +294,7 @@ objects, or make a get_squeak_objects function</p>
 
           
           <div class="method-source-code" id="get_squeaks-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 55</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 85</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_squeaks</span>(<span class="ruby-identifier">center_latitude</span>,<span class="ruby-identifier">center_longitude</span>,<span class="ruby-identifier">max</span> = <span class="ruby-value">100</span>,<span class="ruby-identifier">format</span>=<span class="ruby-value">:json</span>)
   <span class="ruby-comment"># curl &quot;http://192.168.0.2:3000/squeaks.xml?num_squeaks=3&amp;center_latitude=50.0&amp;center_longitude=-1.8&quot; </span>
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
@@ -312,14 +328,14 @@ objects, or make a get_squeak_objects function</p>
           
           <p>post a new squeak. the squeak can either be whatever the <a
 href="ClientSqueak.html">ClientSqueak</a> constructor accepts -  a String
-of json or xml, or a hash, or a <a
+of json or xml, or a hash, or it can be a <a
 href="ClientSqueak.html">ClientSqueak</a> object. Talk about flexibility!
 the send_format must be :xml or :json</p>
           
 
           
           <div class="method-source-code" id="post_squeak-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">post_squeak</span>(<span class="ruby-identifier">squeak</span>,<span class="ruby-identifier">send_format</span> = <span class="ruby-value">:xml</span>)
   <span class="ruby-identifier">s</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">squeak</span>
@@ -333,8 +349,10 @@ the send_format must be :xml or :json</p>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">format_str</span> = <span class="ruby-identifier">send_format</span>.<span class="ruby-identifier">to_s</span>
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">s</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;to_#{format_str}&quot;</span>)
-                       
-  <span class="ruby-node">`curl -v --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \&quot;Content-Type: application/#{format_str}\&quot;`</span>
+  <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \&quot;Content-Type: application/#{format_str}\&quot; --cookie #{@cookie_file}&quot;</span>
+
+  <span class="ruby-comment"># execute the curl command</span>
+  <span class="ruby-node">`#{curl_str}`</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- post_squeak-source -->
           
@@ -350,21 +368,35 @@ the send_format must be :xml or :json</p>
         
         <div class="method-heading">
           <span class="method-name">sign_in</span><span
-            class="method-args">(username,password)</span>
+            class="method-args">(email,password)</span>
           <span class="method-click-advice">click to toggle source</span>
         </div>
         
 
         <div class="method-description">
           
-          <p>not implemented yet</p>
+          <p>sign in by email/password.  note that a remember_token will be saved in a
+cookie file</p>
           
 
           
           <div class="method-source-code" id="sign_in-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 23</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">sign_in</span>(<span class="ruby-identifier">username</span>,<span class="ruby-identifier">password</span>)
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">sign_in</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">password</span>)
+  <span class="ruby-identifier">signin_xml</span> = <span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-identifier">signin_xml</span>.<span class="ruby-identifier">add_element</span>(<span class="ruby-string">'session'</span>)
+  <span class="ruby-identifier">signin_xml</span>.<span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml_element</span>(<span class="ruby-string">'email'</span>,<span class="ruby-identifier">email</span>)
+  <span class="ruby-identifier">signin_xml</span>.<span class="ruby-identifier">root</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">xml_element</span>(<span class="ruby-string">'password'</span>,<span class="ruby-identifier">password</span>)
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">signin_xml</span>.<span class="ruby-identifier">to_s</span>
 
+  <span class="ruby-ivar">@cookie_file</span> = <span class="ruby-node">&quot;#{email}.cookies&quot;</span>
+
+  <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl --data \'#{signin_xml.to_s}\' #{self.host}/sessions.xml -H \&quot;Content-Type: application/xml\&quot; --cookie-jar #{@cookie_file}&quot;</span>
+
+  <span class="ruby-identifier">result</span> = <span class="ruby-node">`#{curl_str}`</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">result</span>
+  <span class="ruby-identifier">doc</span> = <span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">result</span>)
+  <span class="ruby-ivar">@user_id</span> = <span class="ruby-constant">XPath</span>.<span class="ruby-identifier">first</span>(<span class="ruby-identifier">doc</span>,<span class="ruby-string">&quot;hash/user-id&quot;</span>).<span class="ruby-identifier">text</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- sign_in-source -->
           
@@ -387,14 +419,17 @@ the send_format must be :xml or :json</p>
 
         <div class="method-description">
           
-          <p>not implemented yet</p>
+          <p>sign the current user out. note that the cookie file will be deleted.</p>
           
 
           
           <div class="method-source-code" id="sign_out-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 28</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sign_out</span>
-
+  <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl #{self.host}/sessions --request DELETE --cookie #{@cookie_file}&quot;</span>
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">curl_str</span>
+  <span class="ruby-node">`#{curl_str}`</span>
+  <span class="ruby-constant">File</span>.<span class="ruby-identifier">unlink</span>(<span class="ruby-ivar">@cookie_file</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- sign_out-source -->
           

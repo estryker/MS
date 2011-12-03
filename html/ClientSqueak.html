@@ -63,7 +63,19 @@
   
 </nav>
 
-    
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="XmlHelpers.html">XmlHelpers</a>
+  
+  
+  </ul>
+</nav>
+
     <!-- Method Quickref -->
 <nav id="method-list-section" class="section">
   <h3 class="section-header">Methods</h3>
@@ -87,8 +99,6 @@
     <li><a href="#method-i-to_s">#to_s</a>
     
     <li><a href="#method-i-to_xml">#to_xml</a>
-    
-    <li><a href="#method-i-xml_element">#xml_element</a>
     
   </ul>
 </nav>
@@ -116,6 +126,8 @@
     <li><a href="./MapSqueakSession.html">MapSqueakSession</a>
   
     <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./XmlHelpers.html">XmlHelpers</a>
   
   </ul>
 </nav>
@@ -267,7 +279,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 99</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 131</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">squeak</span>)
   <span class="ruby-ivar">@original_squeak</span> = <span class="ruby-identifier">squeak</span>
   <span class="ruby-identifier">temp_hash</span> = {<span class="ruby-value">:squeak</span> =<span class="ruby-operator">&gt;</span> {}}
@@ -345,7 +357,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="duration-3D-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 194</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 226</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">duration=</span>(<span class="ruby-identifier">duration</span>)
   <span class="ruby-identifier">dur</span> = <span class="ruby-identifier">duration</span>.<span class="ruby-identifier">to_f</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Bad duration&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">dur</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">@@min_duration</span>
@@ -379,7 +391,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="latitude-3D-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 176</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 208</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">latitude=</span>(<span class="ruby-identifier">latitude</span>)
   <span class="ruby-identifier">lat</span> = <span class="ruby-identifier">latitude</span>.<span class="ruby-identifier">to_f</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Bad latitude&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">lat</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">@@min_latitude</span>
@@ -413,7 +425,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="longitude-3D-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 185</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 217</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">longitude=</span>(<span class="ruby-identifier">longitude</span>)
   <span class="ruby-identifier">long</span> = <span class="ruby-identifier">longitude</span>.<span class="ruby-identifier">to_f</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Bad longitude&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">long</span> <span class="ruby-operator">&lt;</span> <span class="ruby-identifier">@@min_longitude</span>
@@ -446,7 +458,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="text-3D-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 203</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 235</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">text=</span>(<span class="ruby-identifier">txt</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;Bad text length&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">txt</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&lt;=</span> <span class="ruby-identifier">@@max_text_length</span>
   <span class="ruby-ivar">@text</span> = <span class="ruby-identifier">txt</span>.<span class="ruby-identifier">dup</span>
@@ -477,7 +489,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="to_hash-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 163</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 195</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_hash</span>
   {
     <span class="ruby-value">:squeak=</span><span class="ruby-operator">&gt;</span> {
@@ -516,7 +528,7 @@ String representation of a JSON object</p>
 
           
           <div class="method-source-code" id="to_json-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 158</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 190</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_json</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">to_json</span>
 <span class="ruby-keyword">end</span></pre>
@@ -547,7 +559,7 @@ representation</p>
 
           
           <div class="method-source-code" id="to_s-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 209</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 241</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_s</span>
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">to_hash</span>.<span class="ruby-identifier">to_s</span>
 <span class="ruby-keyword">end</span></pre>
@@ -579,7 +591,7 @@ squeak!&lt;/text&gt;&lt;duration&gt;2&lt;/duration&gt;&lt;/squeak&gt;</p>
 
           
           <div class="method-source-code" id="to_xml-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 146</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">to_xml</span>
   <span class="ruby-identifier">params_xml</span> = <span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">params_xml</span>.<span class="ruby-identifier">add_element</span>(<span class="ruby-string">'squeak'</span>)
@@ -597,38 +609,6 @@ squeak!&lt;/text&gt;&lt;duration&gt;2&lt;/duration&gt;&lt;/squeak&gt;</p>
 
         
       </div><!-- to_xml-method -->
-
-    
-      <div id="method-i-xml_element" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">xml_element</span><span
-            class="method-args">(tag,text=nil)</span>
-          <span class="method-click-advice">click to toggle source</span>
-        </div>
-        
-
-        <div class="method-description">
-          
-          
-          
-
-          
-          <div class="method-source-code" id="xml_element-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 215</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">xml_element</span>(<span class="ruby-identifier">tag</span>,<span class="ruby-identifier">text</span>=<span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">e</span> = <span class="ruby-constant">Element</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">tag</span>)
-  <span class="ruby-identifier">e</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Text</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">text</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">text</span>.<span class="ruby-identifier">nil?</span>
-  <span class="ruby-identifier">e</span>
-<span class="ruby-keyword">end</span></pre>
-          </div><!-- xml_element-source -->
-          
-        </div>
-
-        
-
-        
-      </div><!-- xml_element-method -->
 
     
     </section><!-- public-instance-method-details -->
