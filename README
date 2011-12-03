@@ -1,7 +1,4 @@
-=begin rdoc
-
-= mapsqueak - a reference implementation for MapSqueak clients
+== mapsqueak - a reference implementation for MapSqueak clients
 
 Mapsqueak itself is an application that allows people to see and post what is going on around them, now. 
 
-=end

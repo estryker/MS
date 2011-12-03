@@ -9,28 +9,56 @@ require 'koala'
 require 'rexml/document'
 include REXML
 
+module XmlHelpers
+  def xml_element(tag,text=nil)
+    e = Element.new(tag)
+    e << Text.new(text) unless text.nil?
+    e
+  end
+end
+
 # MapSqueakSession - an class that encapsulates a session with the mapsqueak server. 
 # 
 class MapSqueakSession
+  include XmlHelpers
   attr_accessor :host, :facebook_token
   attr_reader :session_cookie
 
   def initialize(host = 'http://mapsqueak.heroku.com', username=nil,password=nil)
     @host = host
+    @cookie_file = 'anonymous@anaonymous.com.cookies'
   end
 
-  # not implemented yet
-  def sign_in(username,password)
+  # sign in by email/password. 
+  # note that a remember_token will be saved in a cookie file
+  def sign_in(email,password)
+    signin_xml = Document.new
+    signin_xml.add_element('session')
+    signin_xml.root << xml_element('email',email)
+    signin_xml.root << xml_element('password',password)
+    puts signin_xml.to_s
 
+    @cookie_file = "#{email}.cookies"
+
+    curl_str = "curl --data \'#{signin_xml.to_s}\' #{self.host}/sessions.xml -H \"Content-Type: application/xml\" --cookie-jar #{@cookie_file}"
+
+    result = `#{curl_str}`
+    puts result
+    doc = Document.new(result)
+    @user_id = XPath.first(doc,"hash/user-id").text
   end
 
-  # not implemented yet
+  # sign the current user out.
+  # note that the cookie file will be deleted. 
   def sign_out
-
+    curl_str = "curl #{self.host}/sessions --request DELETE --cookie #{@cookie_file}"
+    puts curl_str
+    `#{curl_str}`
+    File.unlink(@cookie_file)
   end
-
+  
   # post a new squeak. the squeak can either be whatever the ClientSqueak constructor accepts - 
-  # a String of json or xml, or a hash, or a ClientSqueak object. Talk about flexibility!
+  # a String of json or xml, or a hash, or it can be a ClientSqueak object. Talk about flexibility!
   # the send_format must be :xml or :json
   def post_squeak(squeak,send_format = :xml)
     s = nil
@@ -45,8 +73,10 @@ class MapSqueakSession
     end
     format_str = send_format.to_s
     data = s.send("to_#{format_str}")
-			 
-    `curl -v --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \"Content-Type: application/#{format_str}\"`
+    curl_str = "curl --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \"Content-Type: application/#{format_str}\" --cookie #{@cookie_file}"
+
+    # execute the curl command
+    `#{curl_str}`
   end
 
   # get a list of no more than max squeaks closest to the given center_latitude/centerlongitude
@@ -63,19 +93,21 @@ class MapSqueakSession
     # TODO: parse these appropriately
   end
 
-  # not implemented yet
-  def get_my_squeaks(center_lat,center_long,max = 100,format=:json)
+  # return all of my squeaks in a specified format, either :xml or :json
+  def get_my_squeaks(format=:json)
     unless [:json, :xml].include?(format)
       $stderr.puts "Error: must be in json or xml"
     end
     # TODO: add a hash based on the parameters requested and use session token
-    `curl #{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&center_latitude=#{center_latitude}&center_longitude=#{center_longitude}`
+    # T
+    `curl #{self.host}/users/#{@user_id}.#{format.to_s} --cookie #{@cookie_file}`
   end
 end
 
 # ClientSqueak - a class that encapsulates a client side squeak
 # Note that if I am not the owner of a squeak, I will not know the user
 class ClientSqueak
+  include XmlHelpers
   attr_accessor :latitude, :longitude, :text, :duration, :expires, :username
 
   @@mandatory_parameters = %w[latitude longitude text duration]
@@ -210,12 +242,5 @@ class ClientSqueak
     self.to_hash.to_s
   end
 
-  :private
-
-  def xml_element(tag,text=nil)
-    e = Element.new(tag)
-    e << Text.new(text) unless text.nil?
-    e
-  end
 end
 
