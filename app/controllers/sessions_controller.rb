@@ -7,12 +7,27 @@ class SessionsController < ApplicationController
     user = User.authenticate(params[:session][:email],
                              params[:session][:password])
     if user.nil?
-      flash.now[:error] = "Invalid email/password combination."
-      @title = "Sign in"
-      render 'new'
+      respond_to do |format |
+        format.html do 
+          flash.now[:error] = "Invalid email/password combination."
+          @title = "Sign in"
+          render 'new'
+        end
+        format.xml do 
+          render :xml => {:error=>'no such user/password'}
+        end
+      end
     else
       sign_in user
-      redirect_to user
+      respond_to do |format|
+        format.html do 
+          redirect_to user
+        end
+        format.xml do 
+          #puts cookies.permanent.signed[:remember_token]
+          render :xml => {:cookie => 'foo'}
+        end
+      end
     end
   end
   def destroy
