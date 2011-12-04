@@ -75,10 +75,77 @@
 
 <div id="documentation" class="description">
   
-<h2 id="label-mapsqueak+-+a+reference+implementation+for+MapSqueak+clients">mapsqueak - a reference implementation for MapSqueak clients</h2>
+<h1 id="label-mapsqueak+-+a+reference+implementation+for+MapSqueak+clients">mapsqueak - a reference implementation for MapSqueak clients</h1>
 
 <p>Mapsqueak itself is an application that allows people to see and post what
 is going on around them, now.</p>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>Install with Ruby gems:</p>
+
+<pre>gem install mapsqueak</pre>
+
+<p>To use it, simply require the gem:</p>
+
+<pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">'mapsqueak'</span>
+</pre>
+
+<h2 id="label-REST+interface">REST interface</h2>
+
+<p>Here are the basic functions defined in the MapSqueak API with some
+examples for cURL. The mapsqueak gem implements these functions.</p>
+
+<h3 id="label-Signin%2FSignout+with+Sessions">Signin/Signout with Sessions</h3>
+
+<h4 id="label-Signin+%28Create+a+new+Session%29">Signin (Create a new Session)</h4>
+
+<pre class="ruby"><span class="ruby-identifier">sessions</span> <span class="ruby-constant">POST</span>   <span class="ruby-regexp">/sessions(.:format)         {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;sessions&quot;}
+</span></pre>
+
+<p>with cURL:</p>
+
+<pre>curl --data '&lt;session&gt;&lt;email&gt;username@email.com&lt;/email&gt;&lt;password&gt;foo&lt;/password&gt;&lt;/session&gt;' http://mapsqueak.heroku.com/sessions.xml -H \&quot;Content-Type: application/xml\&quot; --cookie-jar #{@cookie_file}&quot;</pre>
+
+<h4 id="label-Signout+%28Delete+a+Session%29">Signout (Delete a Session)</h4>
+
+<pre class="ruby"><span class="ruby-identifier">session</span> <span class="ruby-constant">DELETE</span> <span class="ruby-regexp">/sessions/</span><span class="ruby-operator">:</span><span class="ruby-identifier">id</span>(.:<span class="ruby-identifier">format</span>)     {:<span class="ruby-identifier">action=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;destroy&quot;</span>, :<span class="ruby-identifier">controller=</span><span class="ruby-operator">&gt;</span><span class="ruby-string">&quot;sessions&quot;</span>}
+</pre>
+
+<p>with cURL:</p>
+
+<pre>curl_str = &quot;curl http://mapsqueak.heroku.com/sessions --request DELETE --cookie usernames.cookies&quot;</pre>
+
+<h3 id="label-Squeaks">Squeaks</h3>
+
+<p>Get a list of Squeaks</p>
+
+<pre class="ruby"><span class="ruby-identifier">squeaks</span> <span class="ruby-constant">GET</span>    <span class="ruby-regexp">/squeaks(.:format)          {:action=&gt;&quot;index&quot;, :controller=&gt;&quot;squeaks&quot;}
+</span></pre>
+
+<p>with cURL:</p>
+
+<pre>curl http://mapsqueak.heroku.com/squeaks.xml?num_squeaks=100&amp;center_latitude=54&amp;center_longitude=-1.5</pre>
+
+<p>Create a new Squeak</p>
+
+<pre class="ruby"><span class="ruby-identifier">squeaks</span> <span class="ruby-constant">POST</span>   <span class="ruby-regexp">/squeaks(.:format)          {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;squeaks&quot;}
+</span></pre>
+
+<p>with cURL in XML format:</p>
+
+<pre>curl --data '&lt;squeak&gt;&lt;latitude&gt;54&lt;/latitude&gt;&lt;longitude&gt;-1.5&lt;/longitude&gt;&lt;text&gt;Another squeak!&lt;/text&gt;&lt;duration&gt;2&lt;/duration&gt;&lt;/squeak&gt;' http://mapsqueak.heroku.com/sessions.xml -H \&quot;Content-Type: application/xml\&quot; --cookie-jar username.cookies</pre>
+
+<p>with cURL in JSON format:</p>
+
+<pre>curl --data '{\&quot;squeak\&quot;:{\&quot;latitude\&quot;:\&quot;54\&quot;,\&quot;longitude\&quot;:\&quot;-1.5\&quot;,\&quot;duration\&quot;:\&quot;2\&quot;,\&quot;text\&quot;:\&quot;Another squeak!\&quot;}} http://mapsqueak.heroku.com/sessions.json -H \&quot;Content-Type: application/json\&quot; --cookie-jar username.cookies</pre>
+
+<h3 id="label-Users">Users</h3>
+
+<p>Create a new user</p>
+
+<pre class="ruby"><span class="ruby-identifier">users</span> <span class="ruby-constant">POST</span>   <span class="ruby-regexp">/users(.:format)            {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;users&quot;}
+</span></pre>
 
 </div>
 

@@ -1,4 +1,48 @@
-== mapsqueak - a reference implementation for MapSqueak clients
+= mapsqueak - a reference implementation for MapSqueak clients
 
 Mapsqueak itself is an application that allows people to see and post what is going on around them, now. 
+
+== Installation
+Install with Ruby gems:
+ gem install mapsqueak
+
+To use it, simply require the gem:
+ require 'mapsqueak'
+
+== REST interface
+Here are the basic functions defined in the MapSqueak API with some examples for cURL. The mapsqueak gem implements these functions. 
+
+=== Signin/Signout with Sessions
+
+==== Signin (Create a new Session)
+ sessions POST   /sessions(.:format)         {:action=>"create", :controller=>"sessions"}
+
+with cURL:
+ curl --data '<session><email>username@email.com</email><password>foo</password></session>' http://mapsqueak.heroku.com/sessions.xml -H \"Content-Type: application/xml\" --cookie-jar #{@cookie_file}"
+
+==== Signout (Delete a Session)
+ session DELETE /sessions/:id(.:format)     {:action=>"destroy", :controller=>"sessions"}
+
+with cURL:
+ curl_str = "curl http://mapsqueak.heroku.com/sessions --request DELETE --cookie usernames.cookies"
+
+=== Squeaks
+Get a list of Squeaks
+ squeaks GET    /squeaks(.:format)          {:action=>"index", :controller=>"squeaks"}
+
+with cURL:
+ curl http://mapsqueak.heroku.com/squeaks.xml?num_squeaks=100&center_latitude=54&center_longitude=-1.5
+
+Create a new Squeak
+ squeaks POST   /squeaks(.:format)          {:action=>"create", :controller=>"squeaks"}
+
+with cURL in XML format:
+ curl --data '<squeak><latitude>54</latitude><longitude>-1.5</longitude><text>Another squeak!</text><duration>2</duration></squeak>' http://mapsqueak.heroku.com/sessions.xml -H \"Content-Type: application/xml\" --cookie-jar username.cookies
+
+with cURL in JSON format:
+ curl --data '{\"squeak\":{\"latitude\":\"54\",\"longitude\":\"-1.5\",\"duration\":\"2\",\"text\":\"Another squeak!\"}} http://mapsqueak.heroku.com/sessions.json -H \"Content-Type: application/json\" --cookie-jar username.cookies
+
+=== Users
+Create a new user
+ users POST   /users(.:format)            {:action=>"create", :controller=>"users"}
 
