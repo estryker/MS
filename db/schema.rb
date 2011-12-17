@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111124001618) do
+ActiveRecord::Schema.define(:version => 20111217202437) do
 
   create_table "squeaks", :force => true do |t|
     t.float    "latitude"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(:version => 20111124001618) do
   end
 
   add_index "squeaks", ["created_at"], :name => "index_squeaks_on_created_at"
+  add_index "squeaks", ["latitude"], :name => "index_squeaks_on_latitude"
+  add_index "squeaks", ["longitude"], :name => "index_squeaks_on_longitude"
   add_index "squeaks", ["user_email"], :name => "index_squeaks_on_user_email"
 
   create_table "users", :force => true do |t|

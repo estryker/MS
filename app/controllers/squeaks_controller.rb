@@ -70,17 +70,25 @@ class SqueaksController < ApplicationController
   end
 
   def index
-    # TODO make sure the box is a reasonable size so we don't kill our DB getting too many squeaks
-    #min_lat = params[:min_lat].to_i
-    #max_lat = params[:max_lat].to_i
-    #min_long = params[:min_long].to_i
-    #min_long = params[:max_long].to_i
+    # TODO: use better defaults? get these from other means?
+    num_squeaks = 1000
+    center_lat = 0.0
+    center_long = 0.0
     
-    num_squeaks = (params[:num_squeaks] || 1000).to_i
-    center_lat = (params[:center_latitude] || 0).to_f
-    center_long = (params[:center_longitude] || 0).to_f
+    # Squeak.all(:conditions => ["expires > ?",DateTime.now.utc])
+    all_squeaks = []
+    if(params.has_key?(:num_squeaks) and params.has_key?(:center_latitude) and params.has_key?(:center_longitude))
+      num_squeaks = params[:num_squeaks].to_i
+      center_lat = params[:center_latitude].to_f
+      center_long = params[:center_longitude].to_f
+      # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
+      where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
+    else  
+      # this will happen on the web client. I don't care about performance on it right now
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc])
+    end
     
-    all_squeaks = Squeak.all(:conditions => ["expires > ?",DateTime.now.utc])
     all_squeaks.sort! do |a,b| 
       ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
     end
