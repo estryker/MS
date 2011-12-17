@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = "mapsqueak"
-  spec.version = "0.0.2"
+  spec.version = "0.0.3"
   spec.summary = "a REST client for MapSqueak"
   spec.files = Dir['lib/*.rb'] + Dir['bin/*.rb']
   spec.has_rdoc = true

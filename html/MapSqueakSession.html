@@ -261,10 +261,10 @@ encapsulates a session with the mapsqueak server.</p>
 
           
           <div class="method-source-code" id="edit_squeak-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 142</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 143</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_squeak</span>(<span class="ruby-identifier">squeak</span>, <span class="ruby-identifier">update_hash</span>)
   <span class="ruby-identifier">squeak</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">update_hash</span>)
-  <span class="ruby-node">&quot;curl --request PUT --data #{squeak.to_json} #{self.host}/squeaks/#{squeak.id}.json -H \&quot;Content-Type: application/json\&quot;&quot;</span>
+  <span class="ruby-node">&quot;curl --request PUT --data \'#{squeak.to_json}\' #{self.host}/squeaks/#{squeak.id}.json -H \&quot;Content-Type: application/json\&quot;&quot;</span>
 <span class="ruby-keyword">end</span></pre>
           </div><!-- edit_squeak-source -->
           
@@ -292,7 +292,7 @@ encapsulates a session with the mapsqueak server.</p>
 
           
           <div class="method-source-code" id="get_my_squeaks-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 131</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_my_squeaks</span>(<span class="ruby-identifier">format</span>=<span class="ruby-value">:xml</span>)
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
     <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Error: must be in json or xml&quot;</span>
@@ -337,9 +337,10 @@ objects, or make a get_squeak_objects function</p>
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
     <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Error: must be in json or xml&quot;</span>
   <span class="ruby-keyword">end</span>
-  
-  <span class="ruby-identifier">squeak_string</span> = <span class="ruby-node">`curl #{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&amp;center_latitude=#{center_latitude}&amp;center_longitude=#{center_longitude}`</span>
 
+  <span class="ruby-identifier">squeak_string</span> = <span class="ruby-node">`curl \'#{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&amp;center_latitude=#{center_latitude}&amp;center_longitude=#{center_longitude}\'`</span>
+  
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">squeak_string</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">squeak_str_to_objects</span>(<span class="ruby-identifier">squeak_string</span>,<span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- get_squeaks-source -->
@@ -527,16 +528,17 @@ the send_format must be :xml or :json facebook params is a Hash with either
 
           
           <div class="method-source-code" id="squeak_str_to_objects-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 148</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 149</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">squeak_str_to_objects</span>(<span class="ruby-identifier">squeak_string</span>,<span class="ruby-identifier">format</span>)
   <span class="ruby-identifier">squeaks</span> = []
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">format</span>
   <span class="ruby-keyword">when</span> <span class="ruby-value">:xml</span>
     <span class="ruby-identifier">doc</span> = <span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">squeak_string</span>)
-    <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">elements</span>.<span class="ruby-identifier">each</span>(<span class="ruby-string">'squeaks/'</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">squeaks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ClientSqueak</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">el</span>.<span class="ruby-identifier">to_s</span>)}
+    <span class="ruby-identifier">doc</span>.<span class="ruby-identifier">elements</span>.<span class="ruby-identifier">each</span>(<span class="ruby-string">'squeaks/squeak'</span>) {<span class="ruby-operator">|</span><span class="ruby-identifier">el</span><span class="ruby-operator">|</span> <span class="ruby-identifier">squeaks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ClientSqueak</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">el</span>.<span class="ruby-identifier">to_s</span>)}
   <span class="ruby-keyword">when</span> <span class="ruby-value">:json</span>
     <span class="ruby-identifier">obj</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">squeak_string</span>)
-    <span class="ruby-identifier">obj</span>[<span class="ruby-string">'squeaks'</span>].<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">squeaks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ClientSqueak</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">s</span>) }
+    <span class="ruby-comment"># Note that gmaps4rails makes the json have a 'description' as opposed to 'text'</span>
+    <span class="ruby-identifier">obj</span>.<span class="ruby-identifier">each</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">puts</span> <span class="ruby-identifier">s</span>; <span class="ruby-identifier">squeaks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">ClientSqueak</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">s</span>) }
   <span class="ruby-keyword">end</span>
   
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">squeaks</span>
