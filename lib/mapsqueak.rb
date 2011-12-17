@@ -99,11 +99,11 @@ class MapSqueakSession
       
       puts "Google image url: #{picture_url}"
       
-      # Use google's static map api to get an image for the squeek
-      id = user.put_wall_post("MapSqueek update at #{Time.now.strftime('')}",{:name => 'squeek name', 
-				:link => "#{opts.host}/squeeks/#{confirmation_return_hash['squeek']['id']}",
+      # Use google's static map api to get an image for the squeak
+      id = user.put_wall_post("MapSqueak update at #{Time.now.strftime('')}",{:name => 'squeak name', 
+				:link => "#{opts.host}/squeaks/#{confirmation_return_hash['squeak']['id']}",
 				:caption => opts.text,
-				:description => "the description of the squeek, TBD",
+				:description => "the description of the squeak, TBD",
 				:picture => picture_url})
       puts "Updated facebook  with id: #{id}"
       puts "Visit #{login_url} to see it ..." unless login_url.nil?
@@ -121,10 +121,11 @@ class MapSqueakSession
     unless [:json, :xml].include?(format)
       $stderr.puts "Error: must be in json or xml"
     end
-    
-    squeak_string = `curl #{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&center_latitude=#{center_latitude}&center_longitude=#{center_longitude}`
 
-    return squeek_str_to_objects(squeak_string,format)
+    squeak_string = `curl \'#{self.host}/squeaks.#{format.to_s}?num_squeaks=#{max}&center_latitude=#{center_latitude}&center_longitude=#{center_longitude}\'`
+    
+    puts squeak_string
+    return squeak_str_to_objects(squeak_string,format)
   end
   
   # return all of my squeaks in a specified format, either :xml or :json
@@ -135,12 +136,13 @@ class MapSqueakSession
     # TODO: add a hash based on the parameters requested and use session token
     # T
     squeak_string = `curl #{self.host}/users/#{@user_id}.#{format.to_s} --cookie #{@cookie_file}`
-    return squeek_str_to_objects(squeak_string,format)
+    return squeak_str_to_objects(squeak_string,format)
   end
 
   # 
   def edit_squeak(squeak, update_hash)
-    "curl --request PUT --data #{update.to_json} #{opts.host}/squeeks/#{initial_return_hash['squeek']['id']}.json -H \"Content-Type: application/json\" 2>> ruby_err.html"
+    squeak.merge!(update_hash)
+    "curl --request PUT --data \'#{squeak.to_json}\' #{self.host}/squeaks/#{squeak.id}.json -H \"Content-Type: application/json\""
   end
 
 :private
@@ -149,10 +151,11 @@ class MapSqueakSession
     case format
     when :xml
       doc = Document.new(squeak_string)
-      doc.elements('squeaks').each {|el| squeaks << ClientSqueak.new(el.to_s)}
+      doc.elements.each('squeaks/squeak') {|el| squeaks << ClientSqueak.new(el.to_s)}
     when :json
       obj = JSON.parse(squeak_string)
-      obj['squeaks'].each {|s| squeaks << ClientSqueak.new(s) }
+      # Note that gmaps4rails makes the json have a 'description' as opposed to 'text'
+      obj.each {|s| puts s; squeaks << ClientSqueak.new(s) }
     end
     
     return squeaks
@@ -163,19 +166,11 @@ end
 class ClientSqueak
   include XmlHelpers
 
-  # TODO: handle the rails tags with '-' in them
-  attr_accessor :latitude, :longitude, :text, :duration, :expires, :username, :id, :time_utc,:expires,:"created-at",:"updated-at",:"user-email", :gmaps
+  attr_accessor :latitude, :longitude, :text, :duration, :expires, :username, :id, :time_utc,:expires,:created_at,:updated_at,:user_email, :gmaps
 
-  @@mandatory_parameters = %w[latitude longitude text duration]
-  @@min_latitude = -90.0
-  @@max_latitude = 90.0
-  @@min_longitude = -180.0
-  @@max_longitude = 180.0
-  @@min_duration = 0.0 
-  @@max_duration = 24.0
-  @@max_text_length = 140
-
-  # Initialize a new squeak which must be in an allowable format: 
+  
+  # Initialize a new squeak which must be in an allowable format
+  # Must set: latitude, longitude, text, and duration
   # json - a String representation of a JSON object
   #         e.g. {\"squeak\":{\"latitude\":\"54\",\"longitude\":\"-1.5\",\"duration\":\"2\",\"text\":\"Another squeak!\"}}
   # xml - a String representation of an XML blob
@@ -205,7 +200,7 @@ class ClientSqueak
 	  # a nice flexible way to parse the XML. as long as the XML 
 	  # is only one level deep
 	  doc.elements.each('squeak/') do | el |
-	    el.each do |child|
+	    el.elements.each do |child|
 	      temp_hash[:squeak][child.name.to_sym] = child.text
 	    end
 	  end
@@ -216,16 +211,21 @@ class ClientSqueak
     end
     
     t = temp_hash['squeak'] || temp_hash[:squeak]
-    parms_set = []
-    t.keys.each do | k |
-      # this will set and validate the parameters
-      self.send("#{k.to_s}=",t[k])
-      parms_set << k.to_s
-    end
+    self.merge!(t)
 
     # but we need to make sure that all of the mandatory parameters are defined
-    unless (@@mandatory_parameters - parms_set).empty?
+    unless (%w[latitude longitude text duration] - self.to_hash[:squeak].keys.map {|k| k.to_s}).empty?
       raise "Must have duration, lat and long and text"
+    end
+  end
+
+  # set the id, but only allow it once. we don't necessarily know the id at construction time, so 
+  # this should be good enough for now. 
+  def id=(id)
+    if @id.nil?
+      @id = id
+    else
+      raise "Can't change a squeak's id"
     end
   end
 
@@ -259,37 +259,53 @@ class ClientSqueak
     }
   end
 
+  # merge another Squeak's parameters by letting the other's parameters overwrite the current Squeak's parms. 
+  # Returns a copy Hash
+  def merge(other)
+    self.to_hash.merge!(other)
+  end
+
+  # merge another Squeak's parameters by letting the other's parameters overwrite the current Squeak's parms. 
+  # Modifies the current Squeak
+  def merge!(other)
+    t = other.to_hash
+    t.keys.each do | k |
+      # this will set and validate the parameters
+      self.send("#{k.to_s.gsub('-','_')}=",t[k])
+    end
+  end
+
   # set the latitude for the squeak
-  # must be between  @@min_latitude and @@max_latitude 
+  # must be between  -90.0 and 90.0 
   def latitude=(latitude)
     lat = latitude.to_f
-    raise "Bad latitude" if lat < @@min_latitude
-    raise "Bad latitude" if lat > @@max_latitude
+    raise "Bad latitude" if lat < -90.0
+    raise "Bad latitude" if lat > 90.0
     @latitude = lat
   end
 
   # set the longitude for the squeak
-  # must be between @@min_longitude and @@max_longitude
+  # must be between -180.0 and 180.0
   def longitude=(longitude)
     long = longitude.to_f
-    raise "Bad longitude" if long < @@min_longitude
-    raise "Bad longitude" if long > @@max_longitude
+    raise "Bad longitude" if long < -180.0
+    raise "Bad longitude" if long > 180.0
     @longitude = long
   end
 
   # set the time to live for the squeak
-  # must be between @@min_duration and @@max_duration
+  # must be between 0.0 and 24.0
   def duration=(duration)
     dur = duration.to_f
-    raise "Bad duration" if dur < @@min_duration
-    raise "Bad duration" if dur > @@max_duration
+    raise "Bad duration" if dur < 0.0
+    raise "Bad duration" if dur > 24.0
     @duration = dur
   end
 
   # set the message portion of the squeak
-  # length can't exceed @@max_text_length
+  # length can't exceed 140
   def text=(txt)
-    raise "Bad text length" unless txt.length <= @@max_text_length
+    raise "Bad text length" unless txt.length <= 140
     @text = txt.dup
   end
 
@@ -297,6 +313,10 @@ class ClientSqueak
   def to_s
     self.to_hash.to_s
   end
+
+  # Note that gmaps4rails makes the json have a 'description' as opposed to 'text'
+  alias :description :text
+  alias :description= :text=
 
 end
 

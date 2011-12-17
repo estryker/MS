@@ -34,6 +34,8 @@ with cURL:
  curl http://mapsqueak.heroku.com/squeaks.xml?num_squeaks=100&center_latitude=54&center_longitude=-1.5
 
 Create a new Squeak
+*Note that to see parameter restrictions, see the documentation for ClientSqueak and the setter method in question. 
+
  squeaks POST   /squeaks(.:format)          {:action=>"create", :controller=>"squeaks"}
 
 with cURL in XML format:

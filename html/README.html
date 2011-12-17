@@ -127,7 +127,9 @@ examples for cURL. The mapsqueak gem implements these functions.</p>
 
 <pre>curl http://mapsqueak.heroku.com/squeaks.xml?num_squeaks=100&amp;center_latitude=54&amp;center_longitude=-1.5</pre>
 
-<p>Create a new Squeak</p>
+<p>Create a new Squeak *Note that to see parameter restrictions, see the
+documentation for <a href="ClientSqueak.html">ClientSqueak</a> and the
+setter method in question.</p>
 
 <pre class="ruby"><span class="ruby-identifier">squeaks</span> <span class="ruby-constant">POST</span>   <span class="ruby-regexp">/squeaks(.:format)          {:action=&gt;&quot;create&quot;, :controller=&gt;&quot;squeaks&quot;}
 </span></pre>
