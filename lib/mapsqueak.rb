@@ -30,6 +30,13 @@ class MapSqueakSession
     signin(username,password) unless username.nil?
   end
 
+  def create_user(name,email,password)
+    #  :name, :email, :password, :password_confirmation
+    curl_str = "curl -F name=\'#{name}\' -F email=#{email} -F password=\'#{password}\' -F password_confirmation=\'#{password}\' #{self.host}/users" 
+    $stderr.puts curl_str
+    `#{curl_str}`
+  end
+
   # sign in by email/password. 
   # note that a remember_token will be saved in a cookie file
   def sign_in(email,password)
@@ -79,6 +86,8 @@ class MapSqueakSession
     data = temp_squeak.send("to_#{format_str}")
     curl_str = "curl --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \"Content-Type: application/#{format_str}\" --cookie #{@cookie_file}"
     
+    puts curl_str
+
     # execute the curl command
     res = `#{curl_str}`
     actual_squeak = ClientSqueak.new(res)
@@ -135,7 +144,7 @@ class MapSqueakSession
     end
     # TODO: add a hash based on the parameters requested and use session token
     # T
-    squeak_string = `curl #{self.host}/users/#{@user_id}.#{format.to_s} --cookie #{@cookie_file}`
+    squeak_string = `curl #{self.host}/squeaks/mine.#{format.to_s} --cookie #{@cookie_file}`
     return squeak_str_to_objects(squeak_string,format)
   end
 
@@ -166,7 +175,7 @@ end
 class ClientSqueak
   include XmlHelpers
 
-  attr_accessor :latitude, :longitude, :text, :duration, :expires, :username, :id, :time_utc,:expires,:created_at,:updated_at,:user_email, :gmaps
+  attr_accessor :latitude, :longitude, :text, :duration, :expires, :username, :id, :time_utc,:created_at,:updated_at,:user_email, :gmaps
 
   
   # Initialize a new squeak which must be in an allowable format
