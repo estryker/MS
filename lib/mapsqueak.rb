@@ -39,23 +39,29 @@ class MapSqueakSession
 
   # sign in by email/password. 
   # note that a remember_token will be saved in a cookie file
-  def sign_in(email,password)
-    signin_xml = Document.new
-    signin_xml.add_element('session')
-    signin_xml.root << xml_element('email',email)
-    
-    # allow nil passwords right now
-    signin_xml.root << xml_element('password',password.to_s)
-    puts signin_xml.to_s
-    
-    @cookie_file = "#{email}.cookies"
-    
-    curl_str = "curl --data \'#{signin_xml.to_s}\' #{self.host}/sessions.xml -H \"Content-Type: application/xml\" --cookie-jar #{@cookie_file}"
-    
-    result = `#{curl_str}`
-    puts result
-    doc = Document.new(result)
-    @user_id = XPath.first(doc,"hash/user-id").text
+  def sign_in(email,password,format=:xml)
+    case format
+    when :xml
+      signin_xml = Document.new
+      signin_xml.add_element('session')
+      signin_xml.root << xml_element('email',email)
+      
+      # allow nil passwords right now
+      signin_xml.root << xml_element('password',password.to_s)
+      puts signin_xml.to_s
+      
+      @cookie_file = "#{email}.cookies"
+      
+      curl_str = "curl --data \'#{signin_xml.to_s}\' #{self.host}/sessions.xml -H \"Content-Type: application/xml\" --cookie-jar #{@cookie_file}"
+      
+      result = `#{curl_str}`
+      puts result
+      doc = Document.new(result)
+      @user_id = XPath.first(doc,"hash/user-id").text
+    when :post
+      curl_str = "curl -F email=#{email} -F password=\'#{password}\' #{self.host}/sessions  --cookie-jar #{@cookie_file}"
+      `#{curl_str}`
+    end
   end
   
   # sign the current user out.
