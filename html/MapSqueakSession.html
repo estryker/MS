@@ -84,6 +84,8 @@
     
     <li><a href="#method-c-new">::new</a>
     
+    <li><a href="#method-i-create_user">#create_user</a>
+    
     <li><a href="#method-i-edit_squeak">#edit_squeak</a>
     
     <li><a href="#method-i-get_my_squeaks">#get_my_squeaks</a>
@@ -245,6 +247,39 @@ encapsulates a session with the mapsqueak server.</p>
       <h3 class="section-header">Public Instance Methods</h3>
 
     
+      <div id="method-i-create_user" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_user</span><span
+            class="method-args">(name,email,password)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_user-source">
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_user</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">email</span>,<span class="ruby-identifier">password</span>)
+  <span class="ruby-comment">#  :name, :email, :password, :password_confirmation</span>
+  <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl -F name=\'#{name}\' -F email=#{email} -F password=\'#{password}\' -F password_confirmation=\'#{password}\' #{self.host}/users&quot;</span> 
+  <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">curl_str</span>
+  <span class="ruby-node">`#{curl_str}`</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- create_user-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- create_user-method -->
+
+    
       <div id="method-i-edit_squeak" class="method-detail ">
         
         <div class="method-heading">
@@ -261,7 +296,7 @@ encapsulates a session with the mapsqueak server.</p>
 
           
           <div class="method-source-code" id="edit_squeak-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 143</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_squeak</span>(<span class="ruby-identifier">squeak</span>, <span class="ruby-identifier">update_hash</span>)
   <span class="ruby-identifier">squeak</span>.<span class="ruby-identifier">merge!</span>(<span class="ruby-identifier">update_hash</span>)
   <span class="ruby-node">&quot;curl --request PUT --data \'#{squeak.to_json}\' #{self.host}/squeaks/#{squeak.id}.json -H \&quot;Content-Type: application/json\&quot;&quot;</span>
@@ -292,14 +327,14 @@ encapsulates a session with the mapsqueak server.</p>
 
           
           <div class="method-source-code" id="get_my_squeaks-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 132</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 141</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_my_squeaks</span>(<span class="ruby-identifier">format</span>=<span class="ruby-value">:xml</span>)
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
     <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Error: must be in json or xml&quot;</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-comment"># TODO: add a hash based on the parameters requested and use session token</span>
   <span class="ruby-comment"># T</span>
-  <span class="ruby-identifier">squeak_string</span> = <span class="ruby-node">`curl #{self.host}/users/#{@user_id}.#{format.to_s} --cookie #{@cookie_file}`</span>
+  <span class="ruby-identifier">squeak_string</span> = <span class="ruby-node">`curl #{self.host}/squeaks/mine.#{format.to_s} --cookie #{@cookie_file}`</span>
   <span class="ruby-keyword">return</span> <span class="ruby-identifier">squeak_str_to_objects</span>(<span class="ruby-identifier">squeak_string</span>,<span class="ruby-identifier">format</span>)
 <span class="ruby-keyword">end</span></pre>
           </div><!-- get_my_squeaks-source -->
@@ -331,7 +366,7 @@ objects, or make a get_squeak_objects function</p>
 
           
           <div class="method-source-code" id="get_squeaks-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 119</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 128</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_squeaks</span>(<span class="ruby-identifier">center_latitude</span>,<span class="ruby-identifier">center_longitude</span>,<span class="ruby-identifier">max</span> = <span class="ruby-value">100</span>,<span class="ruby-identifier">format</span>=<span class="ruby-value">:xml</span>)
   <span class="ruby-comment"># curl &quot;http://192.168.0.2:3000/squeaks.xml?num_squeaks=3&amp;center_latitude=50.0&amp;center_longitude=-1.8&quot; </span>
   <span class="ruby-keyword">unless</span> [<span class="ruby-value">:json</span>, <span class="ruby-value">:xml</span>].<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">format</span>)
@@ -370,7 +405,7 @@ cookie file</p>
 
           
           <div class="method-source-code" id="sign_in-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 35</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sign_in</span>(<span class="ruby-identifier">email</span>,<span class="ruby-identifier">password</span>)
   <span class="ruby-identifier">signin_xml</span> = <span class="ruby-constant">Document</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">signin_xml</span>.<span class="ruby-identifier">add_element</span>(<span class="ruby-string">'session'</span>)
@@ -415,7 +450,7 @@ cookie file</p>
 
           
           <div class="method-source-code" id="sign_out-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 56</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 63</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">sign_out</span>
   <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl #{self.host}/sessions --request DELETE --cookie #{@cookie_file}&quot;</span>
   <span class="ruby-identifier">puts</span> <span class="ruby-identifier">curl_str</span>
@@ -453,7 +488,7 @@ the send_format must be :xml or :json facebook params is a Hash with either
 
           
           <div class="method-source-code" id="squeak-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 67</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 74</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">squeak</span>(<span class="ruby-identifier">squeak</span>,<span class="ruby-identifier">send_format</span> = <span class="ruby-value">:xml</span>, <span class="ruby-identifier">facebook_params</span> = {})
   <span class="ruby-identifier">temp_squeak</span>= <span class="ruby-keyword">nil</span>
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">squeak</span>
@@ -469,6 +504,8 @@ the send_format must be :xml or :json facebook params is a Hash with either
   <span class="ruby-identifier">data</span> = <span class="ruby-identifier">temp_squeak</span>.<span class="ruby-identifier">send</span>(<span class="ruby-node">&quot;to_#{format_str}&quot;</span>)
   <span class="ruby-identifier">curl_str</span> = <span class="ruby-node">&quot;curl --data \'#{data}\' #{self.host}/squeaks.#{format_str} -H \&quot;Content-Type: application/#{format_str}\&quot; --cookie #{@cookie_file}&quot;</span>
   
+  <span class="ruby-identifier">puts</span> <span class="ruby-identifier">curl_str</span>
+
   <span class="ruby-comment"># execute the curl command</span>
   <span class="ruby-identifier">res</span> = <span class="ruby-node">`#{curl_str}`</span>
   <span class="ruby-identifier">actual_squeak</span> = <span class="ruby-constant">ClientSqueak</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">res</span>)
@@ -528,7 +565,7 @@ the send_format must be :xml or :json facebook params is a Hash with either
 
           
           <div class="method-source-code" id="squeak_str_to_objects-source">
-            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 149</span>
+            <pre><span class="ruby-comment"># File lib/mapsqueak.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">squeak_str_to_objects</span>(<span class="ruby-identifier">squeak_string</span>,<span class="ruby-identifier">format</span>)
   <span class="ruby-identifier">squeaks</span> = []
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">format</span>
