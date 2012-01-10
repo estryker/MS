@@ -10,6 +10,7 @@ class SqueaksController < ApplicationController
 
   def create
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
+    # TODO: truncate the text to 140
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
     user = current_user || anonymous_user
