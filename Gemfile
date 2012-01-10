@@ -35,6 +35,7 @@ gem 'geokit'
 gem 'date_validator'
 
 gem 'omniauth'
+gem 'omniauth-facebook'
 
 # Use unicorn as the web server
 # gem 'unicorn'
