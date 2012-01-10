@@ -5,9 +5,8 @@ class SessionsController < ApplicationController
 
   def create
     # total hack. TODO: make an istherea.com app and corresponding omniauth strategy
-    user = nil
     if request.env.has_key?('rack.auth')
-      puts request.env['rack.auth']
+      $stderr.puts request.env['rack.auth']
       auth = request.env['rack.auth']
       unless @auth = Authorization.find_from_hash(auth)
         # Create a new user or add an auth to existing user, depending on
@@ -19,29 +18,29 @@ class SessionsController < ApplicationController
     else
       user = User.authenticate(params[:session][:email],
       params[:session][:password])
-    end
     
-    if user.nil?
-      respond_to do |format |
-        format.html do
-          flash.now[:error] = "Invalid email/password combination."
-          @title = "Sign in"
-          render 'new'
+      if user.nil?
+        respond_to do |format |
+          format.html do
+            flash.now[:error] = "Invalid email/password combination."
+            @title = "Sign in"
+            render 'new'
+          end
+          format.xml do
+            render :xml => {:error=>'no such user/password'}
+          end
         end
-        format.xml do
-          render :xml => {:error=>'no such user/password'}
-        end
+      else
+        sign_in user
       end
-    else
-      sign_in user
-      respond_to do |format|
-        format.html do
-          redirect_to user
-        end
-        format.xml do
-        #TODO: make this more secure by adding HMAC
-          render :xml => {:user_id => "#{current_user.id}"}
-        end
+    end
+    respond_to do |format|
+      format.html do
+        redirect_to current_user
+      end
+      format.xml do
+      #TODO: make this more secure by adding HMAC
+        render :xml => {:user_id => "#{current_user.id}"}
       end
     end
   end
