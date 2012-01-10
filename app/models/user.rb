@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
     return nil  if user.nil?
     return user if user.salt == cookie_salt
   end
+  
+  def self.create_from_hash!(hash)
+    create(:name => hash['user_info']['name'])
+  end
   private
 
     def encrypt_password
