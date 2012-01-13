@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    render :text => request.env['rack.auth'].to_s + "Hello"
+    render :text => request.env['rack.auth'].inspect
     return
     # total hack. TODO: make an istherea.com app and corresponding omniauth strategy
     if request.env.has_key?('rack.auth')
