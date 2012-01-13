@@ -6,6 +6,8 @@ class SessionsController < ApplicationController
   def create
     # total hack. TODO: make an istherea.com app and corresponding omniauth strategy
     if request.env.has_key?('rack.auth')
+      render request.env['rack.auth']
+      return "Hello"
       $stderr.puts request.env['rack.auth']
       auth = request.env['rack.auth']
       unless @auth = Authorization.find_from_hash(auth)
