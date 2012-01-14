@@ -4,15 +4,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    debug = request.env.inspect # request.env.keys.find_all {|k| k =~ /auth/}.join(' ')
-    render :text => debug
-    return
+    #debug = request.env.inspect # request.env.keys.find_all {|k| k =~ /auth/}.join(' ')
+    #render :text => debug
+    #return
+    
     # total hack. TODO: make an istherea.com app and corresponding omniauth strategy
-    if request.env.has_key?('rack.auth')
-      render request.env['rack.auth']
-      return "Hello"
-      $stderr.puts request.env['rack.auth']
-      auth = request.env['rack.auth']
+    if request.env.has_key?('omniauth.auth')
+      auth = request.env['omniauth.auth']
       unless @auth = Authorization.find_from_hash(auth)
         # Create a new user or add an auth to existing user, depending on
         # whether there is already a user signed in.
