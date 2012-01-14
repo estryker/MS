@@ -11,8 +11,8 @@ class SessionsController < ApplicationController
     # total hack. TODO: make an istherea.com app and corresponding omniauth strategy
     if request.env.has_key?('omniauth.auth')
       auth = request.env['omniauth.auth']
-      render :text => auth.to_s
-      return
+      #render :text => auth.to_s
+      #return
       unless @auth = Authorization.find_from_hash(auth)
         # Create a new user or add an auth to existing user, depending on
         # whether there is already a user signed in.
