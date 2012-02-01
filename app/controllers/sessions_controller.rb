@@ -19,7 +19,8 @@ class SessionsController < ApplicationController
         @auth = Authorization.create_from_hash(auth, current_user)
       end
     # Log the authorizing user in.
-    self.current_user = @auth.user
+    # self.current_user = @auth.user
+    sign_in @auth.user
     else
       user = User.authenticate(params[:session][:email],
       params[:session][:password])
