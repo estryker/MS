@@ -12,7 +12,7 @@
 #  updated_at :datetime
 #  gmaps      :boolean
 #  user_email :string(255)
-#  duration   :integer
+#  duration   :float
 #
 
 class Squeak < ActiveRecord::Base

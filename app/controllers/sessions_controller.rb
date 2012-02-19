@@ -20,7 +20,17 @@ class SessionsController < ApplicationController
       end
     # Log the authorizing user in.
     # self.current_user = @auth.user
-    sign_in @auth.user
+    # sign_in @auth.user
+        respond_to do |format|
+        format.html do
+          redirect_to current_user
+        end
+        format.xml do
+        #TODO: make this more secure by adding HMAC
+          render :xml => {:user_id => "#{current_user.id}"}
+        end
+    
+
     else
       user = User.authenticate(params[:session][:email],
       params[:session][:password])
@@ -38,17 +48,18 @@ class SessionsController < ApplicationController
         end
       else
         sign_in user
+        
+        respond_to do |format|
+        format.html do
+          redirect_to current_user
+        end
+        format.xml do
+        #TODO: make this more secure by adding HMAC
+          render :xml => {:user_id => "#{current_user.id}"}
+        end
       end
     end
-    respond_to do |format|
-      format.html do
-        redirect_to current_user
-      end
-      format.xml do
-      #TODO: make this more secure by adding HMAC
-        render :xml => {:user_id => "#{current_user.id}"}
-      end
-    end
+    
   end
 
   def destroy
