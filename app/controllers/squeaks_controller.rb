@@ -166,11 +166,12 @@ class SqueaksController < ApplicationController
   :private
 
   def show_squeak(params, page_title)
-    user = current_user || anonymous_user
+    # I'm commenting this out so that anyone can view anybody's squeak by id (not by user name)
+    # user = current_user || anonymous_user
     @squeak = Squeak.find(params[:id])
     respond_to do |format|
 
-      if @squeak and @squeak.user_email == user.email
+      if @squeak # and @squeak.user_email == user.email
         @json = @squeak.to_gmaps4rails
         format.html do
           @title = page_title
@@ -185,7 +186,7 @@ class SqueaksController < ApplicationController
           render :xml => @squeak
         end
       else
-        err = "No squeak by that id is found for #{user.email}"
+        err = "No squeak by that id was found"
         format.html do
           flash[:error] = err
           redirect_to current_user
@@ -193,7 +194,7 @@ class SqueaksController < ApplicationController
         format.json do
           render :json => {:error => err}.to_json
         end
-      end
+       end
     end
   end
 end
