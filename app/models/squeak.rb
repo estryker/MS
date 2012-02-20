@@ -35,7 +35,7 @@ class Squeak < ActiveRecord::Base
                     :date => { :after => Time.now, :before => 24.1.hours.from_now }
  
  validates :duration, :presence => true,
-                      :numericality => {:greater_than_or_equal_to => 0.0,:less_than_or_equal_to => 24}
+                      :numericality => {:greater_than => 0.0,:less_than_or_equal_to => 24}
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!
  ### Sooooo.... we put :process_geocoding => false to skip that!
  ### here we simply specify the lat/long columns in our database, and put in dummy addresses.
