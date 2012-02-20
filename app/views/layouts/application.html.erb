@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html>
+	<!-- a hack to enable better client side posting to facebook -->
+	<%	if @squeak %> 
+	<meta name="description" content="<%=@squeak.text%>" />
+    <link rel="image_src" href="http://maps.googleapis.com/maps/api/staticmap?center=<%=@squeak.latitude%>,<%=@squeak.longitude%>&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C<%=@squeak.latitude%>,<%=@squeak.longitude%>&sensor=true" />
+	<% end %> 
   <head>
     <title><%= title %></title>
     <%= csrf_meta_tag %>
