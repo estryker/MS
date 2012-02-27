@@ -82,20 +82,25 @@ class SqueaksController < ApplicationController
       num_squeaks = params[:num_squeaks].to_i
       center_lat = params[:center_latitude].to_f
       center_long = params[:center_longitude].to_f
+      
+      # **Note - here we set the option to retrieve expired squeaks
+      cutoff = (params[:expired_hours] || 24).to_f.hours
+      # all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
+      
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
-      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
-      where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
+      all_squeaks = Squeak.where(["expires > ?",cutoff.hours.ago]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
     else  
       # this will happen on the web client. I don't care about performance on it right now
-      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc])
+      cutoff = (params[:expired_hours] || 24).to_f.hours
+      all_squeaks = Squeak.where(["expires > ?",cutoff.hours.ago]) 
     end
     
     all_squeaks.sort! do |a,b| 
       ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
     end
-    squeaks = all_squeaks.first(num_squeaks)
+    @squeaks = all_squeaks.first(num_squeaks)
     respond_to do |format|
-      @json = squeaks.to_gmaps4rails
+      @json = @squeaks.to_gmaps4rails
       format.json do
         render :json => @json
         #render :json => squeaks
@@ -104,15 +109,16 @@ class SqueaksController < ApplicationController
         @json
       end
       format.xml do 
-        # to minimize the XML:  (but this will effect the index as well ...)
-        # render :partial => squeaks
-        render :xml => squeaks
+        # to minimize the XML
+        render :template => 'squeaks/index.xml.builder'
+        # use this to get full xml representation
+        # render :xml => squeaks
       end
     end
   end
 
   def show
-    show_squeak(params,"Show Squeak")
+    show_squeak(params,"Squeak Details")
   end
 
   def edit
@@ -182,8 +188,10 @@ class SqueaksController < ApplicationController
         format.json do
           render :json => @json
         end
-        format.xml do 
-          render :xml => @squeak
+        format.xml do
+          # this returns the entire squeak info. don't need or want all that 
+          # render :xml => @squeak
+          render :partial => @squeak
         end
       else
         err = "No squeak by that id was found"
