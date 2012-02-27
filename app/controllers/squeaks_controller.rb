@@ -111,9 +111,9 @@ class SqueaksController < ApplicationController
       end
       format.xml do 
         # to minimize the XML
-        render :template => 'squeaks/index.xml.builder'
+        #render :template => 'squeaks/index.xml.builder'
         # use this to get full xml representation
-       # render :xml => @squeaks
+        render :xml => @squeaks
       end
     end
   end
