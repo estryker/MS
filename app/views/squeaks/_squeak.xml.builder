@@ -3,7 +3,7 @@ xml.squeak do
      xml.latitude squeak.latitude
      xml.longitude squeak.longitude
      xml.duration squeak.duration
-     xml.expires squeak.expires
-     xml.tag! 'created-at', squeak.created_at
+     xml.expires squeak.expires.strftime("%Y-%m-%dT%H:%M:%SZ")
+     xml.tag! 'created-at', squeak.created_at.strftime("%Y-%m-%dT%H:%M:%SZ")
      xml.text squeak.text
 end
