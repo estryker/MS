@@ -78,8 +78,8 @@ class SqueaksController < ApplicationController
     
     # Squeak.all(:conditions => ["expires > ?",DateTime.now.utc])
     all_squeaks = []
-    if(params.has_key?(:num_squeaks) and params.has_key?(:center_latitude) and params.has_key?(:center_longitude))
-      num_squeaks = params[:num_squeaks].to_i
+    num_squeaks = params[:num_squeaks].to_i
+    if(params.has_key?(:center_latitude) and params.has_key?(:center_longitude))
       center_lat = params[:center_latitude].to_f
       center_long = params[:center_longitude].to_f
       
@@ -110,9 +110,9 @@ class SqueaksController < ApplicationController
       end
       format.xml do 
         # to minimize the XML
-        render :template => 'squeaks/index.xml.builder'
+        # render :template => 'squeaks/index.xml.builder'
         # use this to get full xml representation
-        # render :xml => squeaks
+        render :xml => squeaks
       end
     end
   end
