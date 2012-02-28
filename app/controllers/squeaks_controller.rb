@@ -16,8 +16,10 @@ class SqueaksController < ApplicationController
     user = current_user || anonymous_user
     @squeak.user_email = user.email
 
-    @squeak.time_utc = 0.hours.ago
-    @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
+    # @squeak.time_utc = 0.hours.ago
+    # @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
+    @squeak.time_utc = DateTime.now.utc
+    @squeak.expires = DateTime.now.utc + (params[:squeak][:duration].to_f / 24.0)
 
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
@@ -84,16 +86,13 @@ class SqueaksController < ApplicationController
       center_lat = params[:center_latitude].to_f
       center_long = params[:center_longitude].to_f
       
-      # **Note - here we set the option to retrieve expired squeaks
-      cutoff = (params[:expired_hours] || 24).to_f.hours
       # all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
       
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
-      all_squeaks = Squeak.where(["expires > ?",cutoff.hours.ago]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc + 1]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
     else  
       # this will happen on the web client. I don't care about performance on it right now
-      cutoff = (params[:expired_hours] || 24).to_f.hours
-      all_squeaks = Squeak.where(["expires > ?",cutoff.hours.ago]) 
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]) 
     end
     
     all_squeaks.sort! do |a,b| 

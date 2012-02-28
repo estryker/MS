@@ -32,7 +32,7 @@ class Squeak < ActiveRecord::Base
                   
  # we'll allow for some slop in this
  validates :expires, :presence => true,
-                    :date => { :after => Time.now, :before => 24.1.hours.from_now }
+                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
  
  validates :duration, :presence => true,
                       :numericality => {:greater_than => 0.0,:less_than_or_equal_to => 24}
