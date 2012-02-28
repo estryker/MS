@@ -181,6 +181,7 @@ class SqueaksController < ApplicationController
     respond_to do |format|
 
       if @squeak # and @squeak.user_email == user.email
+        @squeak.text.gsub!(/[\n\r]+/,' ')
         @json = @squeak.to_gmaps4rails
         format.html do
           @title = page_title
