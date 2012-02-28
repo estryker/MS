@@ -98,10 +98,13 @@ class SqueaksController < ApplicationController
     all_squeaks.sort! do |a,b| 
       ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
     end
-    @squeaks = all_squeaks.first(num_squeaks)
+    #@squeaks = all_squeaks.first(num_squeaks)
+    # note that gmaps4rails doesn't like newlines in the description
+    @squeaks = all_squeaks.first(num_squeaks).each {|s| s.text.gsub!(/[\n\r]+/,' ')}
     respond_to do |format|
       @json = @squeaks.to_gmaps4rails
       format.json do
+
         render :json => @json
         #render :json => squeaks
       end
