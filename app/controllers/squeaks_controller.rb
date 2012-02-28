@@ -89,7 +89,7 @@ class SqueaksController < ApplicationController
       # all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
       
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
-      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc + 1]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc - 1]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
     else  
       # this will happen on the web client. I don't care about performance on it right now
       all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]) 
