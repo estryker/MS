@@ -16,10 +16,6 @@ class SqueaksController < ApplicationController
     user = current_user || anonymous_user
     @squeak.user_email = user.email
 
-    # @squeak.time_utc = 0.hours.ago
-    # @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
-    @squeak.time_utc = DateTime.now.utc
-    @squeak.expires = DateTime.now.utc + (params[:squeak][:duration].to_f / 24.0)
 
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
@@ -34,6 +30,12 @@ class SqueaksController < ApplicationController
     @squeak.latitude = params[:latitude] if params.has_key? :latitude
     @squeak.longitude = params[:longitude] if params.has_key? :longitude
     end
+
+    # @squeak.time_utc = 0.hours.ago
+    # @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
+    now = DateTime.now.utc
+    @squeak.time_utc = now
+    @squeak.expires = now + (params[:squeak][:duration].to_f / 24.0)
 
     respond_to do | format |
       if(@squeak.save)

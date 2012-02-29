@@ -30,9 +30,11 @@ class Squeak < ActiveRecord::Base
  validates :text, :presence => true,
                   :length       => { :within => 1..140 }
                   
+ # **Note this is giving us problems on Heroku.  Squeaks with a duration of 23.7 hours or greater
+ #   are sometimes being rejected. We'll just rely on duration for now. 
  # we'll allow for some slop in this
- validates :expires, :presence => true,
-                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
+# validates :expires, :presence => true,
+#                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
  
  validates :duration, :presence => true,
                       :numericality => {:greater_than => 0.0,:less_than_or_equal_to => 24}
