@@ -36,6 +36,7 @@ gem 'date_validator'
 
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 # Use unicorn as the web server
 # gem 'unicorn'
