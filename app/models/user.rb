@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   # Note that the foreign key is specified here so that user.squeaks know which 
   # attribute to join on
   has_many :squeaks
+  has_many :authorizations
   attr_accessible :name, :email
 
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
