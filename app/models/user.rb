@@ -1,58 +1,22 @@
 class User < ActiveRecord::Base
   # Note that the foreign key is specified here so that user.squeaks know which 
   # attribute to join on
-  has_many :squeaks, :foreign_key => :user_email  
-  attr_accessor :password
-  attr_accessible :name, :email, :password, :password_confirmation
+  has_many :squeaks
+  attr_accessible :name, :email
+
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
   validates :name, :presence => true, 
                   :length => {:maximum => 50}
-  validates :email, :presence => true, 
-                  :format => {:with => email_regex},
+  validates :email, :format => {:with => email_regex},
                   :uniqueness => { :case_sensitive => false }
                   
-  # Note that this automatically creates a virtual attribute 'password_confirmation'
-  validates :password, :presence     => true,
-                       :confirmation => true,
-                       :length       => { :within => 6..40 }
-                       
-  before_save :encrypt_password
-
-  def has_password?(submitted_password)
-    encrypted_password == encrypt(submitted_password)
+  def add_provider(auth_hash)
+    # Check if the provider already exists, so we don't add it twice
+    unless authorizations.find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
+      Authorization.create :user => self, :provider => auth_hash["provider"], :uid => auth_hash["uid"]
+    end
   end
-
-  def self.authenticate(email, submitted_password)
-    user = find_by_email(email)
-    return nil  if user.nil?
-    return user if user.has_password?(submitted_password)
-  end
-  def self.authenticate_with_salt(id, cookie_salt)
-    user = find_by_id(id)
-    
-    return nil  if user.nil?
-    return user if user.salt == cookie_salt
-  end
-  private
-
-    def encrypt_password
-      self.salt = make_salt if new_record?
-      self.encrypted_password = encrypt(password)
-    end
-
-    def encrypt(string)
-      secure_hash("#{salt}--#{string}")
-    end
-
-    def make_salt
-      secure_hash("#{Time.now.utc}--#{password}")
-    end
-
-    def secure_hash(string)
-      Digest::SHA2.hexdigest(string)
-    end
-                  
 end
 
 # == Schema Information

@@ -1,30 +1,24 @@
 module SessionsHelper
-
   def sign_in(user)
-    cookies.permanent.signed[:remember_token] = [user.id, user.salt]
-    self.current_user = user
+    # do I have to do anything with cookies? cookies.permanent.signed[:remember_token] = [user.id, user.salt]
+    current_user = user
+    session[:user_id] = user.id
   end
- 
+  
   def signed_in?
-    !current_user.nil?
+    !self.current_user.nil?
   end
   
   def sign_out
-    cookies.delete(:remember_token)
     self.current_user = nil
   end
-  
-  def anonymous_user
-    anonymous_email = 'anonymous@anonymous.com'
-    user = User.new(:name => 'Anonymous', :email=>anonymous_email)
-  end
-  
+
   def current_user=(user)
     @current_user = user
   end
 
   def current_user
-    @current_user ||= user_from_remember_token
+    @current_user ||= user_from_id
   end
   
   def current_user?(user)
@@ -42,13 +36,21 @@ module SessionsHelper
   
   private
 
-    def user_from_remember_token
-      User.authenticate_with_salt(*remember_token)
-    end
+   # def user_from_remember_token
+   #   User.authenticate_with_salt(*remember_token)
+   # end
 
-    def remember_token
-      cookies.signed[:remember_token] || [nil, nil]
+    #def remember_token
+    #  cookies.signed[:remember_token] || [nil, nil]
+    #end
+    def user_from_id
+      user = nil
+      if session.has_key? :user_id
+        user = User.find(session[:user_id])
+      end
+      user
     end
+    
     def store_location
       session[:return_to] = request.fullpath
     end

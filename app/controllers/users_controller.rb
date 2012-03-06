@@ -12,10 +12,12 @@ class UsersController < ApplicationController
     
     # without associations: @squeaks = Squeak.find_all_by_user_email(@user.email) 
     #@num_squeaks = @user.squeaks.length # can I do a select count query type thing to make this more efficient??
-    @num_squeaks = Squeak.where(:user_email => @user.email).count
+    # @num_squeaks = Squeak.where(:user_email => @user.email).count
+    @num_squeaks = Squeak.where(:user_id => @user.id).count
     
     # TODO: try to get @user.squeaks.paginate to work ...
-    @squeaks = Squeak.where(:user_email => @user.email).paginate(:page => params[:page])
+    # @squeaks = Squeak.where(:user_email => @user.email).paginate(:page => params[:page])
+    @squeaks = Squeak.where(:user_id => @user.id).paginate(:page => params[:page])
     respond_to do | format |
       format.json {render :json=> @squeaks}
       format.xml {render :xml=> @squeaks}
