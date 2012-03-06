@@ -5,7 +5,7 @@ class SqueaksController < ApplicationController
   def new
     @squeak = Squeak.new
     @title = "New Squeak"
-    @user = current_user || anonymous_user
+    @user = current_user # || anonymous_user
   end
 
   def create
@@ -13,7 +13,7 @@ class SqueaksController < ApplicationController
     # TODO: truncate the text to 140
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
-    user = current_user || anonymous_user
+    user = current_user # || anonymous_user
     @squeak.user_email = user.email
 
 
@@ -131,7 +131,7 @@ class SqueaksController < ApplicationController
   end
 
   def update
-    user = current_user || anonymous_user
+    user = current_user #|| anonymous_user
     @squeak = Squeak.find(params[:id])
     @title = "Update Squeak id #{@squeak.id}"
     if @squeak and @squeak.user_email == user.email
