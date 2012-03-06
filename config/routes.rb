@@ -13,6 +13,7 @@ MapsqueakProto::Application.routes.draw do
   match '/contact',    :to => 'pages#contact'
   root :to => 'squeaks#index'
   
+  resources :users
   resources :sessions, :only => [:new, :create, :destroy]
 
   match '/signin',  :to => 'sessions#new'
