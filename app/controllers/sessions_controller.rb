@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
         #User.find(session[:user_id]).add_provider(auth_hash)
         current_user.add_provider(auth_hash)
 
-        render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
+        #render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
+        redirect_to current_user
       else
       # Log him in or sign him up
         auth = Authorization.find_or_create(auth_hash)
@@ -24,7 +25,8 @@ class SessionsController < ApplicationController
         # session[:user_id] = auth.user.id
         sign_in auth.user
         
-        render :text => "Welcome #{current_user.name}!"
+        #render :text => "Welcome #{current_user.name}!"
+        redirect_to current_user
       end
     end
 
