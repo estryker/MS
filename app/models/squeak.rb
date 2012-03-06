@@ -16,7 +16,7 @@
 #
 
 class Squeak < ActiveRecord::Base
- belongs_to :user, :primary_key => :user_email
+ belongs_to :user # , :primary_key => :user_email
  
  numeric_regex = /^-?[0-9.]+$/
  
