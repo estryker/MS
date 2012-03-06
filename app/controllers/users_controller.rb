@@ -19,8 +19,7 @@ class UsersController < ApplicationController
     # TODO: try to get @user.squeaks.paginate to work ...
     # @squeaks = Squeak.where(:user_email => @user.email).paginate(:page => params[:page])
     # doesn't work:
-    # @squeaks = Squeak.where(:user_id => @user.id).paginate(:page => params[:page])
-    @user.squeaks.paginate(:page => params[:page])
+    @squeaks = Squeak.where(:user_id => @user.id).paginate(:page => params[:page])
     respond_to do | format |
       format.json {render :json=> @squeaks}
       format.xml {render :xml=> @squeaks}
