@@ -14,8 +14,7 @@ class SqueaksController < ApplicationController
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
     user = current_user  || anonymous_user
-    @squeak.user_email = user.email
-
+    @squeak.user_id = user.id
 
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
@@ -134,7 +133,7 @@ class SqueaksController < ApplicationController
     user = current_user || anonymous_user
     @squeak = Squeak.find(params[:id])
     @title = "Update Squeak id #{@squeak.id}"
-    if @squeak and @squeak.user_email == user.email
+    if @squeak and @squeak.user_id == user.id
 
       @squeak.latitude = params[:squeak][:latitude]
       @squeak.longitude = params[:squeak][:longitude]
@@ -161,7 +160,7 @@ class SqueaksController < ApplicationController
         end
       end
     else
-      err = "No squeak with that id was created by #{user.email}"
+      err = "No squeak with that id was created by #{user.name}"
       respond_to do | format |
         format.html do 
           flash[:error] = err
