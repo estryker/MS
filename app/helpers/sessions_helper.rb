@@ -1,4 +1,9 @@
 module SessionsHelper
+  def anonymous_user
+    anonymous_email = 'anonymous@anonymous.com'
+    user = User.new(:name => 'Anonymous', :email=>anonymous_email)
+  end
+  
   def sign_in(user)
     # do I have to do anything with cookies? cookies.permanent.signed[:remember_token] = [user.id, user.salt]
     current_user = user
