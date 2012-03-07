@@ -24,11 +24,11 @@ class SessionsController < ApplicationController
         # Create the session
         # session[:user_id] = auth.user.id
         
-        #sign_in auth.user
+        sign_in auth.user
         
-        render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
+        # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
         
-        #redirect_to current_user
+        redirect_to current_user
       end
     end
 
