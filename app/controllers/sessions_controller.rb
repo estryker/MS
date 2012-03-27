@@ -16,7 +16,8 @@ class SessionsController < ApplicationController
         current_user.add_provider(auth_hash)
 
         #render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
-        redirect_to current_user
+        # redirect_to current_user
+        redirect_to root_path
       else
       # Log him in or sign him up
         auth = Authorization.find_or_create(auth_hash)
@@ -28,7 +29,8 @@ class SessionsController < ApplicationController
         
         # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
         
-        redirect_to current_user
+        # redirect_to current_user
+        redirect_to root_path
       end
     end
 
