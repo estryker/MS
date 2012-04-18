@@ -29,8 +29,11 @@ class SessionsController < ApplicationController
         
         # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
         
-        # redirect_to current_user
-        redirect_to root_path
+        # first check to see if the user was redirected from a URL that requires being logged in
+        # e.g. trying to share to facebook. If not, simply redirect to the home URL
+        # Note this requires the 'store_location' method to be called earlier if you want
+        # to remember what path to go to
+        redirect_back_or root_path
       end
     end
 

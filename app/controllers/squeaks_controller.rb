@@ -207,6 +207,10 @@ class SqueaksController < ApplicationController
         format.json do
           render :json => {:error => err}.to_json
         end
+        format.xml do 
+          #TODO: how to do this appropriately
+          render :xml => err
+        end
        end
     end
   end
