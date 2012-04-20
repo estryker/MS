@@ -20,6 +20,7 @@ class SessionsController < ApplicationController
         redirect_to root_path
       else
       # Log him in or sign him up
+        render :text => auth_hash.inspect
         auth = Authorization.find_or_create(auth_hash)
         
         # Create the session
