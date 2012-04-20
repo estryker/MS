@@ -19,6 +19,13 @@ class ShareRequestController < ApplicationController
     # TODO: update a 'confirmed_update' parameter in the share request
     if request.save
       share(squeak,params[:provider])
+      format.html do
+        flash[:message] = "Successfully shared!"
+        redirect_to squeak
+      end
+      format.xml do 
+        render :xml => "Success"
+      end
     else
       err = "Couldn't complete share request"
       
