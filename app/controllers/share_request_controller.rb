@@ -68,8 +68,9 @@ class ShareRequestController < ApplicationController
       # how to get the facebook access_token??
       user = Koala::Facebook::API.new(auth.token)
       if user.nil?
-        # TODO: how do we get back here then?? we will have to save off the squeak ID and provider name, etc!!
         store_location
+        # note that the callback URL goes to the create method in the session controller
+        # which should point us back here when we are done
         redirect_to "/auth/#{provider_name}"
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
