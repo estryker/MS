@@ -1,6 +1,6 @@
 class ShareRequestsController < ApplicationController
   def create
-    # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
+    # we expect params to have :squeak_id and :service. We will determine the :user_id of the requester
 
     squeak = Squeak.find(params[:squeak_id])
 
@@ -17,12 +17,12 @@ class ShareRequestsController < ApplicationController
     else
       if signed_in?
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
-        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
+        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:service=>params[:service]})
 
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
         if request.save
-          share(squeak,params[:provider])
+          share(squeak,params[:service])
           #format.html do
           #  flash[:message] = "Successfully shared!"
           redirect_to squeak
@@ -69,23 +69,23 @@ class ShareRequestsController < ApplicationController
 
   # TODO: I may want to do this by squeak id, not the squeak itself for
   # ease during redirection
-  def share(squeak,provider_name)
+  def share(squeak,service_name)
     # go through the user's authorizations, get the token and / or the secret.
     # if nil, or we can't update the service, then we need to reset that authorization,
-    # and redirect them  to the authorization piece (/auth/:provider)
+    # and redirect them  to the authorization piece (/auth/:service)
     # to have them log in that desired service. We store off the current location so that
     # they will be redirected here after authorization.
     # then, after the update, we can store the share request.
     # TODO: is there value in keeping track of share requests that fail?
 
-    auth = current_user.authorizations.where(:provider => provider_name)
-    # auth = Authorization.where(:user_id => current_user.id, :provider => provider_name)
+    auth = current_user.authorizations.where(:service => service_name)
+    # auth = Authorization.where(:user_id => current_user.id, :service => service_name)
     if auth.nil?
       store_location
-      redirect_to "/auth/#{provider_name}"
+      redirect_to "/auth/#{service_name}"
     end
 
-    case provider_name
+    case service_name
     when 'facebook'
       # how to get the facebook access_token??
       user = Koala::Facebook::API.new(auth.token)
@@ -93,7 +93,7 @@ class ShareRequestsController < ApplicationController
         store_location
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
-        redirect_to "/auth/#{provider_name}"
+        redirect_to "/auth/#{service_name}"
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
 

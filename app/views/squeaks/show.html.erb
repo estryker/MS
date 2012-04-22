@@ -1,6 +1,6 @@
 <%= gmaps("map_options" => { "center_latitude" => @squeak.latitude, "center_longitude" => @squeak.longitude, "zoom" => @zoom},"markers" => { "data" => @json}) %>
 
-<%= link_to image_tag('/images/facebook_64.png'), {:controller => "share_requests", :method => 'post', :action => 'create', :provider=> "facebook", :squeak_id=> @squeak.id} %>
-<%= button_to 'FB', :controller => "share_requests",  :action => 'create', :provider=> "facebook", :squeak_id=> @squeak.id %>
-<%= link_to image_tag('/images/twitter_64.png'), "/share_request?provider=twitter&squeak_id=#{@squeak.id}", :method => 'post', :class => 'quick', :remote => true %>
-<%= button_to 'TWITTER', :controller => "share_requests",  :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id %>
+<%= link_to image_tag('/images/facebook_64.png'), {:controller => "share_requests", :method => 'post', :action => 'create', :service=> "facebook", :squeak_id=> @squeak.id} %>
+<%= button_to 'FB', :controller => "share_requests",  :action => 'create', :service=> "facebook", :squeak_id=> @squeak.id %>
+<%= link_to image_tag('/images/twitter_64.png'), "/share_request?service=twitter&squeak_id=#{@squeak.id}", :method => 'post', :class => 'quick', :remote => true %>
+<%= button_to 'TWITTER', :controller => "share_requests",  :action => 'create', :service=> "twitter", :squeak_id=> @squeak.id %>
