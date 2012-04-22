@@ -21,11 +21,14 @@ class SessionsController < ApplicationController
       else
       # Log him in or sign him up
         #render :text => auth_hash.inspect
+        
+        # TODO: update the find/createAND also update the credentials
         auth = Authorization.find_or_create(auth_hash)
         
         # Create the session
         # session[:user_id] = auth.user.id
         
+        # authorizations belong to users, so ActiveRecord must do this lookup for us. 
         sign_in auth.user
         
         # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"

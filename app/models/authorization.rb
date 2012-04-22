@@ -12,9 +12,20 @@
 #  token      :string(255)
 #
 
+# an authorization is something that belongs to a user. A user may have more than one authorization,
+# for e.g. facebook _and_ twitter. Some of the components of that authorization may need to be
+# reset at login
 class Authorization < ActiveRecord::Base
   belongs_to :user
   validates :provider, :uid, :presence => true
+  
+  def self.find_by_auth_hash(auth_hash)
+    find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
+  end
+  
+  def self.update_credentials(auth_hash)
+     
+  end
   
   def self.find_or_create(auth_hash)
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
