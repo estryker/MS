@@ -16,7 +16,8 @@ class ShareRequestsController < ApplicationController
       #end
     else
       if signed_in?
-        request = ShareRequest.new(params.merge({:user_id => current_user.id}))
+        #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
+        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
 
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
