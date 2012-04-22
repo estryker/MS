@@ -17,7 +17,7 @@ module SessionsHelper
   def sign_out
     # delete all authorizations for this user
     unless self.current_user.nil?
-      Authorization.delete_all("user_id = ?",current_user.id)
+      Authorization.delete_all(["user_id = ?",current_user.id])
       self.current_user = nil
     end
     session[:user_id] = nil
