@@ -91,6 +91,8 @@ class ShareRequestsController < ApplicationController
       user = Koala::Facebook::API.new(auth.token)
       if user.nil?
         store_location
+        # we do this so that find_or_create will make a new authorization with a new token/secret
+        auth.delete
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
         redirect_to "/auth/#{service_name}"
