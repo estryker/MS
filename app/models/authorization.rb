@@ -8,6 +8,8 @@
 #  user_id    :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  secret     :string(255)
+#  token      :string(255)
 #
 
 class Authorization < ActiveRecord::Base
