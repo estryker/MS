@@ -14,6 +14,11 @@ module SessionsHelper
     !self.current_user.nil?
   end
   
+  def signed_in_to?(service)
+    current_user.authorizations.any?(:service => service)
+  end
+  
+  # signs people out of all services
   def sign_out
     current_user.authorizations.each do | a |
       a.token = nil
@@ -21,6 +26,14 @@ module SessionsHelper
     end
     self.current_user = nil
     session[:user_id] = nil
+  end
+
+  def sign_out_of(service)
+     # there should only be one. But for now, just set them all to nil
+     current_user.authorizations.where(:service => service).each do | a |
+       a.token = nil
+       a.secret = nil
+     end
   end
 
   def current_user=(user)

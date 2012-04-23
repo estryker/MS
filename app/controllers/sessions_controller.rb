@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
       # Log him in or sign him up
         #render :text => auth_hash.inspect
         
-        # TODO: update the find/createAND also update the credentials
+        # Note that this find/creates an authorization AND also update the credentials
         auth = Authorization.find_or_create(auth_hash)
         
         # Create the session

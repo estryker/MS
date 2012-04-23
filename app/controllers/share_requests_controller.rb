@@ -15,7 +15,7 @@ class ShareRequestsController < ApplicationController
       #  render :xml => "No squeak with that ID found"
       #end
     else
-      if signed_in?
+      if signed_in_to?(params[:service])
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
         request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:service=>params[:service]})
 
@@ -44,10 +44,10 @@ class ShareRequestsController < ApplicationController
         end
       else
         #format.html do 
-        flash[:error] = "User must signin to share"
+        flash[:error] = "User must signin to #{params[:service]} to share on #{params[:service]}"
           #store_location
-       redirect_to signin_path
-        #end
+        redirect_to signin_path
+         #end
         #format.xml do 
          # render :xml => "user must sign in"
         #end
@@ -92,10 +92,10 @@ class ShareRequestsController < ApplicationController
       if user.nil?
         store_location
         # we do this so that find_or_create will make a new authorization with a new token/secret
-        sign_out
+        sign_out_of 'facebook'
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
-        redirect_to "/auth/#{service_name}"
+        redirect_to "/auth/facebook"
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
 
@@ -103,7 +103,8 @@ class ShareRequestsController < ApplicationController
 
       # Use google's static map api to get an image for the squeak
       id = user.put_wall_post("MapSqueak update at #{Time.now.strftime('')}",{:name => 'squeak name',
-        :link => "#{opts.host}/squeaks/#{squeak.id}",
+        # TODO: this is a Rack app, so get its current host
+        :link => "#{params[:host]}/squeaks/#{squeak.id}",
         :caption => opts.text,
         :description => "the description of the squeak, TBD",
         :picture => picture_url})

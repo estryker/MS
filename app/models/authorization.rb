@@ -19,15 +19,16 @@ class Authorization < ActiveRecord::Base
   belongs_to :user
   validates :provider, :uid, :presence => true
   
-  def self.find_by_auth_hash(auth_hash)
-    find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
+
+  def update_credentials!(auth_hash)
+     auth.token = auth_hash["credentials"]["token"]
+     auth.secret = auth_hash["credentials"]["secret"]
+     auth.save
   end
   
-  def self.update_credentials(auth_hash)
-     
-  end
-  
+  # override the class method for find_or_create to take an OmniAuth auth_hash
   def self.find_or_create(auth_hash)
+    # note to self: this is ActiveRecord's dynamic attribute based finder (implemented using 'method_missing')
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
       # Note that info/email may be nil (e.g. Twitter)
       user = User.create(:name => auth_hash["info"]["name"])
@@ -38,7 +39,7 @@ class Authorization < ActiveRecord::Base
       
       auth = create(:user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"])
     end
-
+    auth.update_credentials!(auth_hash)
     auth
   end
 end
