@@ -15,7 +15,7 @@ module SessionsHelper
   end
   
   def signed_in_to?(service)
-    current_user.authorizations.any?(:service => service)
+    signed_in? and  current_user.authorizations.any?(:service => service)
   end
   
   # signs people out of all services
