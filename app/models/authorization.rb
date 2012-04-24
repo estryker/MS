@@ -31,13 +31,13 @@ class Authorization < ActiveRecord::Base
     # note to self: this is ActiveRecord's dynamic attribute based finder (implemented using 'method_missing')
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
       # Note that info/email may be nil (e.g. Twitter)
-      user = User.create(:name => auth_hash["info"]["name"])
+      user = User.create :name => auth_hash["info"]["name"]
       # only add the email if it is not nil, b/c of the regex checker
       user.email = auth_hash["info"]["email"] if auth_hash["info"].has_key?("email")
       #TODO: check this! if it isn't a successful save, then do something smart
       # user.save
       
-      auth = create(:user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"])
+      auth = create :user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"]
     end
     #auth.update_credentials!(auth_hash)
     auth
