@@ -83,6 +83,7 @@ class ShareRequestsController < ApplicationController
     if auths.nil?
       store_location
       redirect_to "/auth/#{service_name}"
+      return
     end
     auth = auths.first
     case service_name
@@ -96,6 +97,7 @@ class ShareRequestsController < ApplicationController
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
         redirect_to "/auth/facebook"
+        return
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
 
@@ -113,6 +115,7 @@ class ShareRequestsController < ApplicationController
         flash[:error] = "Error: couldn't post to facebook wall"
         puts e.message
         redirect_to squeak
+        return
      end
     when 'twitter'
       Twitter.configure do |config|
