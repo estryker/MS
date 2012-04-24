@@ -79,12 +79,12 @@ class ShareRequestsController < ApplicationController
     # TODO: is there value in keeping track of share requests that fail?
 
     #auth = current_user.authorizations.where(:service => service_name)
-    auth = Authorization.where(:user_id => current_user.id, :service => service_name)
-    if auth.nil?
+    auths = Authorization.where(:user_id => current_user.id, :service => service_name)
+    if auths.nil?
       store_location
       redirect_to "/auth/#{service_name}"
     end
-
+    auth = auths.first
     case service_name
     when 'facebook'
       # how to get the facebook access_token??
