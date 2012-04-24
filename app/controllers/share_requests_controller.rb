@@ -78,8 +78,8 @@ class ShareRequestsController < ApplicationController
     # then, after the update, we can store the share request.
     # TODO: is there value in keeping track of share requests that fail?
 
-    auth = current_user.authorizations.where(:service => service_name)
-    # auth = Authorization.where(:user_id => current_user.id, :service => service_name)
+    #auth = current_user.authorizations.where(:service => service_name)
+    auth = Authorization.where(:user_id => current_user.id, :service => service_name)
     if auth.nil?
       store_location
       redirect_to "/auth/#{service_name}"
