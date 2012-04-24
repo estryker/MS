@@ -37,7 +37,8 @@ class Authorization < ActiveRecord::Base
       #TODO: check this! if it isn't a successful save, then do something smart
       user.save
       
-      auth = create(:user_id => user.id, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"])
+      auth = create(:user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"])
+      auth.save
     end
     auth.update_credentials!(auth_hash)
     auth
