@@ -104,7 +104,7 @@ class ShareRequestsController < ApplicationController
       # Use google's static map api to get an image for the squeak
       id = user.put_wall_post("MapSqueak update at #{Time.now.strftime('')}",{:name => 'squeak name',
         # TODO: this is a Rack app, so get its current host
-        :link => "#{params[:host]}/squeaks/#{squeak.id}",
+        :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
         :caption => squeak.text,
         :description => "the description of the squeak, TBD",
         :picture => picture_url})
