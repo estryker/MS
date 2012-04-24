@@ -79,7 +79,7 @@ class ShareRequestsController < ApplicationController
     # TODO: is there value in keeping track of share requests that fail?
 
     #auth = current_user.authorizations.where(:service => service_name)
-    auths = Authorization.where(:user_id => current_user.id, :service => service_name)
+    auths = Authorization.where(:user_id => current_user.id, :provider => service_name)
     if auths.nil?
       store_location
       redirect_to "/auth/#{service_name}"
