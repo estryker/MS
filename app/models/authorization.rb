@@ -40,7 +40,7 @@ class Authorization < ActiveRecord::Base
       auth = create(:user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"])
       auth.save
     end
-    auth.update_credentials!(auth_hash)
+    #auth.update_credentials!(auth_hash)
     auth
   end
 end
