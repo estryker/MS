@@ -101,6 +101,7 @@ class ShareRequestsController < ApplicationController
 
       puts "Google image url: #{picture_url}"
 
+      begin 
       # Use google's static map api to get an image for the squeak
       id = user.put_wall_post("MapSqueak update at #{Time.now.strftime('')}",{:name => 'squeak name',
         # TODO: this is a Rack app, so get its current host
@@ -108,6 +109,11 @@ class ShareRequestsController < ApplicationController
         :caption => squeak.text,
         :description => "the description of the squeak, TBD",
         :picture => picture_url})
+     rescue Exception => e
+        flash[:error] = "Error: couldn't post to facebook wall"
+        puts e.message
+        redirect_to squeak
+     end
     when 'twitter'
       Twitter.configure do |config|
         config.consumer_key = YOUR_CONSUMER_KEY
