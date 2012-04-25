@@ -79,11 +79,12 @@ class ShareRequestsController < ApplicationController
     # TODO: is there value in keeping track of share requests that fail?
 
     #auth = current_user.authorizations.where(:service => service_name)
+    
+    new_path = root_path
     auths = Authorization.where(:user_id => current_user.id, :provider => service_name)
     if auths.nil?
       store_location
-      redirect_to "/auth/#{service_name}"
-      return
+      new_path = "/auth/#{service_name}"
     end
     auth = auths.first
     case service_name
@@ -96,8 +97,7 @@ class ShareRequestsController < ApplicationController
         sign_out_of 'facebook'
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
-        redirect_to "/auth/facebook"
-        return
+        new_path = "/auth/facebook"
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
 
@@ -114,8 +114,7 @@ class ShareRequestsController < ApplicationController
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         puts e.message
-        redirect_to squeak
-        return
+        new_path = squeak
      end
     when 'twitter'
       Twitter.configure do |config|
@@ -126,6 +125,7 @@ class ShareRequestsController < ApplicationController
       end
       Twitter.update("Check this out on MapSqueak: #{}")
     end
+    redirect_to new_path
   end
 
 end
