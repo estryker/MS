@@ -101,13 +101,13 @@ class ShareRequestsController < ApplicationController
         new_path = "/auth/facebook"
       end
       #picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
-      picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
-
+      # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
+picture_url = "http://bit.ly/IefF8a"
       puts "Google image url: #{picture_url}"
 
       begin 
       # Use google's static map api to get an image for the squeak
-      id = user.put_wall_post("I just posted to MapSqueak",
+      id = user.put_wall_post("I just posted to MapSqueak!",
       { :name => squeak.text,
         # TODO: this is a Rack app, so get its current host
         :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
