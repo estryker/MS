@@ -99,17 +99,19 @@ class ShareRequestsController < ApplicationController
         # which should point us back here when we are done
         new_path = "/auth/facebook"
       end
-      picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+      #picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+      picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
 
       puts "Google image url: #{picture_url}"
 
       begin 
       # Use google's static map api to get an image for the squeak
-      id = user.put_wall_post("MapSqueak update at #{Time.now.strftime('')}",{:name => 'squeak name',
+      id = user.put_wall_post("I just posted to MapSqueak",
+      { :name => squeak.text,
         # TODO: this is a Rack app, so get its current host
         :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
-        :caption => squeak.text,
-        :description => "the description of the squeak, TBD",
+        :caption => "Expires in #{time_ago_in_words(squeak.expires)}",
+        # :description => "the description of the squeak, TBD",
         :picture => picture_url})
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
