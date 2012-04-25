@@ -22,10 +22,10 @@ class ShareRequestsController < ApplicationController
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
         if request.save
-          share(squeak,params[:service])
+          redirect_path = share(squeak,params[:service])
           #format.html do
           #  flash[:message] = "Successfully shared!"
-          redirect_to squeak
+          redirect_to redirect_path
           #end
           #format.xml do
           #  render :xml => "Success"
@@ -125,7 +125,7 @@ class ShareRequestsController < ApplicationController
       end
       Twitter.update("Check this out on MapSqueak: #{}")
     end
-    redirect_to new_path
+    return new_path
   end
 
 end
