@@ -1,4 +1,5 @@
 class ShareRequestsController < ApplicationController
+  include ActionView::Helpers::DateHelper
   def create
     # we expect params to have :squeak_id and :service. We will determine the :user_id of the requester
 
@@ -115,7 +116,9 @@ class ShareRequestsController < ApplicationController
         :picture => picture_url})
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
-        puts e.message
+        $stderr.puts "Error posting squeak:"
+        $stderr.puts e.message
+        $stderr.puts e.backtrace.join("\n")
         new_path = squeak
      end
     when 'twitter'
