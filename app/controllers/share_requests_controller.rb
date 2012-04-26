@@ -106,15 +106,16 @@ picture_url = "http://bit.ly/IefF8a"
       puts "Google image url: #{picture_url}"
 
       begin 
+      id = user.put_wall_post("I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
       # Use google's static map api to get an image for the squeak
-      id = user.put_wall_post("I just posted to MapSqueak!",
-      { :name => squeak.text,
-        # TODO: this is a Rack app, so get its current host
-        :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
-        :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-        # :description => "the description of the squeak, TBD",
-        :picture => picture_url
-        })
+      #id = user.put_wall_post("I just posted to MapSqueak!",
+      #{ :name => squeak.text,
+      #  # TODO: this is a Rack app, so get its current host
+      #  :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
+      #  :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
+      #  # :description => "the description of the squeak, TBD",
+      #  :picture => picture_url
+      #  })
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         $stderr.puts "Error posting squeak:"
