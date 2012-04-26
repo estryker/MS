@@ -106,7 +106,7 @@ picture_url = "http://bit.ly/IefF8a"
       puts "Google image url: #{picture_url}"
 
       begin 
-      id = user.put_wall_post("I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
+      id = user.put_wall_post("http://mapsqueak.heroku.com/squeaks/#{squeak.id}")# "I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
       # Use google's static map api to get an image for the squeak
       #id = user.put_wall_post("I just posted to MapSqueak!",
       #{ :name => squeak.text,
