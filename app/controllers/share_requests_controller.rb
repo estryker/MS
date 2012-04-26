@@ -113,7 +113,8 @@ picture_url = "http://bit.ly/IefF8a"
         :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
         :caption => "Expires in #{time_ago_in_words(squeak.expires)}",
         # :description => "the description of the squeak, TBD",
-        :picture => picture_url})
+        # => picture_url
+        })
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         $stderr.puts "Error posting squeak:"
