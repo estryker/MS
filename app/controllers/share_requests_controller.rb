@@ -142,6 +142,7 @@ class ShareRequestsController < ApplicationController
         new_path = squeak
       end
     end
+    flash[:message] = "Squeak shared to #{service_name}!"
     return new_path
   end
   
