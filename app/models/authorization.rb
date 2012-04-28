@@ -49,6 +49,7 @@ class Authorization < ActiveRecord::Base
         puts auth.inspect
       else
         puts "Couldn't create user"
+        user.errors.each{|attr,msg| puts "#{attr} - #{msg}" }
       end
     end
     #auth.update_credentials!(auth_hash)
