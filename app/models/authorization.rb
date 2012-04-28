@@ -32,12 +32,20 @@ class Authorization < ActiveRecord::Base
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
       # Note that info/email may be nil (e.g. Twitter)
       user = User.create :name => auth_hash["info"]["name"]
+
+      puts user.inspect
+
       # only add the email if it is not nil, b/c of the regex checker
       user.email = auth_hash["info"]["email"] if auth_hash["info"].has_key?("email")
+
+      puts user.inspect
+
       #TODO: check this! if it isn't a successful save, then do something smart
-      # user.save
-      
-      auth = create :user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"]
+      if user.save
+        auth = create :user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"]
+      else
+        puts "Couldn't create user"
+      end
     end
     #auth.update_credentials!(auth_hash)
     auth
