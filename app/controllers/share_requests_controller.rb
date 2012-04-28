@@ -141,7 +141,8 @@ class ShareRequestsController < ApplicationController
         $stderr.puts e.backtrace.join("\n")
         new_path = squeak
       end
-      return new_path
     end
+    return new_path
   end
+  
 end
