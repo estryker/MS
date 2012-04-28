@@ -88,6 +88,8 @@ class ShareRequestsController < ApplicationController
       new_path = "/auth/#{service_name}"
     end
     auth = auths.first
+
+    squeak_link = "http://mapsqueak.heroku.com/squeaks/#{squeak.id}"
     case service_name
     when 'facebook'
       # how to get the facebook access_token??
@@ -100,22 +102,22 @@ class ShareRequestsController < ApplicationController
         # which should point us back here when we are done
         new_path = "/auth/facebook"
       end
-      #picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+      picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
       # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
 picture_url = "http://bit.ly/IefF8a"
       puts "Google image url: #{picture_url}"
 
       begin 
-      id = user.put_wall_post("http://mapsqueak.heroku.com/squeaks/#{squeak.id}")# "I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
+      # id = user.put_wall_post("http://mapsqueak.heroku.com/squeaks/#{squeak.id}")# "I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
       # Use google's static map api to get an image for the squeak
-      #id = user.put_wall_post("I just posted to MapSqueak!",
-      #{ :name => squeak.text,
-      #  # TODO: this is a Rack app, so get its current host
-      #  :link => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}",
-      #  :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-      #  # :description => "the description of the squeak, TBD",
-      #  :picture => picture_url
-      #  })
+      id = user.put_wall_post("I just posted to MapSqueak!",
+      { :name => squeak.text,
+        # TODO: this is a Rack app, so get its current host
+        :link => squeak_link,
+        :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
+        # :description => "the description of the squeak, TBD",
+        :picture => picture_url
+      })
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         $stderr.puts "Error posting squeak:"
@@ -125,12 +127,12 @@ picture_url = "http://bit.ly/IefF8a"
      end
     when 'twitter'
       Twitter.configure do |config|
-        config.consumer_key = YOUR_CONSUMER_KEY
-        config.consumer_secret = YOUR_CONSUMER_SECRET
-        config.oauth_token = YOUR_OAUTH_TOKEN
-        config.oauth_token_secret = YOUR_OAUTH_TOKEN_SECRET
+        config.consumer_key = 'K1tkT7Jpi3Ujl0Ftv2V1A' # key 
+        config.consumer_secret = 'UzXlol9ZoDd5uJzuhJpiEFtT0reBcQdTO8XSLVp1k' # YOUR_CONSUMER_SECRET
+        config.oauth_token = auth.token
+        config.oauth_token_secret = auth.secret
       end
-      Twitter.update("Check this out on MapSqueak: #{}")
+      Twitter.update("Check this out on MapSqueak: #{squeak_link}")
     end
     return new_path
   end
