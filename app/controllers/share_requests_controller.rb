@@ -104,7 +104,7 @@ class ShareRequestsController < ApplicationController
       end
       picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
       # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
-picture_url = "http://bit.ly/IefF8a"
+
       puts "Google image url: #{picture_url}"
 
       begin 
@@ -126,13 +126,21 @@ picture_url = "http://bit.ly/IefF8a"
         new_path = squeak
      end
     when 'twitter'
-      Twitter.configure do |config|
-        config.consumer_key = 'K1tkT7Jpi3Ujl0Ftv2V1A' # key 
-        config.consumer_secret = 'UzXlol9ZoDd5uJzuhJpiEFtT0reBcQdTO8XSLVp1k' # YOUR_CONSUMER_SECRET
-        config.oauth_token = auth.token
-        config.oauth_token_secret = auth.secret
+      begin 
+        Twitter.configure do |config|
+          config.consumer_key = 'K1tkT7Jpi3Ujl0Ftv2V1A' # key 
+          config.consumer_secret = 'UzXlol9ZoDd5uJzuhJpiEFtT0reBcQdTO8XSLVp1k' # YOUR_CONSUMER_SECRET
+          config.oauth_token = auth.token
+          config.oauth_token_secret = auth.secret
+        end
+        Twitter.update("Check this out on MapSqueak: #{squeak_link}")
       end
-      Twitter.update("Check this out on MapSqueak: #{squeak_link}")
+    rescue Exception => e
+      flash[:error] = "Error: couldn't post to twitter"
+      $stderr.puts "Error posting squeak:"
+      $stderr.puts e.message
+      $stderr.puts e.backtrace.join("\n")
+      new_path = squeak
     end
     return new_path
   end

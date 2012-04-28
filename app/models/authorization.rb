@@ -52,7 +52,7 @@ class Authorization < ActiveRecord::Base
         user.errors.each{|attr,msg| puts "#{attr} - #{msg}" }
       end
     end
-    #auth.update_credentials!(auth_hash)
+    auth.update_credentials!(auth_hash)
     auth
   end
 end
