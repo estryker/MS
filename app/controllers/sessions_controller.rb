@@ -27,9 +27,14 @@ class SessionsController < ApplicationController
         
         # Create the session
         # session[:user_id] = auth.user.id
-        
-        # authorizations belong to users, so ActiveRecord must do this lookup for us. 
-        sign_in auth.user
+
+        if auth.user
+          # authorizations belong to users, so ActiveRecord must do this lookup for us. 
+          sign_in auth.user
+        else
+          flash[:error] = "Couldn't authorize."
+          redirect_to signin_path
+        end
         
         # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
         

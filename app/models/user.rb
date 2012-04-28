@@ -8,9 +8,11 @@ class User < ActiveRecord::Base
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
   validates :name, :presence => true, 
-                  :length => {:maximum => 50}
+  :length => {:maximum => 50}
+  
   validates :email, :format => {:with => email_regex},
-                  :uniqueness => { :case_sensitive => false }
+  :uniqueness => { :case_sensitive => false },
+  :allow_nil => true
                   
   def add_provider(auth_hash)
     # Check if the provider already exists, so we don't add it twice
