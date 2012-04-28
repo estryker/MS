@@ -258,3 +258,22 @@ form.new_squeak textarea {
   height: 4em;
   margin-bottom: 0;
 }
+
+.facebook_share_button {
+    background:url(/images/facebook_64.png) no-repeat;
+    cursor:pointer;
+    width: 64px;
+    height: 64px;
+    border: none;	
+    color : transparent;
+    font-size : 0
+}
+.tweet_button {
+    background:url(/images/twitter_64.png) no-repeat;
+    cursor:pointer;
+    width: 64px;
+    height: 64px;
+    border: none;
+    color : transparent;
+    font-size : 0
+}
