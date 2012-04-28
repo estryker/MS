@@ -134,15 +134,14 @@ class ShareRequestsController < ApplicationController
           config.oauth_token_secret = auth.secret
         end
         Twitter.update("Check this out on MapSqueak: #{squeak_link}")
+      rescue Exception => e
+        flash[:error] = "Error: couldn't post to twitter"
+        $stderr.puts "Error posting squeak:"
+        $stderr.puts e.message
+        $stderr.puts e.backtrace.join("\n")
+        new_path = squeak
       end
-    rescue Exception => e
-      flash[:error] = "Error: couldn't post to twitter"
-      $stderr.puts "Error posting squeak:"
-      $stderr.puts e.message
-      $stderr.puts e.backtrace.join("\n")
-      new_path = squeak
+      return new_path
     end
-    return new_path
   end
-
 end
