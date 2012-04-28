@@ -36,13 +36,17 @@ class Authorization < ActiveRecord::Base
       puts user.inspect
 
       # only add the email if it is not nil, b/c of the regex checker
-      user.email = auth_hash["info"]["email"] if auth_hash["info"].has_key?("email")
+      user.email = auth_hash["info"]["email"] if auth_hash["info"].has_key?("email") and not auth_hash["info"]["email"].empty?
 
       puts user.inspect
 
       #TODO: check this! if it isn't a successful save, then do something smart
       if user.save
+        puts "User saved!"
+        puts user.inspect
         auth = create :user => user, :provider => auth_hash["provider"], :uid => auth_hash["uid"],:secret => auth_hash["credentials"]["secret"],:token => auth_hash["credentials"]["token"]
+        puts user.inspect
+        puts auth.inspect
       else
         puts "Couldn't create user"
       end
