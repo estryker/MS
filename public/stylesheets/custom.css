@@ -260,19 +260,19 @@ form.new_squeak textarea {
 }
 
 .facebook_share_button {
-    background:url(/images/fb_share.jpeg) no-repeat;
+    background:url(/images/fb_share.110x50.jpeg) no-repeat;
     cursor:pointer;
-    width: 142px;
-    height: 88px;
+    width: 110px;
+    height: 50px;
     border: none;	
     color : transparent;
     font-size : 0
 }
 .tweet_button {
-    background:url(/images/tweet.jpeg) no-repeat;
+    background:url(/images/tweet_110x50.jpeg) no-repeat;
     cursor:pointer;
-    width: 168px;
-    height: 75px;
+    width: 110px;
+    height: 50px;
     border: none;
     color : transparent;
     font-size : 0
