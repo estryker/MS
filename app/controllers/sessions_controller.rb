@@ -114,6 +114,10 @@ class SessionsController < ApplicationController
     # end
   end
 
+  def failure
+    render :xml => Message.new("Auth failure",1)
+  end
+
   def destroy
     sign_out
     m = Message.new("Session ended",0)
