@@ -141,7 +141,9 @@ class ShareRequestsController < ApplicationController
         $stderr.puts e.backtrace.join("\n")
         new_path = squeak
       end
-      return new_path
     end
+    flash[:message] = "Squeak shared to #{service_name}!"
+    return new_path
   end
+  
 end
