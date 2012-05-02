@@ -1,4 +1,7 @@
 class SessionsController < ApplicationController
+  # so the mobile app can create a session
+  protect_from_forgery :except => [:create,:destroy]
+
   def new
     @title = "Sign in"
   end
@@ -8,8 +11,21 @@ class SessionsController < ApplicationController
     # render :text => auth_hash.inspect
     # return
     if auth_hash.nil?
-      render :text => "Not authenticated"
+      e = Message.new("Not successful with omniauth authentication",1)
+      respond_to do | format |
+        format.html do 
+          render :text => "Not authenticated"
+        end
+        format.xml do 
+          render :xml => e
+        end
+        format.json do 
+          render :json => e
+        end
+      end
     else
+      provider = auth_hash["provider"]
+      success = Message.new("Signed in to #{provider}",0)
       if signed_in? # session[:user_id]
         # Means our user is signed in. Add the authorization to the user
         #User.find(session[:user_id]).add_provider(auth_hash)
@@ -17,7 +33,19 @@ class SessionsController < ApplicationController
 
         #render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
         # redirect_to current_user
-        redirect_to root_path
+        respond_to do | format |
+          format.html do 
+            flash[:success] = success.text
+            redirect_to root_path
+          end
+          format.xml do 
+            # TODO: create a session XML builder template?
+            render :xml => success
+          end
+          format.json do 
+            render :json => success
+          end
+        end
       else
       # Log him in or sign him up
         #render :text => auth_hash.inspect
@@ -31,9 +59,33 @@ class SessionsController < ApplicationController
         if auth.user
           # authorizations belong to users, so ActiveRecord must do this lookup for us. 
           sign_in auth.user
+          respond_to do | format |
+            format.html do
+              redirect_back_or root_path
+            end
+            format.xml do 
+              render :xml => success
+            end
+            format.json do
+              render :json => success
+            end
+          end
         else
-          flash[:error] = "Couldn't authorize."
-          redirect_to signin_path
+          # This is an internal error that shouldn't happen. i.e. we'd have to debug, as opposed to asking the user to do something else
+          e = Message.new("Couldn't authorize.",1)
+          respond_to do | format |
+            
+              format.html do 
+                flash[:error] = e.text
+                redirect_to signin_path
+              end
+              format.xml do 
+                render :xml => e
+              end
+              format.json do 
+                render :json => e
+              end
+            end
         end
         
         # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
@@ -42,7 +94,7 @@ class SessionsController < ApplicationController
         # e.g. trying to share to facebook. If not, simply redirect to the home URL
         # Note this requires the 'store_location' method to be called earlier if you want
         # to remember what path to go to
-        redirect_back_or root_path
+
       end
     end
 
@@ -74,6 +126,17 @@ class SessionsController < ApplicationController
   end
   def destroy
     sign_out
-    redirect_to root_path
+    m = Message.new("Session ended",0)
+    respond_to do | format |
+      format.html do 
+        redirect_to root_path
+      end
+      format.xml do 
+        render :xml => m
+      end
+      format.json do 
+        render :json => m
+      end
+    end
   end
 end
