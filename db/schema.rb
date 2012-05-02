@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120422200216) do
+ActiveRecord::Schema.define(:version => 20120502023808) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(:version => 20120422200216) do
   create_table "share_requests", :force => true do |t|
     t.integer  "user_id"
     t.integer  "squeak_id"
-    t.string   "service"
+    t.string   "provider"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

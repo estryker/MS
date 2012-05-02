@@ -5,7 +5,7 @@ class ShareRequestsController < ApplicationController
   
   include ActionView::Helpers::DateHelper
   def create
-    # we expect params to have :squeak_id and :service. We will determine the :user_id of the requester
+    # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
 
     squeak = Squeak.find(params[:squeak_id])
 
@@ -20,14 +20,14 @@ class ShareRequestsController < ApplicationController
       #  render :xml => "No squeak with that ID found"
       #end
     else
-      if signed_in_to?(params[:service])
+      if signed_in_to?(params[:provider])
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
-        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:service=>params[:service]})
+        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
 
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
         if request.save
-          redirect_path = share(squeak,params[:service])
+          redirect_path = share(squeak,params[:provider])
           #format.html do
           #  flash[:message] = "Successfully shared!"
           redirect_to redirect_path
@@ -49,7 +49,7 @@ class ShareRequestsController < ApplicationController
         end
       else
         #format.html do 
-        flash[:error] = "User must signin to #{params[:service]} to share on #{params[:service]}"
+        flash[:error] = "User must signin to #{params[:provider]} to share on #{params[:provider]}"
           #store_location
         redirect_to signin_path
          #end
@@ -74,27 +74,27 @@ class ShareRequestsController < ApplicationController
 
   # TODO: I may want to do this by squeak id, not the squeak itself for
   # ease during redirection
-  def share(squeak,service_name)
+  def share(squeak,provider_name)
     # go through the user's authorizations, get the token and / or the secret.
-    # if nil, or we can't update the service, then we need to reset that authorization,
-    # and redirect them  to the authorization piece (/auth/:service)
-    # to have them log in that desired service. We store off the current location so that
+    # if nil, or we can't update the provider, then we need to reset that authorization,
+    # and redirect them  to the authorization piece (/auth/:provider)
+    # to have them log in that desired provider. We store off the current location so that
     # they will be redirected here after authorization.
     # then, after the update, we can store the share request.
     # TODO: is there value in keeping track of share requests that fail?
 
-    #auth = current_user.authorizations.where(:service => service_name)
+    #auth = current_user.authorizations.where(:provider => provider_name)
     
     new_path = root_path
-    auths = Authorization.where(:user_id => current_user.id, :provider => service_name)
+    auths = Authorization.where(:user_id => current_user.id, :provider => provider_name)
     if auths.nil?
       store_location
-      new_path = "/auth/#{service_name}"
+      new_path = "/auth/#{provider_name}"
     end
     auth = auths.first
 
     squeak_link = "http://mapsqueak.heroku.com/squeaks/#{squeak.id}"
-    case service_name
+    case provider_name
     when 'facebook'
       # how to get the facebook access_token??
       user = Koala::Facebook::API.new(auth.token)
@@ -146,7 +146,7 @@ class ShareRequestsController < ApplicationController
         new_path = squeak
       end
     end
-    flash[:message] = "Squeak shared to #{service_name}!"
+    flash[:message] = "Squeak shared to #{provider_name}!"
     return new_path
   end
   
