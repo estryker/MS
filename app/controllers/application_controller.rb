@@ -9,12 +9,12 @@ class ApplicationController < ActionController::Base
       @info = {:text => text, :code => code.to_i}
     end
 
-    def to_xml
-      @info.to_xml # (:root => 'message')
+    def to_xml(opts)
+      @info.to_xml(opts.merge!(:root => 'message')) 
     end
 
     def to_json
-      @info.to_xml
+      @info.to_json
     end
 
     def text
