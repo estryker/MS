@@ -32,11 +32,11 @@ class ShareRequestsController < ApplicationController
     else
       if signed_in_to?(params[:provider])
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
-        request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
+        share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
 
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
-        if request.save
+        if share_request.save
           
           redirect_path = share(squeak,params[:provider])
           
