@@ -2,10 +2,10 @@
 
 <!--
 post method not working, and I prefer having a 'button' anyways
-<%= link_to image_tag('/images/facebook_64.png'), {:controller => "share_requests", :action => 'create', :service=> "facebook", :squeak_id=> @squeak.id} ,{:method => :post}%>
+<%= link_to image_tag('/images/facebook_64.png'), {:controller => "share_requests", :action => 'create', :provider=> "facebook", :squeak_id=> @squeak.id} ,{:method => :post}%>
 -->
-<%= button_to 'FB share', {:controller => "share_requests",  :action => 'create', :service=> "facebook", :squeak_id=> @squeak.id}, {:class => "facebook_share_button"} %>
+<%= button_to 'FB share', {:controller => "share_requests",  :action => 'create', :provider=> "facebook", :squeak_id=> @squeak.id}, {:class => "facebook_share_button"} %>
 <!-- 
-<%= link_to image_tag('/images/twitter_64.png'), {:controller => "share_requests", :action => 'create', :service=> "twitter", :squeak_id=> @squeak.id} ,{:method => :post}%>
+<%= link_to image_tag('/images/twitter_64.png'), {:controller => "share_requests", :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id} ,{:method => :post}%>
 -->
-<%= button_to 'Tweet!', {:controller => "share_requests",  :action => 'create', :service=> "twitter", :squeak_id=> @squeak.id}, {:class => "tweet_button"} %>
+<%= button_to 'Tweet!', {:controller => "share_requests",  :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id}, {:class => "tweet_button"} %>
