@@ -5,13 +5,12 @@ class ApplicationController < ActionController::Base
   # Messages are just a loose wrapper around XML or JSON blobs used for error messages or success messages when 
   # there are no data types to be returned. 
   class Message
-    require 'active_support/all'
     def initialize(text,code)
       @info = {:text => text, :code => code.to_i}
     end
 
     def to_xml
-      @info.to_xml(:root => 'message')
+      @info.to_xml # (:root => 'message')
     end
 
     def to_json
