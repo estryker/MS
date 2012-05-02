@@ -1,4 +1,8 @@
 class ShareRequestsController < ApplicationController
+  
+  # so the mobile app can create a session
+  protect_from_forgery :except => [:create]
+  
   include ActionView::Helpers::DateHelper
   def create
     # we expect params to have :squeak_id and :service. We will determine the :user_id of the requester
