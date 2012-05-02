@@ -1,7 +1,6 @@
 class SessionsController < ApplicationController
   # so the mobile app can create a session
   protect_from_forgery :except => [:create,:destroy]
-
   def new
     @title = "Sign in"
   end
@@ -12,16 +11,11 @@ class SessionsController < ApplicationController
     # return
     if auth_hash.nil?
       e = Message.new("Not successful with omniauth authentication",1)
-      respond_to do | format |
-        format.html do 
-          render :text => "Not authenticated"
-        end
-        format.xml do 
-          render :xml => e
-        end
-        format.json do 
-          render :json => e
-        end
+
+      if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+        render :xml => e
+      else
+        render :text => "Not authenticated"
       end
     else
       provider = auth_hash["provider"]
@@ -33,109 +27,101 @@ class SessionsController < ApplicationController
 
         #render :text => "You can now login using #{auth_hash["provider"].capitalize} too!"
         # redirect_to current_user
-        respond_to do | format |
-          format.html do 
-            flash[:success] = success.text
-            redirect_to root_path
-          end
-          format.xml do 
-            # TODO: create a session XML builder template?
-            render :xml => success
-          end
-          format.json do 
-            render :json => success
+        if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+          render :xml => success
+        else
+          respond_to do | format |
+            format.html do
+              flash[:success] = success.text
+              redirect_to root_path
+            end
           end
         end
+
       else
       # Log him in or sign him up
-        #render :text => auth_hash.inspect
-        
-        # Note that this find/creates an authorization AND also update the credentials
+      #render :text => auth_hash.inspect
+
+      # Note that this find/creates an authorization AND also update the credentials
         auth = Authorization.find_or_create(auth_hash)
-        
+
         # Create the session
         # session[:user_id] = auth.user.id
 
         if auth.user
-          # authorizations belong to users, so ActiveRecord must do this lookup for us. 
+          # authorizations belong to users, so ActiveRecord must do this lookup for us.
           sign_in auth.user
-          respond_to do | format |
-            format.html do
-              redirect_back_or root_path
-            end
-            format.xml do 
-              render :xml => success
-            end
-            format.json do
-              render :json => success
+
+          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+            render :xml => success
+          else
+            respond_to do | format |
+              format.html do
+                redirect_back_or root_path
+              end
             end
           end
         else
-          # This is an internal error that shouldn't happen. i.e. we'd have to debug, as opposed to asking the user to do something else
+        # This is an internal error that shouldn't happen. i.e. we'd have to debug, as opposed to asking the user to do something else
           e = Message.new("Couldn't authorize.",1)
-          respond_to do | format |
-            
-              format.html do 
+          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+            render :xml => e
+          else
+            respond_to do | format |
+              format.html do
                 flash[:error] = e.text
                 redirect_to signin_path
               end
-              format.xml do 
-                render :xml => e
-              end
-              format.json do 
-                render :json => e
-              end
             end
+          end
         end
-        
-        # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
-        
-        # first check to see if the user was redirected from a URL that requires being logged in
-        # e.g. trying to share to facebook. If not, simply redirect to the home URL
-        # Note this requires the 'store_location' method to be called earlier if you want
-        # to remember what path to go to
+
+      # render :text => "Welcome #{auth.inspect}\n\n from #{auth_hash.to_yaml}"
+
+      # first check to see if the user was redirected from a URL that requires being logged in
+      # e.g. trying to share to facebook. If not, simply redirect to the home URL
+      # Note this requires the 'store_location' method to be called earlier if you want
+      # to remember what path to go to
 
       end
     end
 
   #  user = User.authenticate(params[:session][:email],
-   #                          params[:session][:password])
-   # if user.nil?
-   #   respond_to do |format |
-   #     format.html do 
-   #       flash.now[:error] = "Invalid email/password combination."
-   #       @title = "Sign in"
-   #       render 'new'
-   #     end
-   #     format.xml do 
-   #       render :xml => {:error=>'no such user/password'}
-   #     end
-   #   end
-   # else
-   #   sign_in user
-   #   respond_to do |format|
-   #     format.html do 
-   #       redirect_to user
-   #     end
-   #     format.xml do 
-   #       #TODO: make this more secure by adding HMAC
-   #       render :xml => {:user_id => "#{current_user.id}"}
-   #     end
-   #   end
-   # end
+  #                          params[:session][:password])
+  # if user.nil?
+  #   respond_to do |format |
+  #     format.html do
+  #       flash.now[:error] = "Invalid email/password combination."
+  #       @title = "Sign in"
+  #       render 'new'
+  #     end
+  #     format.xml do
+  #       render :xml => {:error=>'no such user/password'}
+  #     end
+  #   end
+  # else
+  #   sign_in user
+  #   respond_to do |format|
+  #     format.html do
+  #       redirect_to user
+  #     end
+  #     format.xml do
+  #       #TODO: make this more secure by adding HMAC
+  #       render :xml => {:user_id => "#{current_user.id}"}
+  #     end
+  #   end
+  # end
   end
+
   def destroy
     sign_out
     m = Message.new("Session ended",0)
+    if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+      render :xml => m
+    else
     respond_to do | format |
-      format.html do 
+      format.html do
         redirect_to root_path
-      end
-      format.xml do 
-        render :xml => m
-      end
-      format.json do 
-        render :json => m
       end
     end
   end
