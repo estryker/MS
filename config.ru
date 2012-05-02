@@ -6,8 +6,7 @@ module OmniAuth
   module Strategies
     class Facebook < OAuth2
 
-      # debug: added gecko to test in browser
-      MOBILE_USER_AGENTS =  'webos|ipod|iphone|mobile|gecko'
+      MOBILE_USER_AGENTS =  'webos|ipod|iphone|mobile'
 
       def request_phase
         options[:scope] ||= "email,offline_access"
