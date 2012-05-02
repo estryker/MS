@@ -57,6 +57,7 @@ class SessionsController < ApplicationController
           else
             respond_to do | format |
               format.html do
+                flash[:success] = success.text
                 redirect_back_or root_path
               end
             end
@@ -121,6 +122,7 @@ class SessionsController < ApplicationController
     else
       respond_to do | format |
         format.html do
+          flash[:success] = m.text
           redirect_to root_path
         end
       end

@@ -12,8 +12,18 @@ class ShareRequestsController < ApplicationController
     if squeak.nil?
       # throw an appropriate error and redirect to the root_path
       #format.html do
-      flash[:error] = "Can't find squeak with id of #{params[:squeak_id]}"
-      redirect_to root_path
+      e = Message.new("Can't find squeak with id of #{params[:squeak_id]}")
+      
+      if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+        render :xml => e
+      else
+        respond_to do | format |     
+          format.html do 
+            flash[:error] = e.text
+            redirect_to root_path
+          end
+        end
+      end
       #end
       #format.xml do
       # do I want a redirect with XML??
@@ -27,35 +37,46 @@ class ShareRequestsController < ApplicationController
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
         if request.save
+          
           redirect_path = share(squeak,params[:provider])
-          #format.html do
-          #  flash[:message] = "Successfully shared!"
-          redirect_to redirect_path
-          #end
-          #format.xml do
-          #  render :xml => "Success"
-          #end
+          
+          success = Message.new("Squeak successfully shared on #{params[:provider]}",0)
+          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+            render :xml => success
+          else
+            respond_to do | format |     
+              format.html do 
+                flash[:error] = success.text
+                redirect_to root_path
+              end
+            end
+          end
         else
-          err = "Couldn't complete share request"
-
-          # redirect to the squeak
-          #format.html do
-          #  flash[:error] = err
-          redirect_to squeak
-          #end
-          #format.xml do
-          #  render :xml => err
-          #end
+          e = Message.new("Couldn't complete share request",1)
+          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+            render :xml => e
+          else
+            respond_to do | format |     
+              format.html do 
+                flash[:error] = e.text
+                redirect_to squeak
+              end
+            end
+          end
         end
       else
         #format.html do 
-        flash[:error] = "User must signin to #{params[:provider]} to share on #{params[:provider]}"
-          #store_location
-        redirect_to signin_path
-         #end
-        #format.xml do 
-         # render :xml => "user must sign in"
-        #end
+        e = Message.new("User must signin to #{params[:provider]} to share on #{params[:provider]}",1)
+        if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+          render :xml => e
+        else
+          respond_to do | format |     
+            format.html do 
+              flash[:error] = e.text
+              redirect_to signin_path
+            end
+          end
+        end
       end
     end
   end
