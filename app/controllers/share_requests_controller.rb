@@ -4,6 +4,8 @@ class ShareRequestsController < ApplicationController
   protect_from_forgery :except => [:create]
   
   include ActionView::Helpers::DateHelper
+  include ApplicationHelper
+
   def create
     # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
 
