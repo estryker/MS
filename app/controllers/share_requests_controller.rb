@@ -49,7 +49,7 @@ class ShareRequestsController < ApplicationController
             respond_to do | format |     
               format.html do 
                 flash[:message] = success.text
-                redirect_to root_path
+                redirect_to redirect_path
               end
             end
           end
@@ -149,9 +149,9 @@ class ShareRequestsController < ApplicationController
         # puts ret.picture 
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
-        $stderr.puts "Error posting squeak:"
-        $stderr.puts e.message
-        $stderr.puts e.backtrace.join("\n")
+        puts "Error posting squeak:"
+        puts e.message
+        puts e.backtrace.join("\n")
         new_path = squeak
      end
     when 'twitter'
