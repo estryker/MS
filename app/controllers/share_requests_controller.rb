@@ -138,13 +138,13 @@ class ShareRequestsController < ApplicationController
       # Use google's static map api to get an image for the squeak
       # id = user.put_wall_post("I just posted to MapSqueak!",
       # user.put_connections('me','links', { :name => squeak.text,
-      ret = user.put_connections('me','feed', { :name => squeak.text,
+        ret = user.put_connections('me',"feed?picture=#{picture_url}", { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
                              # TODO: this is a Rack app, so get its current host
                              :link => squeak_link,
                              :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-                             :description => "the description of the squeak, TBD",
-                             :picture => picture_url
+                             :description => "Posted on MapSqueak!" #                              :picture => picture_url
+
                            })
         puts ret.picture 
      rescue Exception => e
