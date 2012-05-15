@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
-	<!-- a hack to enable better client side posting to facebook -->
-	<%	if @squeak %> 
+	<%	if @squeak_map_preview %> 
 	<meta name="description" content="<%=@squeak.text%>" />
-    <link rel="image_src" href="http://maps.googleapis.com/maps/api/staticmap?center=<%=@squeak.latitude%>,<%=@squeak.longitude%>&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C<%=@squeak.latitude%>,<%=@squeak.longitude%>&sensor=true" />
+    <link rel="image_src" href="<%= @squeak_map_preview %>" />
 	<% end %> 
   <head>
     <title><%= title %></title>

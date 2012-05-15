@@ -127,9 +127,9 @@ class ShareRequestsController < ApplicationController
         # which should point us back here when we are done
         new_path = "/auth/facebook"
       end
-      picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+      # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
       # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
-
+      picture_url = squeak_map_preview(squeak)
       puts "Google image url: #{picture_url}"
 
       begin 
