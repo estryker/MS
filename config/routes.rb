@@ -7,6 +7,7 @@ MapsqueakProto::Application.routes.draw do
 
   resources :squeaks
   get "squeaks/new"
+  match 'squeaks/map_preview/:id', :to => 'squeaks#map_preview'
 
   match '/mobile', :to => 'pages#mobile_app'
   match '/news',    :to => 'pages#news'
