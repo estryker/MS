@@ -5,7 +5,7 @@
    <!-- <%= link_to image_tag("http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=14&size=100x100&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true",  
     	:border=>0, :title => squeak.text) ,:controller => 'squeaks', :action => 'show', :id => squeak %> -->
 
-   <%= link_to image_tag(squeak_preview_map(squeak), :border=>0, :title => squeak.text) ,:controller => 'squeaks', :action => 'show', :id => squeak %>
+   <%= link_to image_tag(squeak_map_preview(squeak), :border=>0, :title => squeak.text) ,:controller => 'squeaks', :action => 'show', :id => squeak %>
     <span class="timestamp">
       Posted <%= time_ago_in_words(squeak.created_at) %> ago.
       <% if Time.now < squeak.expires %>
