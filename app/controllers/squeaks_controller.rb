@@ -191,7 +191,6 @@ class SqueaksController < ApplicationController
           @zoom = 14 # TODO: make this configurable
           # TODO: add this to the database so we don't need to  know the context of where we are.
           @squeak_map_preview = squeak_map_preview(@squeak)
-          #@squeak
           #@json
         end
         format.json do

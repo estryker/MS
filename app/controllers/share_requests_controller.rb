@@ -127,8 +127,7 @@ class ShareRequestsController < ApplicationController
         # which should point us back here when we are done
         new_path = "/auth/facebook"
       end
-      # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
-      # picture_url = "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue|label:M|#{squeak.latitude},#{squeak.longitude}&sensor=true"
+
       picture_url = squeak_map_preview(squeak)
       puts "Google image url: #{picture_url}"
 
@@ -136,7 +135,8 @@ class ShareRequestsController < ApplicationController
       # id = user.put_wall_post("http://mapsqueak.heroku.com/squeaks/#{squeak.id}")# "I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
       # Use google's static map api to get an image for the squeak
       # id = user.put_wall_post("I just posted to MapSqueak!",
-      user.put_connections('me','links', { :name => squeak.text,
+      # user.put_connections('me','links', { :name => squeak.text,
+      user.put_connections('me','feed', { :name => squeak.text,
         # TODO: this is a Rack app, so get its current host
         :link => squeak_link,
         :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
