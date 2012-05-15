@@ -146,7 +146,7 @@ class ShareRequestsController < ApplicationController
                              :description => "Posted on MapSqueak!" #                              :picture => picture_url
 
                            })
-        puts ret.picture 
+        # puts ret.picture 
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         $stderr.puts "Error posting squeak:"
