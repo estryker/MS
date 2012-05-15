@@ -34,6 +34,7 @@ module ApplicationHelper
     # when the path starts with /images, then the rails app knows to look in public/images
     # return download_path.sub("public","")
 
-    "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+    # "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+    "http://bit.ly/J6SZXR"
   end
 end

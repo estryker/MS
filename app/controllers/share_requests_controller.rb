@@ -48,7 +48,7 @@ class ShareRequestsController < ApplicationController
           else
             respond_to do | format |     
               format.html do 
-                flash[:error] = success.text
+                flash[:message] = success.text
                 redirect_to root_path
               end
             end
@@ -171,7 +171,7 @@ class ShareRequestsController < ApplicationController
         new_path = squeak
       end
     end
-    flash[:message] = "Squeak shared to #{provider_name}!"
+
     return new_path
   end
   
