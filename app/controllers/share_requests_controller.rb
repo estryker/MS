@@ -140,7 +140,6 @@ class ShareRequestsController < ApplicationController
       # user.put_connections('me','links', { :name => squeak.text,
         ret = user.put_connections('me',"feed", { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
-                             # TODO: this is a Rack app, so get its current host
                              :link => squeak_link,
                              :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
                                      :description => "Posted on MapSqueak!",

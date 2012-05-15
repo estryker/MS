@@ -36,6 +36,7 @@ module ApplicationHelper
 
     # "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
     # "http://bit.ly/J6SZXR"
-    "#{root_url}squeaks/map_preview/#{squeak.id}"
+    # "#{root_url}squeaks/map_preview/#{squeak.id}"
+    "#{root_url}public/images/staticmap.png"
   end
 end
