@@ -142,8 +142,8 @@ class ShareRequestsController < ApplicationController
                              :description => "I just posted to MapSqueak!",
                              :link => squeak_link,
                              :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-                                     :description => "Posted on MapSqueak!" 
-                                     #:picture => picture_url
+                             :description => "Posted on MapSqueak!" ,
+                             :picture => picture_url
                                      
                            })
         # puts ret.picture 
