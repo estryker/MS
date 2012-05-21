@@ -146,7 +146,7 @@ class ShareRequestsController < ApplicationController
                              :picture => picture_url
                                      
                            })
-        # puts ret.picture 
+        puts "Updated facebook: #{ret.inspect}"
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
         puts "Error posting squeak:"
