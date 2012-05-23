@@ -141,10 +141,10 @@ class ShareRequestsController < ApplicationController
       #  ret = user.put_connections('me',"feed", { :name => squeak.text,
         ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
-                             :link => squeak_link,
-                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
+                             :link => 'www.istherea.com',# squeak_link,
+                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago." #,
                             # :description => "Posted on MapSqueak!" ,
-                             :picture => picture_url
+                             #:picture => picture_url
                                      
                            })
         puts "Updated facebook: #{ret.inspect}"
