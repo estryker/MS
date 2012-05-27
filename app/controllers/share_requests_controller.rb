@@ -9,6 +9,7 @@ class ShareRequestsController < ApplicationController
   def create
     # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
 
+
     squeak = Squeak.find(params[:squeak_id])
 
     if squeak.nil?
@@ -107,7 +108,7 @@ class ShareRequestsController < ApplicationController
     # TODO: is there value in keeping track of share requests that fail?
 
     #auth = current_user.authorizations.where(:provider => provider_name)
-    
+
     new_path = root_path
     auths = Authorization.where(:user_id => current_user.id, :provider => provider_name)
     if auths.nil?
@@ -139,6 +140,11 @@ class ShareRequestsController < ApplicationController
       # id = user.put_wall_post("I just posted to MapSqueak!",
       # user.put_connections('me','links', { :name => squeak.text,
       #  ret = user.put_connections('me',"feed", { :name => squeak.text,
+          # debug
+        caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+        `curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
+        
+        if false
         ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
                              :link => 'www.istherea.com',# squeak_link,
@@ -147,6 +153,7 @@ class ShareRequestsController < ApplicationController
                              #:picture => picture_url
                                      
                            })
+        end
         puts "Updated facebook: #{ret.inspect}"
      rescue Exception => e
         flash[:error] = "Error: couldn't post to facebook wall"
