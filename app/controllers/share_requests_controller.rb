@@ -1,5 +1,6 @@
 class ShareRequestsController < ApplicationController
-  
+  require 'net/http'
+
   # so the mobile app can create a session
   protect_from_forgery :except => [:create]
   
@@ -11,6 +12,22 @@ class ShareRequestsController < ApplicationController
 
 
     squeak = Squeak.find(params[:squeak_id])
+
+    # debug
+    token = 'AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD'
+    uid = '1456286987'
+    caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+    uri = URI("https://graph.facebook.com/")
+    https = Net::HTTP.start(uri.host, uri.port,:use_ssl => true)
+    #Net::HTTP.post_form(,"access_token"=>token, "message" => "I just posted to MapSqueak!",
+     #                   "link" => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}")
+
+    escape = URI.escape("message=I just posted to MapSqueak!&access_token=#{token}&link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}&picture=#{squeak_map_preview(squeak)}")
+    response = https.post("/#{uid}/feed",escape)
+    puts "attempted to share to fb: #{response.body}"
+
+    redirect_to root_path
+    return
 
     if squeak.nil?
       # throw an appropriate error and redirect to the root_path
@@ -142,8 +159,8 @@ class ShareRequestsController < ApplicationController
       #  ret = user.put_connections('me',"feed", { :name => squeak.text,
           # debug
         caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
-        `curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
-        
+        #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
+
         if false
         ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
