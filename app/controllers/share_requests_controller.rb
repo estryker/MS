@@ -32,6 +32,16 @@ class ShareRequestsController < ApplicationController
       #  render :xml => "No squeak with that ID found"
       #end
     else
+      # debug only for local testing!!!
+      debug = Koala::Facebook::API.new("AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD")
+      debug.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
+                             :description => "I just posted to MapSqueak!",
+                             :link => 'www.istherea.com',# squeak_link,
+                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
+                            # :description => "Posted on MapSqueak!" ,
+                             :picture => squeak_map_preview(squeak)
+                                     
+                           })
       if signed_in_to?(params[:provider])
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
         share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
@@ -121,6 +131,7 @@ class ShareRequestsController < ApplicationController
     when 'facebook'
       # how to get the facebook access_token??
       user = Koala::Facebook::API.new(auth.token)
+      
       if user.nil?
         store_location
         # we do this so that find_or_create will make a new authorization with a new token/secret
@@ -142,9 +153,9 @@ class ShareRequestsController < ApplicationController
         ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
                              :description => "I just posted to MapSqueak!",
                              :link => 'www.istherea.com',# squeak_link,
-                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago." #,
+                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
                             # :description => "Posted on MapSqueak!" ,
-                             #:picture => picture_url
+                             :picture => picture_url
                                      
                            })
         puts "Updated facebook: #{ret.inspect}"

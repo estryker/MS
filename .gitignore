@@ -3,3 +3,8 @@ db/*.sqlite3
 log/*.log
 tmp/
 *~
+<<<<<<< HEAD
+=======
+*.cookies
+*.html
+>>>>>>> 348f898d509745fa8ff77216e2c16862987afe37
