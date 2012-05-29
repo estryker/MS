@@ -177,7 +177,13 @@ class SqueaksController < ApplicationController
 
   def map_preview
     squeak = Squeak.find(params[:id])
-    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}%7Cicon:#{root_url}images/new_squeak_marker.png&sensor=true"
+    #    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true" # icon:#{root_url}images/new_squeak_marker.png
+    icon_url = "#{root_url}images/new_squeak_marker.png"
+    if squeak.created_at < 5.minutes.ago
+      # use the green icon for older squeaks
+      icon_url = "#{root_url}images/old_squeak_marker.png"
+    end
+    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
   end
 
   :private
