@@ -17,6 +17,7 @@
 #
 
 class Squeak < ActiveRecord::Base
+
  belongs_to :user # , :primary_key => :user_email
  
  numeric_regex = /^-?[0-9.]+$/
@@ -60,6 +61,13 @@ class Squeak < ActiveRecord::Base
     #"<h4>#{name}</h4>" << "<h4>#{address}</h4>"
     self.text
   end
-  
+
+  def gmaps4rails_marker_picture
+    {
+      "picture" => "/images/#{self.created_at < 5.minutes.ago ? 'old' : 'new'}_squeak_marker.png",  # self.image_path, # image_path column has to contain something like '/assets/my_pic.jpg'.
+      "width" => 32, #beware to resize your pictures properly
+      "height" => 32 #beware to resize your pictures properly
+    }
+  end
 end
 

@@ -183,7 +183,7 @@ class SqueaksController < ApplicationController
       # use the green icon for older squeaks
       icon_url = "#{root_url}images/old_squeak_marker.png"
     end
-    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
+    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
   end
 
   :private
