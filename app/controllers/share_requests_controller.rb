@@ -12,7 +12,7 @@ class ShareRequestsController < ApplicationController
     squeak = Squeak.find(params[:squeak_id])
 
     # debug
-    if(root_url.include?('localhost')
+    if(root_url.include?('localhost'))
        token = 'AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD'
        uid = '1456286987'
        caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
