@@ -177,7 +177,7 @@ class SqueaksController < ApplicationController
 
   def map_preview
     squeak = Squeak.find(params[:id])
-    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}%7Cicon:#{root_url}images/new_squeak_marker.png&sensor=true"
   end
 
   :private

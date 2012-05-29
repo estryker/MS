@@ -9,25 +9,25 @@ class ShareRequestsController < ApplicationController
 
   def create
     # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
-
-
     squeak = Squeak.find(params[:squeak_id])
 
     # debug
-    token = 'AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD'
-    uid = '1456286987'
-    caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
-    uri = URI("https://graph.facebook.com/")
-    https = Net::HTTP.start(uri.host, uri.port,:use_ssl => true)
-    #Net::HTTP.post_form(,"access_token"=>token, "message" => "I just posted to MapSqueak!",
-     #                   "link" => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}")
-
-    escape = URI.escape("message=I just posted to MapSqueak!&access_token=#{token}&link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}&picture=#{squeak_map_preview(squeak)}")
-    response = https.post("/#{uid}/feed",escape)
-    puts "attempted to share to fb: #{response.body}"
-
-    redirect_to root_path
-    return
+    if(root_url.include?('localhost')
+       token = 'AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD'
+       uid = '1456286987'
+       caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+       uri = URI("https://graph.facebook.com/")
+       https = Net::HTTP.start(uri.host, uri.port,:use_ssl => true)
+       #Net::HTTP.post_form(,"access_token"=>token, "message" => "I just posted to MapSqueak!",
+       #                   "link" => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}")
+       
+       escape = URI.escape("message=I just posted to MapSqueak!&access_token=#{token}&link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}&picture=#{squeak_map_preview(squeak)}")
+       response = https.post("/#{uid}/feed",escape)
+       puts "attempted to share to fb: #{response.body}"
+       
+       redirect_to root_path
+       return
+     end
 
     if squeak.nil?
       # throw an appropriate error and redirect to the root_path
