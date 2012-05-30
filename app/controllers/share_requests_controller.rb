@@ -31,35 +31,21 @@ class ShareRequestsController < ApplicationController
 
     if squeak.nil?
       # throw an appropriate error and redirect to the root_path
-      #format.html do
-      e = Message.new("Can't find squeak with id of #{params[:squeak_id]}")
-      
-      if request.env["HTTP_USER_AGENT"].include? 'iPhone'
-        render :xml => e
-      else
-        respond_to do | format |     
-          format.html do 
-            flash[:error] = e.text
-            redirect_to root_path
-          end
-        end
-      end
-      #end
-      #format.xml do
-      # do I want a redirect with XML??
-      #  render :xml => "No squeak with that ID found"
-      #end
+      respond_to_user("Can't find squeak with id of #{params[:squeak_id]}",1,root_path)
     else
-      # debug only for local testing!!!
-      debug = Koala::Facebook::API.new("AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD")
-      debug.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
-                             :description => "I just posted to MapSqueak!",
-                             :link => 'www.istherea.com',# squeak_link,
-                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-                            # :description => "Posted on MapSqueak!" ,
-                             :picture => squeak_map_preview(squeak)
-                                     
-                           })
+      if(false)
+        # debug only for local testing!!!
+        debug = Koala::Facebook::API.new("AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD")
+        debug.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
+                              :description => "I just posted to MapSqueak!",
+                              :link => 'www.istherea.com',# squeak_link,
+                              :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
+                              # :description => "Posted on MapSqueak!" ,
+                              :picture => squeak_map_preview(squeak)
+                              
+                            })
+      end
+
       if signed_in_to?(params[:provider])
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
         share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
@@ -67,46 +53,19 @@ class ShareRequestsController < ApplicationController
         # first save to the database, then actually do the share
         # TODO: update a 'confirmed_update' parameter in the share request
         if share_request.save
-          
-          redirect_path = share(squeak,params[:provider])
-          
-          success = Message.new("Squeak successfully shared on #{params[:provider]}",0)
-          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
-            render :xml => success
-          else
-            respond_to do | format |     
-              format.html do 
-                flash[:message] = success.text
-                redirect_to redirect_path
-              end
-            end
+          begin
+            redirect_path = share(squeak,params[:provider])
+
+            respond_to_user("Squeak successfully shared on #{params[:provider]}",0,redirect_path)
+          rescue Exception => e
+            respond_to_user("Couldn't complete share request to #{params[:provider]} : #{e.message}",1,squeak)
           end
         else
-          e = Message.new("Couldn't complete share request",1)
-          if request.env["HTTP_USER_AGENT"].include? 'iPhone'
-            render :xml => e
-          else
-            respond_to do | format |     
-              format.html do 
-                flash[:error] = e.text
-                redirect_to squeak
-              end
-            end
-          end
+          respond_to_user("Couldn't save share request",1,squeak)
         end
       else
         #format.html do 
-        e = Message.new("User must signin to #{params[:provider]} to share on #{params[:provider]}",1)
-        if request.env["HTTP_USER_AGENT"].include? 'iPhone'
-          render :xml => e
-        else
-          respond_to do | format |     
-            format.html do 
-              flash[:error] = e.text
-              redirect_to signin_path
-            end
-          end
-        end
+        respond_to_user("User must signin to #{params[:provider]} to share on #{params[:provider]}",1,signin_path)
       end
     end
   end
@@ -123,6 +82,24 @@ class ShareRequestsController < ApplicationController
 
   :private
 
+  def respond_to_user(message_text,code,path)
+    m = Message.new(message_text,code)
+    if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+      render :xml => m
+    else
+      respond_to do | format |     
+        format.html do 
+          if code == 0
+            flash[:message] = m.text
+          else
+            flash[:error] = m.text
+          end
+          redirect_to path
+        end
+      end
+    end
+  end
+
   # TODO: I may want to do this by squeak id, not the squeak itself for
   # ease during redirection
   def share(squeak,provider_name)
@@ -138,16 +115,20 @@ class ShareRequestsController < ApplicationController
 
     new_path = root_path
     auths = Authorization.where(:user_id => current_user.id, :provider => provider_name)
-    if auths.nil?
+    
+    auth = nil
+    # we need a token for both services. If we add a service that doesn't use a token, then
+    # we'll have to move the check for a non-nil token elsewhere
+    if auths.nil? or auths.empty? or auths.first.token.nil?
       store_location
       new_path = "/auth/#{provider_name}"
+    else
+      auth = auths.first
     end
-    auth = auths.first
-
+    
     squeak_link = "http://mapsqueak.heroku.com/squeaks/#{squeak.id}"
     case provider_name
     when 'facebook'
-      # how to get the facebook access_token??
       user = Koala::Facebook::API.new(auth.token)
       
       if user.nil?
@@ -157,39 +138,36 @@ class ShareRequestsController < ApplicationController
         # note that the callback URL goes to the create method in the session controller
         # which should point us back here when we are done
         new_path = "/auth/facebook"
-      end
-
-      picture_url = squeak_map_preview(squeak)
-      puts "Google image url: #{picture_url}"
-
-      begin 
-      # id = user.put_wall_post("http://mapsqueak.heroku.com/squeaks/#{squeak.id}")# "I just posted to MapSqueak! http://mapsqueak.heroku.com/squeaks/#{squeak.id}")
-      # Use google's static map api to get an image for the squeak
-      # id = user.put_wall_post("I just posted to MapSqueak!",
-      # user.put_connections('me','links', { :name => squeak.text,
-      #  ret = user.put_connections('me',"feed", { :name => squeak.text,
+      else
+        picture_url = squeak_map_preview(squeak)
+        puts "Google image url: #{picture_url}"
+        
+        begin 
+          # user.put_connections('me','links', { :name => squeak.text,
+          #  ret = user.put_connections('me',"feed", { :name => squeak.text,
           # debug
-        caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
-        #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
-
-        if false
-        ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
-                             :description => "I just posted to MapSqueak!",
-                             :link => 'www.istherea.com',# squeak_link,
-                             :caption => Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago.",
-                            # :description => "Posted on MapSqueak!" ,
-                             :picture => picture_url
+          caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+          #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
+          
+          ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
+                                     :description => "I just posted to MapSqueak!",
+                                     :link => 'www.istherea.com',# squeak_link,
+                                     :caption => caption,
+                                     # :description => "Posted on MapSqueak!" ,
+                                     :picture => picture_url
                                      
-                           })
+                                   })
+          
+          puts "Updated facebook: #{ret.inspect}"
+
+        rescue Exception => e
+          flash[:error] = "Error: couldn't post to facebook wall"
+          puts "Error posting squeak:"
+          puts e.message
+          puts e.backtrace.join("\n")
+          raise e
         end
-        puts "Updated facebook: #{ret.inspect}"
-     rescue Exception => e
-        flash[:error] = "Error: couldn't post to facebook wall"
-        puts "Error posting squeak:"
-        puts e.message
-        puts e.backtrace.join("\n")
-        new_path = squeak
-     end
+      end
     when 'twitter'
       begin 
         Twitter.configure do |config|
@@ -204,7 +182,7 @@ class ShareRequestsController < ApplicationController
         $stderr.puts "Error posting squeak:"
         $stderr.puts e.message
         $stderr.puts e.backtrace.join("\n")
-        new_path = squeak
+        raise e
       end
     end
 
