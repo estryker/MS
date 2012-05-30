@@ -121,7 +121,8 @@ class ShareRequestsController < ApplicationController
     # we'll have to move the check for a non-nil token elsewhere
     if auths.nil? or auths.empty? or auths.first.token.nil?
       store_location
-      new_path = "/auth/#{provider_name}"
+      # new_path = "/auth/#{provider_name}"
+      raise Exception.new("Missing authentication tokens. Suggest user sign out and sign in to #{provider_name} again.")
     else
       auth = auths.first
     end
@@ -161,7 +162,7 @@ class ShareRequestsController < ApplicationController
           puts "Updated facebook: #{ret.inspect}"
 
         rescue Exception => e
-          flash[:error] = "Error: couldn't post to facebook wall"
+          # flash[:error] = "Error: couldn't post to facebook wall"
           puts "Error posting squeak:"
           puts e.message
           puts e.backtrace.join("\n")
@@ -178,7 +179,7 @@ class ShareRequestsController < ApplicationController
         end
         Twitter.update("Check this out on MapSqueak: #{squeak_link}")
       rescue Exception => e
-        flash[:error] = "Error: couldn't post to twitter"
+        # flash[:error] = "Error: couldn't post to twitter"
         $stderr.puts "Error posting squeak:"
         $stderr.puts e.message
         $stderr.puts e.backtrace.join("\n")
