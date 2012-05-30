@@ -23,6 +23,7 @@ module SessionsHelper
     current_user.authorizations.each do | a |
       a.token = nil
       a.secret = nil
+      a.save
     end
     self.current_user = nil
     session[:user_id] = nil
