@@ -23,7 +23,10 @@ class Authorization < ActiveRecord::Base
   def update_credentials!(auth_hash)
      self.token = auth_hash["credentials"]["token"]
      self.secret = auth_hash["credentials"]["secret"]
-     self.save
+     unless self.save
+       puts "Couldn't save credentials"
+       self.errors.each{|attr,msg| puts "#{attr} - #{msg}" }
+     end
   end
   
   # override the class method for find_or_create to take an OmniAuth auth_hash
