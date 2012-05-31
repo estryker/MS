@@ -128,6 +128,9 @@ class ShareRequestsController < ApplicationController
     end
     
     squeak_link = "http://mapsqueak.heroku.com/squeaks/#{squeak.id}"
+
+    # TODO: if the squeak has an image, use that instead
+    picture_url = squeak_map_preview(squeak)
     case provider_name
     when 'facebook'
       user = Koala::Facebook::API.new(auth.token)
@@ -140,7 +143,7 @@ class ShareRequestsController < ApplicationController
         # which should point us back here when we are done
         new_path = "/auth/facebook"
       else
-        picture_url = squeak_map_preview(squeak)
+        
         puts "Google image url: #{picture_url}"
         
         begin 
@@ -160,7 +163,7 @@ class ShareRequestsController < ApplicationController
                                    })
           
           puts "Updated facebook: #{ret.inspect}"
-
+          
         rescue Exception => e
           # flash[:error] = "Error: couldn't post to facebook wall"
           puts "Error posting squeak:"
@@ -177,7 +180,9 @@ class ShareRequestsController < ApplicationController
           config.oauth_token = auth.token
           config.oauth_token_secret = auth.secret
         end
-        Twitter.update("Check this out on MapSqueak: #{squeak_link}")
+      end
+      Twitter.update_with_media(squeak.text,picture_url,{:lat => squeak.latitude,:long => squeak.longitude})
+
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"
         $stderr.puts "Error posting squeak:"
