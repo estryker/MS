@@ -181,7 +181,8 @@ class ShareRequestsController < ApplicationController
           config.oauth_token_secret = auth.secret
         end
         
-        Twitter.update_with_media(squeak.text,picture_url,{:lat => squeak.latitude,:long => squeak.longitude})
+        # Twitter.update_with_media(squeak.text,picture_url,{:lat => squeak.latitude,:long => squeak.longitude})
+        Twitter.update_with_media("#{squeak.text} #{squeak_link}") # ),picture_url,{:lat => squeak.latitude,:long => squeak.longitude})
         
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"
