@@ -16,10 +16,14 @@ class User < ActiveRecord::Base
                   
   def add_provider(auth_hash)
     # Check if the provider already exists, so we don't add it twice
-    unless authorizations.find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
-      Authorization.find_or_create(auth_hash)
+    auth = nil
+    if auth = authorizations.find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
+      auth.update_credentials!(auth_hash)      
+    else
+      auth = Authorization.find_or_create(auth_hash)
       # Authorization.create :user => self, :provider => auth_hash["provider"], :uid => auth_hash["uid"]
     end
+    auth
   end
 end
 
