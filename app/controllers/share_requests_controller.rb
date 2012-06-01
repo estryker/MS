@@ -158,7 +158,9 @@ class ShareRequestsController < ApplicationController
                                      :link => 'www.istherea.com',# squeak_link,
                                      :caption => caption,
                                      # :description => "Posted on MapSqueak!" ,
-                                     :picture => picture_url
+                                     # :picture => picture_url
+                                     :coordinates => {:latitude => squeak.latitude,
+                                       :longitude => squeak.longitude}.to_json
                                      
                                    })
           
@@ -181,11 +183,10 @@ class ShareRequestsController < ApplicationController
           config.oauth_token_secret = auth.secret
         end
         
-        tweet = "#{squeak.text} #{squeak_link}"
         # TODO: if the squeak has an image, then this is the way to go
         # Twitter.update_with_media(tweet, {'io' => StringIO.new(squeak.image), 'type' => 'png'})
 
-        Twitter.update(tweet,{:lat => squeak.latitude,:long => squeak.longitude})
+        Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
         
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"

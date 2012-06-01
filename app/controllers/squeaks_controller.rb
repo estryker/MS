@@ -183,6 +183,13 @@ class SqueaksController < ApplicationController
       # use the green icon for older squeaks
       icon_url = "#{root_url}images/old_squeak_marker.png"
     end
+
+    # If we ever wanted to store the image, this could work:
+    # uri = URI("http://maps.googleapis.com/")
+    # http = Net::HTTP.start(uri.host, uri.port)
+    # map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
+    # http.get(map_string).body
+
     redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
   end
 
