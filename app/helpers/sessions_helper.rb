@@ -5,7 +5,6 @@ module SessionsHelper
   end
   
   def sign_in(user)
-    # do I have to do anything with cookies? cookies.permanent.signed[:remember_token] = [user.id, user.salt]
     current_user = user
     session[:user_id] = user.id
   end
@@ -15,7 +14,7 @@ module SessionsHelper
   end
   
   def signed_in_to?(service)
-    signed_in? and  current_user.authorizations.any? {|a| a.provider == service }
+    signed_in? and  current_user.authorizations.any? {|a| a.provider == service and a.token != nil }
   end
   
   # signs people out of all services
