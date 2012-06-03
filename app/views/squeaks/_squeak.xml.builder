@@ -6,5 +6,5 @@ xml.squeak do
      xml.expires squeak.expires.strftime("%Y-%m-%dT%H:%M:%SZ")
      xml.tag! 'created-at', squeak.created_at.strftime("%Y-%m-%dT%H:%M:%SZ")
      xml.text squeak.text
-     xml.has_image squeak.image.nil? ? "false", "true"
+     xml.has_image "#{squeak.image.nil? ? "false", "true"}"
 end
