@@ -5,13 +5,13 @@
 <% end  %>
 
 <% if  signed_in_to?('facebook') %>
-  <%= link_to image_tag('/images/facebook_64.png'), signout_path + "/:facebook", :method=>:delete %>
+  <%= link_to image_tag('/images/facebook_64.png'), signout_path + "/facebook", :method=>:delete %>
 <% else %>
 <%= link_to image_tag('/images/facebook_grey_64.png'), '/auth/facebook', :class => 'quick', :remote => true %>
 <% end  %>
 
 <% if  signed_in_to?('twitter') %>
-  <%= link_to image_tag('/images/twitter_64.png'), signout_path + "/:twitter", :method=>:delete %>
+  <%= link_to image_tag('/images/twitter_64.png'), signout_path + "/twitter", :method=>:delete %>
 <% else  %>
 <%= link_to image_tag('/images/twitter_grey_64.png'), '/auth/twitter', :class => 'quick', :remote => true %>
 <% end  %>
