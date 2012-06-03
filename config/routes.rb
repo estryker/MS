@@ -21,6 +21,7 @@ MapsqueakProto::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
 
   match '/signin',  :to => 'sessions#new'
+  match '/signout, :to => 'sessions#destroy'
   match '/signout/:provider', :to => 'sessions#destroy'
   
   get   '/login', :to => 'sessions#new', :as => :login
