@@ -8,6 +8,7 @@ MapsqueakProto::Application.routes.draw do
   resources :squeaks
   get "squeaks/new"
   match 'squeaks/map_preview/:id', :to => 'squeaks#map_preview'
+  match 'squeaks/image/:id', :to => 'squeaks#squeak_image'
 
   match '/mobile', :to => 'pages#mobile_app'
   match '/news',    :to => 'pages#news'
@@ -20,7 +21,7 @@ MapsqueakProto::Application.routes.draw do
   resources :sessions, :only => [:new, :create, :destroy]
 
   match '/signin',  :to => 'sessions#new'
-  match '/signout', :to => 'sessions#destroy'
+  match '/signout/:provider', :to => 'sessions#destroy'
   
   get   '/login', :to => 'sessions#new', :as => :login
   match '/auth/:provider/callback', :to => 'sessions#create'

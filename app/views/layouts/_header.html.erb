@@ -1,46 +1,56 @@
 <header>
-
-	<nav class="round">	
-      <ul>
-           <li> <h1>MapSqueak! </h1> </li>	
-           <li> </li>
-			<li>
-				<%= link_to "Home", root_path %>
-			</li>
-            <li>
-				<%= link_to "Mobile App", mobile_path %>
-			</li>
-			<li>
-				<%= link_to "News", news_path %>
-			</li>
-			<li>
-				<%= link_to "Terms", terms_path %>
-			</li>
-			<li>
-				<%= link_to "Contact Us", contact_path %>
-			</li>
- 		   <li> <% if signed_in? %>
-			<li>
-				<%= link_to "Profile", current_user %>
-			</li>
-			<% end %>
-			<% if  signed_in? %>
-			<li>
-				<%= link_to "Sign out", signout_path, :method=>:delete %>
-			</li>
-			<% else  %>
-			<li>
-				<%= link_to "Sign in", signin_path %>
-			</li>
-			<% end %>
-	 <li> <%= link_to logo, squeaks_new_path %> </li>
-        </ul> 
-	</nav>
-	<nav class="round"> 
-     <ul>
-        
-       
-     </ul> 
-    </nav>
-<%= yield :head %>
+  <nav class="round">	
+    <ul>
+      <li> <h1>MapSqueak! </h1> </li>	
+      <li> </li>
+      <li>
+	<%= link_to "Home", root_path %>
+      </li>
+      <li>
+	<%= link_to "App", mobile_path %>
+      </li>
+      <li>
+	<%= link_to "News", news_path %>
+      </li>
+      <li>
+	<%= link_to "Terms", terms_path %>
+      </li>
+      <li>
+	<%= link_to "Contact", contact_path %>
+      </li>
+      <li> <% if signed_in? %>
+      <li>
+	<%= link_to "Profile", current_user %>
+      </li>
+      <% end %>
+      <% if  signed_in? %>
+      <li>
+	<%= link_to "Log out", signout_path, :method=>:delete %>
+      </li>
+      <% end  %>
+      <% if  signed_in_to?('facebook') %>
+      <li>
+	<%= link_to "FB signout", signout_path + "/:facebook", :method=>:delete %>
+      </li>
+      <% end  %>
+      
+      <% if  signed_in_to?('twitter') %>
+      <li>
+	<%= link_to "TW logout", signout_path + "/:twitter", :method=>:delete %>
+      </li>
+      <% end  %>
+      
+      <li>
+	<%= link_to "Log in", signin_path %>
+      </li>
+      <li> <%= link_to logo, squeaks_new_path %> </li>
+    </ul> 
+  </nav>
+  <nav class="round"> 
+    <ul>
+      
+      
+    </ul> 
+  </nav>
+  <%= yield :head %>
 </header>

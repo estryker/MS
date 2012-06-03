@@ -119,8 +119,16 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    sign_out
-    m = Message.new("Session ended",0)
+    services = ""
+    if params.include?(:provider)
+      sign_out_of(params[:provider])
+      services = params[:provider]
+    else
+      sign_out
+      services = "all"
+    end
+
+    m = Message.new("Signed out of #{services}",0)
     if request.env["HTTP_USER_AGENT"].include? 'iPhone'
       render :xml => m
     else

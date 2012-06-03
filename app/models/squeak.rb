@@ -38,8 +38,11 @@ class Squeak < ActiveRecord::Base
 # validates :expires, :presence => true,
 #                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
  
- validates :duration, :presence => true,
+  validates :duration, :presence => true,
                       :numericality => {:greater_than => 0.0,:less_than_or_equal_to => 24}
+
+  # before_save :decode_image
+
  ### NOTE: we don't need to do all the gmaps4rails_address junk b/c we already have the lat/long!
  ### Sooooo.... we put :process_geocoding => false to skip that!
  ### here we simply specify the lat/long columns in our database, and put in dummy addresses.
@@ -69,5 +72,24 @@ class Squeak < ActiveRecord::Base
       "height" => 32 #beware to resize your pictures properly
     }
   end
+
+  #:private
+  #def decode_image
+  #  unless self.image.nil?
+  #    if self.image.respond_to? :read
+  #      self.image = self.image.read
+  #    else
+  #      self.image = Base64.decode64(self.image)
+  #    end
+
+      # TODO: perhaps this is better?
+      #case 
+      #when String
+      #  self.image = Base64.decode64(self.image)
+      #when ActionDispatch::Http::UploadedFile
+      #  self.image = Base64.decode64(self.image)
+      #end
+   # end
+  # end
 end
 

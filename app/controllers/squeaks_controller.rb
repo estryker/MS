@@ -13,6 +13,13 @@ class SqueaksController < ApplicationController
   def create
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
     # TODO: truncate the text to 140
+    if params[:squeak].has_key? :encoded_image
+      params[:squeak][:image] = Base64.decode64(params[:squeak][:encoded_image])
+      params[:squeak].delete(:encoded_image)
+    elsif params.has_key? :image_file
+      params[:squeak][:image] = params[:image_file].read
+    end
+
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
     user = current_user  || anonymous_user
@@ -191,6 +198,20 @@ class SqueaksController < ApplicationController
     # http.get(map_string).body
 
     redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
+  end
+
+  def squeak_image
+    squeak = Squeak.find(params[:id])
+    respond_to do | format |
+      format.html do 
+        send_data squeak.image, :disposition => 'inline' # @squeak_image = squeak.image
+      end
+      format.xml do 
+        @id = squeak.id
+        @encoded_squeak_image = Base64.encode64(squeak.image)
+        render :partial => "squeak_image"
+      end
+    end
   end
 
   :private

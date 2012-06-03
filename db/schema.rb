@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502023808) do
+ActiveRecord::Schema.define(:version => 20120601180649) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(:version => 20120502023808) do
     t.string   "user_email"
     t.float    "duration"
     t.integer  "user_id"
+    t.binary   "image"
   end
 
   add_index "squeaks", ["created_at"], :name => "index_squeaks_on_created_at"

@@ -5,27 +5,32 @@
 
   Enter an Address:
   <div class="field">
-    <%= text_field_tag :address, '',:placeholder => 'Enter location...' %>
+    <%= text_field_tag :address, '',:placeholder => 'Enter location ...' %>
   </div>
   <br/> 
   Or enter a Lat/Long:
   <br/>
   <div class="field">
     <%= f.label :latitude %><br />
-    <%= f.text_field :latitude,:placeholder => 'Enter numeric latitude...' %>
+    <%= f.text_field :latitude,:placeholder => 'Enter numeric latitude ...' %>
   </div>
   <div class="field">
     <%= f.label :longitude %><br />
-    <%= f.text_field :longitude,:placeholder => 'Enter numeric longitude...' %>
+    <%= f.text_field :longitude,:placeholder => 'Enter numeric longitude ...' %>
   </div>
   <div class="field">
     <%= f.label :squeak %><br />
-    <%= f.text_field :text,:placeholder => 'Enter message...' %>
+    <%= f.text_field :text,:placeholder => 'Enter message ...' %>
   </div>
   <div class="field">
 	<%= f.label :Expires_after %><br />
-	<%= f.select :duration, options_for_select([2,4,8]) %>
+	<%= f.select :duration, options_for_select((1..24).to_a) %>
     hours
+  </div>
+  <div class="field">
+    <!-- <%= f.label :Image %><br /> -->
+    <!-- <%= f.file_field :image %> --> 
+    <%= file_field_tag :image_file %>
   </div>
 
     <div class="actions">
