@@ -23,26 +23,11 @@
 	<%= link_to "Profile", current_user %>
       </li>
       <% end %>
-      <% if  signed_in? %>
       <li>
-	<%= link_to "Log out", signout_path, :method=>:delete %>
-      </li>      
-      <% else %>
-      <li>
-	<%= link_to "Log in", signin_path %>
+	<%= link_to "Manage Logins", signin_path %>
       </li>
-      <% end  %>
+      
 
-      <% if  signed_in_to?('facebook') %>
-      <li>
-	<%= link_to "FB logout", signout_path + "/:facebook", :method=>:delete %>
-      </li>
-      <% end  %>
-      <% if  signed_in_to?('twitter') %>
-      <li>
-	<%= link_to "TW logout", signout_path + "/:twitter", :method=>:delete %>
-      </li>
-      <% end  %>
       <li> <%= link_to logo, squeaks_new_path %> </li>
     </ul> 
   </nav>
