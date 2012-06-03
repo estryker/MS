@@ -1,28 +1,18 @@
 <h2>Sign in/out using one of the following services </h2>
-      
+
 <% if  signed_in? %>
-<li>
   <%= link_to "Log out all", signout_path, :method=>:delete %>
-</li>      
 <% end  %>
 
 <% if  signed_in_to?('facebook') %>
-<li>
   <%= link_to image_tag('/images/facebook_64.png'), signout_path + "/:facebook", :method=>:delete %>
-</li>
 <% else %>
-<li>
 <%= link_to image_tag('/images/facebook_grey_64.png'), '/auth/facebook', :class => 'quick', :remote => true %>
-</li>
 <% end  %>
 
 <% if  signed_in_to?('twitter') %>
-<li>
   <%= link_to image_tag('/images/twitter_64.png'), signout_path + "/:twitter", :method=>:delete %>
-</li>
 <% else  %>
-<li>
 <%= link_to image_tag('/images/twitter_grey_64.png'), '/auth/twitter', :class => 'quick', :remote => true %>
-</li>
 <% end  %>
 <!-- <%= link_to image_tag('/images/google_64.png'), '/auth/google', :class => 'quick', :remote => true %> -->
