@@ -184,10 +184,11 @@ class ShareRequestsController < ApplicationController
         end
         
         # TODO: if the squeak has an image, then this is the way to go
-        # Twitter.update_with_media(tweet, {'io' => StringIO.new(squeak.image), 'type' => 'png'})
-
-        Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
-        
+        if squeak.image.nil?
+          Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
+        else
+          Twitter.update_with_media(tweet, {'io' => StringIO.new(squeak.image), 'type' => 'png'})
+        end        
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"
         $stderr.puts "Error posting squeak:"

@@ -62,9 +62,9 @@ class SqueaksController < ApplicationController
           render :json => @squeak.to_json, :status=>:created, :location=>@squeak
         end
         format.xml do
-        # make sure that the json has the id of the squeak so the user gets
-        # the id in return, and can update facebook/google+ accordingly
-          render :xml => @squeak.to_xml, :status=>:created
+          # TODO: why was I doing this ??
+          # render :xml => @squeak.to_xml, :status=>:created
+          render :partial => @squeak
         end
       else
         err = "Couldn't create squeak"
