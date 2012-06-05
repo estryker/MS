@@ -185,7 +185,7 @@ class ShareRequestsController < ApplicationController
         
         # TODO: if the squeak has an image, then this is the way to go
         if squeak.image.nil?
-          Twitter.update(tweet,{:lat => squeak.latitude,:long => squeak.longitude})
+          Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
         else
           Twitter.update_with_media(squeak.text, {'io' => StringIO.new(squeak.image), 'type' => 'png'},{:lat => squeak.latitude,:long => squeak.longitude})
         end        
