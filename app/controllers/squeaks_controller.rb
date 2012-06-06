@@ -87,7 +87,14 @@ class SqueaksController < ApplicationController
     num_squeaks = 1000
     center_lat = 0.0
     center_long = 0.0
-    
+    zoom_level = 5 
+    if params.has_key? :zoom_level
+      z = params[:zoom_level].to_f
+      if z > 0.0 and z <= 90
+        zoom_level = z 
+      end
+    end
+
     # Squeak.all(:conditions => ["expires > ?",DateTime.now.utc])
     all_squeaks = []
 
@@ -99,7 +106,7 @@ class SqueaksController < ApplicationController
       # all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]).
       
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
-      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc - 1]).where(:latitude => (center_lat - 5 .. center_lat + 5),:longitude => (center_long - 5 .. center_long + 5))  
+      all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc - 1]).where(:latitude => (center_lat - zoom_level .. center_lat + zoom_level),:longitude => (center_long - zoom_level .. center_long + zoom_level))  
     else  
       # this will happen on the web client. I don't care about performance on it right now
       all_squeaks = Squeak.where(["expires > ?",DateTime.now.utc]) 
