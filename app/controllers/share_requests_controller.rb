@@ -153,16 +153,17 @@ class ShareRequestsController < ApplicationController
           caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { :name => squeak.text,
-            :description => "I just posted to MapSqueak!",
+            :description => "A new post on MapSqueak!",
             :link => "http://www.mapsqueak.com",
             :caption => caption,
             :place => {
+              :id = '112438218775062',
               :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
             }
           }
 
           if squeak.image.nil?
-            ret = user.put_wall_post("I just posted to MapSqueak!", facebook_args)
+            ret = user.put_wall_post(squeak.text, facebook_args)
           else  
             user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
           end
