@@ -154,6 +154,7 @@ class ShareRequestsController < ApplicationController
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { :name => squeak.text,
             :description => "I just posted to MapSqueak!",
+            :link => "http://www.mapsqueak.com",
             :caption => caption,
             :place => {
               :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
@@ -161,7 +162,7 @@ class ShareRequestsController < ApplicationController
           }
 
           if squeak.image.nil?
-            ret = user.put_wall_post("Ijust posted to MapSqueak!", facebook_args)
+            ret = user.put_wall_post("I just posted to MapSqueak!", facebook_args)
           else  
             user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
           end
