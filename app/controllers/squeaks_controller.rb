@@ -20,6 +20,23 @@ class SqueaksController < ApplicationController
       params[:squeak][:image] = params[:image_file].read
     end
 
+    # For now, we're just logging
+    if params[:squeak].has_key? :salt and params[:squeak].has_key? :hash
+      key = "test"
+      hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt]))
+      if hmac == params[:squeak][:hash]
+        puts "HMAC correct"
+      else
+        puts "No HMAC match: #{hmac} vs received: #{params[:squeak][:hash]}"
+      end
+      
+      # TODO: determine if we need to store these
+      params[:squeak].delete :salt
+      params[:squeak].delete :hash
+    else
+      puts "No HMAC received"
+    end
+
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
     user = current_user  || anonymous_user
