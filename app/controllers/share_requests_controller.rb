@@ -152,17 +152,18 @@ class ShareRequestsController < ApplicationController
           # debug
           caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
-          
-          ret = user.put_wall_post('I just posted to MapSqueak!', { :name => squeak.text,
-                                     :description => "I just posted to MapSqueak!",
-                                     :link => 'www.istherea.com',# squeak_link,
-                                     :caption => caption,
-                                     # :description => "Posted on MapSqueak!" ,
-                                     # :picture => picture_url
-                                     :coordinates => {:latitude => squeak.latitude,
-                                       :longitude => squeak.longitude}.to_json
-                                     
-                                   })
+          facebook_args = { :name => squeak.text,
+            :description => "I just posted to MapSqueak!",
+            :caption => caption,
+            :coordinates => {:latitude => squeak.latitude,
+              :longitude => squeak.longitude}.to_json
+          }
+
+          if squeak.image.nil?
+            ret = user.put_wall_post('I just posted to MapSqueak!', facebook_args)
+          else  
+            user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
+          end
           
           puts "Updated facebook: #{ret.inspect}"
           
@@ -187,7 +188,7 @@ class ShareRequestsController < ApplicationController
         if squeak.image.nil?
           Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
         else
-          Twitter.update_with_media(squeak.text, {'io' => StringIO.new(squeak.image), 'type' => 'png'},{:lat => squeak.latitude,:long => squeak.longitude})
+          Twitter.update_with_media(squeak.text, {'io' => StringIO.new(squeak.image), 'type' => 'jpeg'},{:lat => squeak.latitude,:long => squeak.longitude})
         end        
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"
