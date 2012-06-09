@@ -155,12 +155,13 @@ class ShareRequestsController < ApplicationController
           facebook_args = { :name => squeak.text,
             :description => "I just posted to MapSqueak!",
             :caption => caption,
-            :coordinates => {:latitude => squeak.latitude,
-              :longitude => squeak.longitude}.to_json
+            :place => {
+              :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
+            }
           }
 
           if squeak.image.nil?
-            ret = user.put_connections('me',"feed", facebook_args)
+            ret = user.put_wall_post("Ijust posted to MapSqueak!", facebook_args)
           else  
             user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
           end
