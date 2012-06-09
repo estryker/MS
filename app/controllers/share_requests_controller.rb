@@ -160,7 +160,7 @@ class ShareRequestsController < ApplicationController
           }
 
           if squeak.image.nil?
-            ret = user.put_wall_post('I just posted to MapSqueak!', facebook_args)
+            ret = user.put_connections('me',"feed", facebook_args)
           else  
             user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
           end
