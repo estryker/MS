@@ -64,9 +64,13 @@ class Squeak < ActiveRecord::Base
   #end
   def gmaps4rails_infowindow
     #"<h4>#{name}</h4>" << "<h4>#{address}</h4>"
-    
+
+    # display: block;
+    # font-size: 85%;
+    #color: #666;
+
     caption = Time.now < self.expires ? "Expires in #{time_ago_in_words(self.expires)}" : "Expired #{time_ago_in_words(self.expires)} ago."
-    "<h4> #{self.text} </h4> <h6> #{caption}</h6>"
+    "<font size=4 face='arial,sans-serif'>#{self.text} </font> <br/> <font color='#666' size=2 face='arial,sans-serif'> #{caption} </font>"
   end
 
   def gmaps4rails_marker_picture
