@@ -156,6 +156,7 @@ class ShareRequestsController < ApplicationController
             :description => "A new post on MapSqueak!",
             :link => "http://www.mapsqueak.com",
             :caption => caption,
+            :latitude => squeak.latitude,:longitude => squeak.longitude,
             :place => {
               :id => '112438218775062',
               :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
