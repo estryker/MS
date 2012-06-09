@@ -156,18 +156,22 @@ class ShareRequestsController < ApplicationController
             :description => "A new post on MapSqueak!",
             :link => "http://www.mapsqueak.com",
             :caption => caption,
-            :place => {
-              :id => '112438218775062',:name => "Baltimore",
+            :place => 
+            {
+              :id => "",:name => "",
               :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
             }
           }
 
           if squeak.image.nil?
             ret = user.put_wall_post(squeak.text, facebook_args)
+            
           else  
             user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
           end
-          
+          # user.put_wall_post(squeak.text, facebook_args)
+
+
           puts "Updated facebook: #{ret.inspect}"
           
         rescue Exception => e

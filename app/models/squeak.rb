@@ -17,7 +17,9 @@
 #
 
 class Squeak < ActiveRecord::Base
-
+  include ActionView::Helpers::DateHelper
+  include ApplicationHelper
+  
  belongs_to :user # , :primary_key => :user_email
  
  numeric_regex = /^-?[0-9.]+$/
@@ -62,7 +64,9 @@ class Squeak < ActiveRecord::Base
   #end
   def gmaps4rails_infowindow
     #"<h4>#{name}</h4>" << "<h4>#{address}</h4>"
-    self.text
+    
+    caption = Time.now < self.expires ? "Expires in #{time_ago_in_words(self.expires)}" : "Expired #{time_ago_in_words(self.expires)} ago."
+    "<h4> #{self.text} </h4> <h6> #{caption}</h6>"
   end
 
   def gmaps4rails_marker_picture
