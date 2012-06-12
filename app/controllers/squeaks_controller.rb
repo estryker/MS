@@ -226,7 +226,7 @@ class SqueaksController < ApplicationController
     uri = URI("http://maps.googleapis.com/")
     http = Net::HTTP.start(uri.host, uri.port)
     # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
-    map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=800x800&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+    map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=jpg&sensor=true"
 
     send_data http.get(map_string).body
   end
