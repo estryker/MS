@@ -216,6 +216,16 @@ class SqueaksController < ApplicationController
     end
   end
 
+  def map_image
+    squeak = Squeak.find(params[:id])
+    uri = URI("http://maps.googleapis.com/")
+    http = Net::HTTP.start(uri.host, uri.port)
+    # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
+    map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&sensor=true"
+
+    send_data http.get(map_string).body
+  end
+
   def map_preview
     squeak = Squeak.find(params[:id])
     #    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Clabel:M%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true" # icon:#{root_url}images/new_squeak_marker.png
@@ -229,6 +239,8 @@ class SqueaksController < ApplicationController
     # uri = URI("http://maps.googleapis.com/")
     # http = Net::HTTP.start(uri.host, uri.port)
     # map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
+    
+    # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
     # http.get(map_string).body
 
     redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"

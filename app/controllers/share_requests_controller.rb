@@ -151,26 +151,23 @@ class ShareRequestsController < ApplicationController
           #  ret = user.put_connections('me',"feed", { :name => squeak.text,
           # debug
           caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
-          facebook_args = { :name => squeak.text,
-            :description => "A new post on MapSqueak!",
-            :link => "http://www.mapsqueak.com",
+          facebook_args = { 
+            :description => "Just posted on MapSqueak!",
+            :link => "http://www.mapsqueak.com/",
             :caption => caption,
-            :place => 
-            {
-              :id => "",:name => "",
-              :location => {:latitude => squeak.latitude,:longitude => squeak.longitude}
-            }
           }
 
           if squeak.image.nil?
-            ret = user.put_wall_post(squeak.text, facebook_args)
-            
+            facebook_args.merge!(:image => "#{root_url}squeaks/image/#{squeak.id}")
           else  
-            user.put_picture(StringIO.new(squeak.image), 'jpeg', facebook_args)
+            # **Note that 'picture' is what is documented. Image was found by mistake. 
+            # facebook_args.merge!(:picture => "#{root_url}/images/mapsqueak_logo.png)")
+            facebook_args.merge!(:image => "#{root_url}squeaks/map_image/#{squeak.id}")
           end
-          # user.put_wall_post(squeak.text, facebook_args)
 
+          ret = user.put_wall_post(squeak.text, facebook_args)
 
           puts "Updated facebook: #{ret.inspect}"
           
