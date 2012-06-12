@@ -218,6 +218,11 @@ class SqueaksController < ApplicationController
 
   def map_image
     squeak = Squeak.find(params[:id])
+    icon_url = "#{root_url}images/new_squeak_marker.png"
+    if squeak.created_at < 5.minutes.ago
+      # use the green icon for older squeaks
+      icon_url = "#{root_url}images/old_squeak_marker.png"
+    end
     uri = URI("http://maps.googleapis.com/")
     http = Net::HTTP.start(uri.host, uri.port)
     # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
