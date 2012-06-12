@@ -154,17 +154,19 @@ class ShareRequestsController < ApplicationController
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
-            :description => "Just posted on MapSqueak!", # :link => "http://www.mapsqueak.com/",
+            :description => "Just posted on MapSqueak!",
+            :link => "http://www.mapsqueak.com/",
             :caption => caption
           }
 
-          if squeak.image.nil?
-            facebook_args.merge!(:image => "#{root_url}squeaks/image/#{squeak.id}")
-          else  
-            # **Note that 'picture' is what is documented. Image was found by mistake. 
-            # facebook_args.merge!(:picture => "#{root_url}/images/mapsqueak_logo.png)")
-            facebook_args.merge!(:image => "#{root_url}squeaks/map_image/#{squeak.id}")
-          end
+          # This should work, but it doesn't anymore. reverting to link
+          #if squeak.image.nil?
+          #  facebook_args.merge!(:image => "#{root_url}squeaks/image/#{squeak.id}")
+          #else  
+          #  # **Note that 'picture' is what is documented. Image was found by mistake. 
+          #  # facebook_args.merge!(:picture => "#{root_url}/images/mapsqueak_logo.png)")
+          #  facebook_args.merge!(:image => "#{root_url}squeaks/map_image/#{squeak.id}")
+          #end
 
           ret = user.put_wall_post(squeak.text, facebook_args)
 
