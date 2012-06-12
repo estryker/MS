@@ -156,6 +156,7 @@ class ShareRequestsController < ApplicationController
           facebook_args = { 
             :description => "Just posted on MapSqueak!",
             :link => "http://www.mapsqueak.com/",
+            :name => squeak.text,
             :caption => caption
           }
 
