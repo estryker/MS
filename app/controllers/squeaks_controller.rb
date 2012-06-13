@@ -148,11 +148,11 @@ class SqueaksController < ApplicationController
     respond_to do |format|
       format.json do
 
-        render :json => @squeaks.to_json
+        render :json => @squeaks
         #render :json => squeaks
       end
       format.html do
-        @squeaks.to_gmaps4rails
+        @json = @squeak.to_gmaps4rails
       end
       format.xml do 
         # to minimize the XML
@@ -274,16 +274,16 @@ class SqueaksController < ApplicationController
 
       if @squeak # and @squeak.user_email == user.email
         @squeak.text.gsub!(/[\n\r]+/,' ')
-        @json = @squeak.to_gmaps4rails
+   
         format.html do
           @title = page_title
           @zoom = 14 # TODO: make this configurable
           # TODO: add this to the database so we don't need to  know the context of where we are.
           @squeak_map_preview = squeak_map_preview(@squeak)
-          #@json
+          @json = @squeak.to_gmaps4rails
         end
         format.json do
-          render :json => @json
+          render :json => @squeak
         end
         format.xml do
           # this returns the entire squeak info. don't need or want all that 
