@@ -81,6 +81,16 @@ class Squeak < ActiveRecord::Base
     }
   end
 
+
+  def as_json(options={})
+    result = super(:only => [:id, :latitude, :longitude, :duration, :expires,:created_at,:text])     
+    result["squeak"]["expires"] = self.expires.strftime("%Y-%m-%dT%H:%M:%SZ")
+    result["squeak"]["created_at"] = self.created_at.strftime("%Y-%m-%dT%H:%M:%SZ")
+    result["squeak"]["has_image"] = self.image.nil? ? "false" : "true"
+    result
+  end
+  #   result["user"]["name"] = name.capitalize
+  
   #:private
   #def decode_image
   #  unless self.image.nil?

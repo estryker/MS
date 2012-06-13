@@ -146,14 +146,13 @@ class SqueaksController < ApplicationController
     # note that gmaps4rails doesn't like newlines in the description
     @squeaks = all_squeaks.first(num_squeaks).each {|s| s.text.gsub!(/[\n\r]+/,' ')}
     respond_to do |format|
-      @json = @squeaks.to_gmaps4rails
       format.json do
 
-        render :json => @json
+        render :json => @squeaks.to_json
         #render :json => squeaks
       end
       format.html do
-        @json
+        @squeaks.to_gmaps4rails
       end
       format.xml do 
         # to minimize the XML
