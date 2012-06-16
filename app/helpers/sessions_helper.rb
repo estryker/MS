@@ -24,7 +24,7 @@ module SessionsHelper
       a.secret = nil
       a.save
     end
-    self.current_user = nil
+    current_user = nil
     session[:user_id] = nil
   end
 
@@ -38,7 +38,7 @@ module SessionsHelper
     
     # only make the current user nil after all services are signed out of
     if current_user.authorizations.all? {|a| a.token.nil? }
-      self.current_user = nil
+      current_user = nil
       session[:user_id] = nil
     end
 

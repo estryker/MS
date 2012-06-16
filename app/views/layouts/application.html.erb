@@ -4,7 +4,8 @@
   <head>
    <%	if  @squeak and @squeak_map_preview %> 
 	<meta name="description" content="<%=@squeak.text%>" />
-	<link rel="image_src" href="<%= @squeak_map_preview %>" />
+	<meta property="og:title" content="<%=@squeak.text%>" />
+	<meta property="og:image" content="<%= @squeak_map_preview %>" />
 	<% end %> 
     <title><%= title %></title>
     <%= csrf_meta_tag %>

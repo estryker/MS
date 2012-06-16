@@ -104,11 +104,11 @@ class SqueaksController < ApplicationController
     num_squeaks = 1000
     center_lat = 0.0
     center_long = 0.0
-    zoom_level = 5 
-    if params.has_key? :zoom_level
-      z = params[:zoom_level].to_f
+    box_size = 5 
+    if params.has_key? :box_size
+      z = params[:box_size].to_f
       if z > 0.0 and z <= 90
-        zoom_level = z 
+        box_size = z 
       end
     end
 
@@ -124,10 +124,10 @@ class SqueaksController < ApplicationController
 
       # shift the numbers up to be between 0-180 and 0-360 so we can use modular arithmetic to
       # work at the edges. 
-      lower_lat = ((center_lat + 90 - zoom_level) % 180) - 90
-      upper_lat =  ((center_lat + 90 + zoom_level) %180) - 90
-      lower_long = ((center_long + 180 - zoom_level) % 360) - 180
-      upper_long = ((center_long + 180 + zoom_level) % 360) - 180
+      lower_lat = ((center_lat + 90 - box_size) % 180) - 90
+      upper_lat =  ((center_lat + 90 + box_size) %180) - 90
+      lower_long = ((center_long + 180 - box_size) % 360) - 180
+      upper_long = ((center_long + 180 + box_size) % 360) - 180
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
       all_squeaks = Squeak.where(["expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?",
                                   DateTime.now.utc - 1,lower_lat,upper_lat,lower_long,upper_long])
@@ -152,7 +152,7 @@ class SqueaksController < ApplicationController
         #render :json => squeaks
       end
       format.html do
-        @json = @squeak.to_gmaps4rails
+        @json = @squeaks.to_gmaps4rails
       end
       format.xml do 
         # to minimize the XML
