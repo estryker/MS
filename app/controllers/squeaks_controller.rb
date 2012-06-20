@@ -225,7 +225,13 @@ class SqueaksController < ApplicationController
     uri = URI("http://maps.googleapis.com/")
     http = Net::HTTP.start(uri.host, uri.port)
     # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
-    map_string = "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=400x300&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=jpg&sensor=true"
+
+    format = "png"
+    if params.has_key? :format
+      format = params[:format]
+    end
+
+    map_string =  "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
 
     send_data http.get(map_string).body
   end
@@ -247,14 +253,23 @@ class SqueaksController < ApplicationController
     # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
     # http.get(map_string).body
 
-    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}%7C&sensor=true"
+    format = "png"
+    if params.has_key? :format
+      format = params[:format]
+    end
+
+    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
   end
 
   def squeak_image
     squeak = Squeak.find(params[:id])
     respond_to do | format |
       format.html do 
-        send_data squeak.image, :disposition => 'inline' # @squeak_image = squeak.image
+        if params.has_key? :jpg or params.has_key? :jpeg
+          send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
+        else
+          send_data squeak.image, :disposition => 'inline' # @squeak_image = squeak.image
+        end
       end
       format.xml do 
         @id = squeak.id
