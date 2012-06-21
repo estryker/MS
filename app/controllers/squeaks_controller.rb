@@ -233,7 +233,7 @@ class SqueaksController < ApplicationController
 
     map_string =  "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
 
-    send_data http.get(map_string).body
+    send_data http.get(map_string).body, :type => "image/#{format}", :disposition => 'inline'
   end
 
   def map_preview
