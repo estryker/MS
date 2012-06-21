@@ -264,12 +264,11 @@ class SqueaksController < ApplicationController
   def squeak_image
     squeak = Squeak.find(params[:id])
     respond_to do | format |
-      format.html do 
-        if params.has_key? :jpg or params.has_key? :jpeg
-          send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
-        else
-          send_data squeak.image, :disposition => 'inline' # @squeak_image = squeak.image
-        end
+      format.jpg do 
+        send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
+      end
+      format.jpeg do 
+        send_data squeak.image, :type => "image/jpeg",:disposition => 'inline' # @squeak_image = squeak.image
       end
       format.xml do 
         @id = squeak.id
