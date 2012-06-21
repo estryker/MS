@@ -267,14 +267,11 @@ class SqueaksController < ApplicationController
     if params.has_key? :format
       if params[:format] =~ /jpe?g/i  
         send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
-      end
-    else
-      respond_to do | format |
-        format.xml do 
-          @id = squeak.id
-          @encoded_squeak_image = Base64.encode64(squeak.image)
-          render :partial => "squeak_image"
-        end
+
+      elsif params[:format] =~ /xml/i 
+        @id = squeak.id
+        @encoded_squeak_image = Base64.encode64(squeak.image)
+        render :partial => "squeak_image"
       end
     end
   end
