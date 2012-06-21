@@ -263,21 +263,22 @@ class SqueaksController < ApplicationController
 
   def squeak_image
     squeak = Squeak.find(params[:id])
-    respond_to do | format |
-      format.jpg do 
+
+    if params.has_key? :format
+      if params[:format] =~ /jpe?g/i  
         send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
       end
-      format.jpeg do 
-        send_data squeak.image, :type => "image/jpeg",:disposition => 'inline' # @squeak_image = squeak.image
-      end
-      format.xml do 
-        @id = squeak.id
-        @encoded_squeak_image = Base64.encode64(squeak.image)
-        render :partial => "squeak_image"
+    else
+      respond_to do | format |
+        format.xml do 
+          @id = squeak.id
+          @encoded_squeak_image = Base64.encode64(squeak.image)
+          render :partial => "squeak_image"
+        end
       end
     end
   end
-
+  
   :private
 
   def show_squeak(params, page_title)
