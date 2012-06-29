@@ -291,7 +291,7 @@ class SqueaksController < ApplicationController
           @title = page_title
           @zoom = 14 # TODO: make this configurable
           # TODO: add this to the database so we don't need to  know the context of where we are.
-          @squeak_map_preview = squeak_map_preview(@squeak)
+          @squeak_map_link = "#{root_url}/squeaks/map_image/#{@squeak.id}.jpg")
           @json = @squeak.to_gmaps4rails
         end
         format.json do
