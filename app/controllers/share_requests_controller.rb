@@ -154,8 +154,13 @@ class ShareRequestsController < ApplicationController
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
+<<<<<<< HEAD
             :description => 'MapSqueak helps you find out what is going on around you right now',
             :link => "http://www.mapsqueak.com/", # :link => "#{root_url}squeaks/#{squeak.id}", 
+=======
+            :description => "Just posted on MapSqueak!",
+            :link => "http://www.mapsqueak.com/", # :link => "#{root_url}squeaks/#{squeak.id}",
+>>>>>>> 1026fdb2deff329a72aa1f98cf71b3510590823e
             :name => squeak.text,
             :caption => caption
           }
