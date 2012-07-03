@@ -175,7 +175,8 @@ class ShareRequestsController < ApplicationController
           #  facebook_args.merge! :picture => "#{root_url}squeaks/image/#{squeak.id}.jpg"
           #end
 
-          facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
+          # facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
+          facebook_args.merge! :picture => "http://mapsqueak.com/images/mapsqueak.png"
 
           ret = user.put_wall_post(squeak.text, facebook_args)
 
