@@ -154,7 +154,7 @@ class ShareRequestsController < ApplicationController
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
-            :description => "Just posted on MapSqueak!",
+            :description => 'MapSqueak helps you find out what is going on around you right now',
             :link => "http://www.mapsqueak.com/", # :link => "#{root_url}squeaks/#{squeak.id}", 
             :name => squeak.text,
             :caption => caption
@@ -174,6 +174,8 @@ class ShareRequestsController < ApplicationController
           #else
           #  facebook_args.merge! :picture => "#{root_url}squeaks/image/#{squeak.id}.jpg"
           #end
+
+          facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
 
           ret = user.put_wall_post(squeak.text, facebook_args)
 
