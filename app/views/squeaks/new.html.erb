@@ -32,7 +32,10 @@
     <!-- <%= f.file_field :image %> --> 
     <%= file_field_tag :image_file %>
   </div>
-
+ <div class="field">
+    <%= f.label :timezone %><br />
+    <%= f.text_field :timezone,:placeholder => 'Enter timezone ...' %>
+  </div>
     <div class="actions">
     <%= f.submit "Squeak!" %>
   </div>
