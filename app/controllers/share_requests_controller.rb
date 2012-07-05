@@ -25,13 +25,13 @@ class ShareRequestsController < ApplicationController
        response = https.post("/#{uid}/feed",escape)
        puts "attempted to share to fb: #{response.body}"
        
-       redirect_to root_path
+       redirect_to index_path
        return
      end
 
     if squeak.nil?
-      # throw an appropriate error and redirect to the root_path
-      respond_to_user("Can't find squeak with id of #{params[:squeak_id]}",1,root_path)
+      # throw an appropriate error and redirect to the index_path
+      respond_to_user("Can't find squeak with id of #{params[:squeak_id]}",1,index_path)
     else
       if(false)
         # debug only for local testing!!!
@@ -113,7 +113,7 @@ class ShareRequestsController < ApplicationController
 
     #auth = current_user.authorizations.where(:provider => provider_name)
 
-    new_path = root_path
+    new_path = index_path
     auths = Authorization.where(:user_id => current_user.id, :provider => provider_name)
     
     auth = nil

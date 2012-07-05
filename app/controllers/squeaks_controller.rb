@@ -318,4 +318,8 @@ class SqueaksController < ApplicationController
        end
     end
   end
+
+  def proper_home
+    redirect_to 'http://www.mapsqueak.com/'
+  end
 end

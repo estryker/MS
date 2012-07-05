@@ -11,13 +11,17 @@ MapsqueakProto::Application.routes.draw do
   match 'squeaks/image/:id', :to => 'squeaks#squeak_image'
   match 'squeaks/map_image/:id', :to => 'squeaks#map_image'
 
+  match '/index', :to => 'squeaks#index'
   match '/mobile', :to => 'pages#mobile_app'
   match '/news',    :to => 'pages#news'
   match '/about',    :to => 'pages#about'
   match '/terms',    :to => 'pages#terms'
   match '/contact',    :to => 'pages#contact'
-  root :to => 'squeaks#index'
+# root :to => 'squeaks#index'
+  root :to => 'squeaks#proper_home'
+
   
+
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
 
