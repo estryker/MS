@@ -23,7 +23,7 @@ class SqueaksController < ApplicationController
     # For now, we're just logging
     if params[:squeak].has_key? :salt and params[:squeak].has_key? :hash
       key = "OIA9cj6nTfiV4EHkfDZc2A" # test
-      hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt]))
+      hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt])).strip
       if hmac == params[:squeak][:hash].strip
         puts "HMAC correct"
       else
