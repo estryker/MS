@@ -199,12 +199,12 @@ describe "POST 'create'" do
 
       it "should require matching users for 'edit'" do
         get :edit, :id => @user
-        response.should redirect_to(root_path)
+        response.should redirect_to(index_path)
       end
 
       it "should require matching users for 'update'" do
         put :update, :id => @user, :user => {}
-        response.should redirect_to(root_path)
+        response.should redirect_to(index_path)
       end
     end
   end

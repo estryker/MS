@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
           respond_to do | format |
             format.html do
               flash[:success] = success.text
-              redirect_to root_path
+              redirect_to index_path
             end
           end
         end
@@ -58,7 +58,7 @@ class SessionsController < ApplicationController
             respond_to do | format |
               format.html do
                 flash[:success] = success.text
-                redirect_back_or root_path
+                redirect_back_or index_path
               end
             end
           end
@@ -135,7 +135,7 @@ class SessionsController < ApplicationController
       respond_to do | format |
         format.html do
           flash[:success] = m.text
-          redirect_to root_path
+          redirect_to index_path
         end
       end
     end
