@@ -156,7 +156,7 @@ class ShareRequestsController < ApplicationController
           facebook_args = { 
             :description => 'MapSqueak helps you find out what is going on around you right now',
             :link => "#{root_url}squeaks/#{squeak.id}", # :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # 
-            :name => squeak.text,
+            # :name => squeak.text,
             :caption => caption
           }
 
