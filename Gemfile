@@ -3,6 +3,7 @@ source 'http://rubygems.org'
 group :development do
   gem 'rspec-rails', '2.6.1'
   gem 'annotate', '2.4.0'
+  gem 'thin'
 end
 
 group :test do
@@ -40,6 +41,7 @@ gem 'omniauth-twitter'
 
 gem 'koala'
 gem 'twitter'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

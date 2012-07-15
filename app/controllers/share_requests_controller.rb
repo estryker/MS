@@ -12,7 +12,7 @@ class ShareRequestsController < ApplicationController
     squeak = Squeak.find(params[:squeak_id])
 
     # debug
-    if(root_url.include?('localhost'))
+    if(false) # root_url.include?('localhost'))
        token = 'AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD'
        uid = '1456286987'
        caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
@@ -27,7 +27,23 @@ class ShareRequestsController < ApplicationController
        
        redirect_to index_path
        return
-     end
+      
+    elsif(root_url.include?('localhost'))
+      user = Koala::Facebook::API.new('AAABh2GszOn4BAHw3dZCJZBSDJTsR117vdDuJmLOUcSdzuKo4qyZBaOtQZB6dvDZC732ZAxkBsvMuWLoVlcvFgzdhSXB8FpPmM6CcvcvAw36gZDZD')
+      caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+      
+      #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
+      facebook_args = { 
+        :description => "MapSqueak. What\'s happening around you, right now?",
+        :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # :link => "#{root_url}squeaks/#{squeak.id}", # 
+        :name => squeak.text,
+        :caption => caption
+      }
+
+      ret = user.put_wall_post(squeak.text, facebook_args)
+      redirect_to index_path
+      return
+    end
 
     if squeak.nil?
       # throw an appropriate error and redirect to the index_path
@@ -154,9 +170,9 @@ class ShareRequestsController < ApplicationController
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
-            :description => "#{root_url}squeaks/#{squeak.id}", #'MapSqueak helps you find out what is going on around you right now',
-            :link => "#{root_url}squeaks/#{squeak.id}", # :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # 
-            # :name => squeak.text,
+            :description => "MapSqueak. What\'s happening around you, right now?",
+            :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # :link => "#{root_url}squeaks/#{squeak.id}", # 
+            :name => squeak.text,
             :caption => caption
           }
 
@@ -177,7 +193,6 @@ class ShareRequestsController < ApplicationController
 
           # facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
           # facebook_args.merge! :picture => "http://mapsqueak.com/images/mapsqueak.png"
-
           ret = user.put_wall_post(squeak.text, facebook_args)
 
           puts "Updated facebook: #{ret.inspect}"

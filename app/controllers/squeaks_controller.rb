@@ -104,7 +104,9 @@ class SqueaksController < ApplicationController
     num_squeaks = 1000
     center_lat = 0.0
     center_long = 0.0
-    box_size = 5 
+    # 1 degree latitude = 110.574km at 0 degrees to  111.69km at 90 degrees
+    # 1 degree longitude = 111.320 km at 0 degrees, 78.847 km at 45 degrees, 28.902 km at 75 degrees
+    box_size = 2
     if params.has_key? :box_size
       z = params[:box_size].to_f
       if z > 0.0 and z <= 90
