@@ -166,11 +166,11 @@ class ShareRequestsController < ApplicationController
           # user.put_connections('me','links', { :name => squeak.text,
           #  ret = user.put_connections('me',"feed", { :name => squeak.text,
           # debug
-          caption = Time.now < squeak.expires ? "Expires in #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+          caption = Time.now < squeak.expires ? "Vailid for #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
-            :description => "MapSqueak. What\'s happening around you, right now?",
+            :description => "MapSqueak. Intersecting people, place, and time.",
             :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # :link => "#{root_url}squeaks/#{squeak.id}", # 
             :name => squeak.text,
             :caption => caption
@@ -193,9 +193,22 @@ class ShareRequestsController < ApplicationController
 
           # facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
           # facebook_args.merge! :picture => "http://mapsqueak.com/images/mapsqueak.png"
+          
+          # this works, but image doesn't show up right when posted from heroku
           ret = user.put_wall_post(squeak.text, facebook_args)
-
-          puts "Updated facebook: #{ret.inspect}"
+          
+          # don't need these in rails:
+          # require 'uri'
+          # require 'net/http'
+          #uri = URI("https://graph.facebook.com/")
+          #https = Net::HTTP.start(uri.host, uri.port,:use_ssl => true)
+          #Net::HTTP.post_form(,"access_token"=>token, "message" => "I just posted to MapSqueak!",
+          #                   "link" => "http://mapsqueak.heroku.com/squeaks/#{squeak.id}&caption=#{caption}")
+          
+          #escape = URI.escape("message=#{squeak.text}&access_token=#{auth.token}&link=http://www.mapsqueak.com/squeak.php?id=#{squeak.id}&caption=#{caption}")
+          #response = https.post("/#{uid}/feed",escape)
+          #puts "attempted to share to fb: #{response.body}"
+          #puts "Updated facebook: #{ret.inspect}"
           
         rescue Exception => e
           # flash[:error] = "Error: couldn't post to facebook wall"
