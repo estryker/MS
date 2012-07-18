@@ -196,7 +196,8 @@ class ShareRequestsController < ApplicationController
           
           # this works, but image doesn't show up right when posted from heroku
           ret = user.put_wall_post(squeak.text, facebook_args)
-          
+          user.get_object(ret["id"]) # to ensure the image gets shared ...
+
           # don't need these in rails:
           # require 'uri'
           # require 'net/http'
