@@ -186,7 +186,7 @@ class ShareRequestsController < ApplicationController
           #end
 
           if squeak.image.nil?
-            facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
+            # facebook_args.merge! :picture => "#{root_url}squeaks/map_image/#{squeak.id}.jpg"
           else
             facebook_args.merge! :picture => "#{root_url}squeaks/image/#{squeak.id}.jpg"
           end
