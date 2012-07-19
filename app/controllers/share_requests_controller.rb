@@ -166,7 +166,7 @@ class ShareRequestsController < ApplicationController
           # user.put_connections('me','links', { :name => squeak.text,
           #  ret = user.put_connections('me',"feed", { :name => squeak.text,
           # debug
-          caption = Time.now < squeak.expires ? "Vailid for #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
+          caption = Time.now < squeak.expires ? "Valid for #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 

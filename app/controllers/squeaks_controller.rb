@@ -262,8 +262,8 @@ class SqueaksController < ApplicationController
 
     # redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
 
-    box_low = "#{squeak.longitude - 0.25},#{squeak.latitude - 0.25}"
-    box_high = "#{squeak.longitude + 0.25},#{squeak.latitude + 0.25},"
+    #box_low = "#{squeak.longitude - 0.25},#{squeak.latitude - 0.25}"
+    #box_high = "#{squeak.longitude + 0.25},#{squeak.latitude + 0.25},"
 
     # e.g. http://pafciu17.dev.openstreetmap.org/?module=map&bbox=-77.123299,38.918027,-76.623299,39.418027&width=200&points=-76.873299,39.168027&pointImageUrl=http://mapsqueak.heroku.com/images/new_squeak_marker.png
 
