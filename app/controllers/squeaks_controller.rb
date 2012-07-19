@@ -260,7 +260,19 @@ class SqueaksController < ApplicationController
       format = params[:format]
     end
 
-    redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=color:blue%7Cicon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
+    # redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
+
+    box_low = "#{squeak.longitude - 0.25},#{squeak.latitude - 0.25}"
+    box_high = "#{squeak.longitude + 0.25},#{squeak.latitude + 0.25},"
+
+    # e.g. http://pafciu17.dev.openstreetmap.org/?module=map&bbox=-77.123299,38.918027,-76.623299,39.418027&width=200&points=-76.873299,39.168027&pointImageUrl=http://mapsqueak.heroku.com/images/new_squeak_marker.png
+
+    # if we want a bounding box (needs tweaking)
+    #puts "http://dev.openstreetmap.org/~pafciu17/?module=map&bbox=#{box_low},#{box_high}&width=200&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
+    #redirect_to "http://dev.openstreetmap.org/~pafciu17/?module=map&bbox=#{box_low},#{box_high}&width=200&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
+    
+    redirect_to "http://dev.openstreetmap.org/~pafciu17/?module=map&center=#{squeak.longitude},#{squeak.latitude}&width=200&height=200&zoom=14&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
+    
   end
 
   def squeak_image
@@ -293,7 +305,7 @@ class SqueaksController < ApplicationController
           @title = page_title
           @zoom = 14 # TODO: make this configurable
           # TODO: add this to the database so we don't need to  know the context of where we are.
-          @squeak_map_link = "#{root_url}squeaks/map_image/#{@squeak.id}.jpg"
+          @squeak_map_link = "#{root_url}squeaks/map_preview/#{@squeak.id}.jpg"
           @json = @squeak.to_gmaps4rails
         end
         format.json do
