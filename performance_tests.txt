@@ -1,0 +1,172 @@
+Questions to answer:
+
+how many parallel users in X number of areas can the heroku handle reasonably? Reasonable will be 1 fetch per second. 
+
+Num users
+100, 1000, 10,000, 100,000, 1,000,000
+
+X areas (area is a box of size 4 x 4 degrees or roughly 450 km * 320 km or 280 * 200 miles)
+1, 10, 100
+
+Num Squeaks in that area:
+0, 10, 1000, 5,000, 10,000
+
+Run:
+auto squeak 3 times
+  1, 10, 100 areas
+  
+  for each time do this loop:
+    run http_load for 100, 1000, 10,000, 100,000 parallel users
+    
+
+* Note we can only have 100 URLs. For now, just keep it at 4. 
+To simulate 1000 users that refresh every 10 seconds, then
+that is 100 requests per second. 
+
+Users	Max parallel 	 Interval
+100	10  		 10
+225	15		 15
+1000	100		 10
+10000	100		 100
+100000  200		 500 (max parallel I've seen is around 200)
+
+
+WEBRICK Max user test:
+** E.g. 100 users:
+./http_load -checksum -parallel 10 -rate 10 -jitter -seconds 60  -verbose mapsqueak_local_url.txt 
+599 fetches, 2 max parallel, 66161 bytes, in 60.0001 seconds
+110.452 mean bytes/connection
+9.98332 fetches/sec, 1102.68 bytes/sec
+msecs/connect: 0.119275 mean, 0.281 max, 0.064 min
+msecs/first-response: 92.7506 mean, 174.153 max, 46.958 min
+HTTP response codes:
+  code 200 -- 599
+
+
+Users retrieving every 10 seconds will make 6 requests each minute, so we would expect 600 requests. 
+The server did handle the load with no delays. 
+
+** E.g. 144 users:
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -checksum -parallel 12 -rate 12 -jitter -seconds 60  -verbose mapsqueak_local_url.txt 
+674 fetches, 50 max parallel, 73241 bytes, in 60 seconds
+108.666 mean bytes/connection
+11.2333 fetches/sec, 1220.68 bytes/sec
+msecs/connect: 0.150749 mean, 0.503 max, 0.082 min
+msecs/first-response: 1925.44 mean, 4014.18 max, 72.185 min
+HTTP response codes:
+  code 200 -- 674
+
+We expect 864 requests, so the server did not keep up. 
+
+THIN Max user test:
+** 100 users
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -checksum -parallel 10 -rate 10 -jitter -seconds 60  -verbose mapsqueak_local_url.txt 
+600 fetches, 17 max parallel, 64347 bytes, in 60 seconds
+107.245 mean bytes/connection
+10 fetches/sec, 1072.45 bytes/sec
+msecs/connect: 0.125597 mean, 0.403 max, 0.066 min
+msecs/first-response: 118.202 mean, 1660.51 max, 44.123 min
+HTTP response codes:
+  code 200 -- 600
+
+144 Users
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -checksum -parallel 12 -rate 12 -jitter -seconds 60  -verbose mapsqueak_local_url.txt 
+728 fetches, 4 max parallel, 78779 bytes, in 60.0001 seconds
+108.213 mean bytes/connection
+12.1333 fetches/sec, 1312.98 bytes/sec
+msecs/connect: 0.119635 mean, 0.378 max, 0.065 min
+msecs/first-response: 87.0301 mean, 254.701 max, 45.021 min
+HTTP response codes:
+  code 200 -- 728
+
+We expect 864 requests, so the server did not keep up. 
+
+
+
+Questions: what is byte_count wrong mean?? why is it doing that?
+
+
+Localhost results 7/13:
+368 Squeaks, 333 current. 
+
+Webrick:
+Summary: Looks like 30 simultaneous connections are about all that it can handle. 
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 50 -fetches 500 -verbose mapsqueak_local_url.txt 
+
+*** byte count wrong messages ...
+
+500 fetches, 50 max parallel, 120876 bytes, in 31.7171 seconds
+241.752 mean bytes/connection
+15.7643 fetches/sec, 3811.06 bytes/sec
+msecs/connect: 81.9927 mean, 3002.93 max, 0.032 min
+msecs/first-response: 2889.65 mean, 8124.89 max, 17.029 min
+382 bad byte counts
+HTTP response codes:
+  code 200 -- 378
+  code 500 -- 118
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 25 -fetches 500 -verbose mapsqueak_local_url.txt 
+500 fetches, 25 max parallel, 106992 bytes, in 39.7698 seconds
+213.984 mean bytes/connection
+12.5724 fetches/sec, 2690.28 bytes/sec
+msecs/connect: 30.0674 mean, 999.903 max, 0.062 min
+msecs/first-response: 1912.58 mean, 3929.62 max, 109.86 min
+HTTP response codes:
+  code 200 -- 500
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 30 -fetches 500 -verbose mapsqueak_local_url.txt 
+500 fetches, 30 max parallel, 96758 bytes, in 37.9593 seconds
+193.516 mean bytes/connection
+13.172 fetches/sec, 2548.99 bytes/sec
+msecs/connect: 24.0885 mean, 999.841 max, 0.045 min
+msecs/first-response: 2187.56 mean, 2889.61 max, 107.219 min
+HTTP response codes:
+  code 200 -- 500
+
+
+Thin:
+
+Summary: Thin can handle 250 simultaneous threads, but has problems at 500.
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 50 -fetches 500 -verbose mapsqueak_local_url.txt 
+500 fetches, 50 max parallel, 101875 bytes, in 37.0287 seconds
+203.75 mean bytes/connection
+13.5031 fetches/sec, 2751.25 bytes/sec
+msecs/connect: 0.103518 mean, 0.417 max, 0.024 min
+msecs/first-response: 3558.43 mean, 4424.85 max, 1615.76 min
+HTTP response codes:
+  code 200 -- 500
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 100 -fetches 500 -verbose mapsqueak_local_url.txt 
+500 fetches, 100 max parallel, 103337 bytes, in 38.6466 seconds
+206.674 mean bytes/connection
+12.9377 fetches/sec, 2673.89 bytes/sec
+msecs/connect: 0.138116 mean, 0.677 max, 0.032 min
+msecs/first-response: 7010.14 mean, 7917.49 max, 758.68 min
+HTTP response codes:
+  code 200 -- 500
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 250 -fetches 500 -verbose mapsqueak_local_url.txt 
+500 fetches, 250 max parallel, 93834 bytes, in 40.3151 seconds
+187.668 mean bytes/connection
+12.4023 fetches/sec, 2327.51 bytes/sec
+msecs/connect: 7354.41 mean, 31075.9 max, 0.049 min
+msecs/first-response: 7554.29 mean, 30123 max, 787.232 min
+HTTP response codes:
+  code 200 -- 500
+
+
+ethan@dell-desktop:~/http_load-12mar2006$ ./http_load -parallel 500 -fetches 500 -verbose mapsqueak_local_url.txt 
+*** byte count wrong messages ...
+
+500 fetches, 420 max parallel, 110370 bytes, in 51.6038 seconds
+220.74 mean bytes/connection
+9.68922 fetches/sec, 2138.8 bytes/sec
+msecs/connect: 7187.18 mean, 15035.9 max, 0.051 min
+msecs/first-response: 15651.5 mean, 39971.2 max, 812.75 min
+48 bad byte counts
+HTTP response codes:
+  code 200 -- 452
+
+

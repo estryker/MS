@@ -1,0 +1,11 @@
+Delete some new squeaks:
+Squeak.where("id > 35").each {|s| s.delete }; nil
+
+Where query:
+s = Squeak.where(["expires > ? AND latitude < ? AND latitude > ? AND longitude < ? AND longitude > ?",DateTime.now.utc - 1,42,38,-80,-77])
+
+Like query:
+Squeak.where(["text like ?", "%2012\-07\-12 22\:04\:50 \-0400%"])
+
+Iterate:
+Squeak.all.each {|s| puts "#{s.id} #{s.text} #{s.created_at} #{s.expires}" }; nil

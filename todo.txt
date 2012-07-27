@@ -1,0 +1,3 @@
+- test user / authorization code
+- write functions to move old squeaks out of database. into where?
+- metrics code for tracking usage - how to do logging on heroku better
