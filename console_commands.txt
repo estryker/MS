@@ -9,3 +9,9 @@ Squeak.where(["text like ?", "%2012\-07\-12 22\:04\:50 \-0400%"])
 
 Iterate:
 Squeak.all.each {|s| puts "#{s.id} #{s.text} #{s.created_at} #{s.expires}" }; nil
+
+
+** need a command to archive squeaks older than 24 hours old. where to put them?
+I'll need a place with an identical user database table as well. 
+
+can I just make a squeak_archive table and make two updates upon squeak creation. then every so often, I can delete out of the squeak table. The alternative is to periodically (during non-peak hours) query the database and copy the squeaks out and remove them from the 'live' table. 
