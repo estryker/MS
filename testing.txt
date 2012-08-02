@@ -1,0 +1,37 @@
+Things to test:
+
+Squeaks:
+
+Sessions:
+
+
+
+Note that single users can have one or more authentications.  
+New users are created when an authentication is created when
+an authentication couldn't be found with the current uid/provider combo
+
+Upon sign out, 
+the auth.token and auth.secret are nil'd out. 
+
+Omniauth failures:
+- auth hash nil iphone
+- auth hash nil browser
+
+Omniauth success:
+- already signed in new authentication (make sure user has the new provider in the database) for iphone
+- already signed in new authentication (make sure user has the new provider in the database) for browser
+** the add_provider method in user.rb will either:
+    1) update the credentials in an existing authentication row, or 
+    2) call find_or_create to create an authentication row
+
+- not signed in authentication. test find_or_create.  So two cases here, one 
+   - where the authentication is a first, and 
+   - one where the authentication is an old one. (**ensure that a new row isn't created - Authorization.find_by_provider_and_uid should find an existing
+     user with an authentication of this provider and uid, and return the authorization object)
+* in both cases, ensure that the token and secret are filled in
+
+- sign out of all
+
+- sign out of particular service
+
+Users:

@@ -2,13 +2,46 @@ require 'spec_helper'
 
 describe SessionsController do
   # render_views
-  
+  require "#{Rails.root}/app/helpers/sessions_helper.rb"
+  include SessionsHelper
+
   # new API:
   describe "POST 'create'" do 
+
+    # TODO test twitter with and without email
+
+    before(:each) do
+      @user = Factory(:user)
+
+    end
+
     describe "invalid omniauth login" do 
       it "should respond with an error message" do 
+        request.env["omniauth.auth"] = nil
+
         post 'create'
         response.body.should contain("Not authenticated")
+      end
+    end
+
+    # auths = Authorization.where(:user_id => current_user.id, :provider => provider_name)
+
+    describe "new valid auth for already signed in user" do 
+      before(:each) do 
+        sign_in @user
+      end
+      it "should keep user signed in" do 
+        request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
+        post 'create'
+        assert signed_in?
+      end
+
+      it "should have only one authorization and with filled in token" do 
+        request.env["omniauth.auth"] = OmniAuth.config.mock_auth[:facebook]
+        post 'create'
+        auths = Authorization.where(:user_id => current_user.id, :provider => 'facebook')
+        assert auths.length == 1, "Auths length: #{auths.length}, inspect: #{auths.inspect}"
+        auths.first.should_not_equal nil
       end
     end
   end
