@@ -1,5 +1,9 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-ENV["RAILS_ENV"] ||= 'test'
+#ENV["RAILS_ENV"] ||= 'test'
+
+# changed this to require the test database
+ENV["RAILS_ENV"] = 'test'
+
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 
@@ -25,6 +29,7 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
   
+  # don't need these anymore:
   def test_sign_in(user)
     controller.sign_in(user)
   end

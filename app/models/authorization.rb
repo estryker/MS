@@ -30,13 +30,16 @@ class Authorization < ActiveRecord::Base
   end
   
   # override the class method for find_or_create to take an OmniAuth auth_hash
-  def self.find_or_create(auth_hash)
+  # Note that this will also create a corresponding User if one doesn't exist for this authorization
+  def self.find_or_create(auth_hash, user=nil)
     # note to self: this is ActiveRecord's dynamic attribute based finder (implemented using 'method_missing')
     unless auth = find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
       # Note that info/email may be nil (e.g. Twitter)
-      user = User.create :name => auth_hash["info"]["name"]
 
-      puts user.inspect
+      if user.nil?
+        user = User.create :name => auth_hash["info"]["name"]
+      end
+      # puts user.inspect
 
       # only add the email if it is not nil, b/c of the regex checker
       user.email = auth_hash["info"]["email"] if auth_hash["info"].has_key?("email") and not auth_hash["info"]["email"].empty?

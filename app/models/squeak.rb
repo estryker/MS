@@ -14,6 +14,8 @@
 #  user_email :string(255)
 #  duration   :float
 #  user_id    :integer
+#  image      :binary
+#  timezone   :string(255)
 #
 
 class Squeak < ActiveRecord::Base

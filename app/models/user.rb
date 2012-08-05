@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
     if auth = authorizations.find_by_provider_and_uid(auth_hash["provider"], auth_hash["uid"])
       auth.update_credentials!(auth_hash)      
     else
-      auth = Authorization.find_or_create(auth_hash)
+      auth = Authorization.find_or_create(auth_hash, self)
       # Authorization.create :user => self, :provider => auth_hash["provider"], :uid => auth_hash["uid"]
     end
     auth

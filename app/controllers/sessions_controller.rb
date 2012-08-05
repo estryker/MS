@@ -40,9 +40,13 @@ class SessionsController < ApplicationController
 
       else
         # Log him in or sign him up
+
         #render :text => auth_hash.inspect
         
         # Note that this find/creates an authorization AND also update the credentials
+        # AND this will create a user that this authorization belongs to if an authorization
+        # is created.
+        # TODO: consider creating a User as a separate step
         auth = Authorization.find_or_create(auth_hash)
         
         # Create the session

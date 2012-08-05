@@ -14,7 +14,7 @@ module SessionsHelper
   end
   
   def signed_in_to?(service)
-    signed_in? and  current_user.authorizations.any? {|a| a.provider == service and not a.token.nil? }
+    signed_in? and  current_user.authorizations.any? {|a| a.provider.to_s == service.to_s and not a.token.nil? }
   end
   
   # signs people out of all services
