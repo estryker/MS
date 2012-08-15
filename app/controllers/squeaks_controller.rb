@@ -279,12 +279,15 @@ class SqueaksController < ApplicationController
     squeak = Squeak.find(params[:id])
 
     if params.has_key? :format
+      # Ugh! total hack! Heroku has messed with the data ...
+      image = [Squeak.image[1..-1]].pack('H*')
+      
       if params[:format] =~ /jpe?g/i  
-        send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
+        send_data image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
 
       elsif params[:format] =~ /xml/i 
         @id = squeak.id
-        @encoded_squeak_image = Base64.encode64(squeak.image)
+        @encoded_squeak_image = Base64.encode64(image)
         render :partial => "squeak_image"
       end
     end

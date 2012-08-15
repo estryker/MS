@@ -6,6 +6,7 @@ s = Squeak.where(["expires > ? AND latitude < ? AND latitude > ? AND longitude <
 
 Like query:
 Squeak.where(["text like ?", "%2012\-07\-12 22\:04\:50 \-0400%"])
+Squeak.where(["text like ?","%Auto%"]).first(200).each {|s| s.delete}; nil
 
 Iterate:
 Squeak.all.each {|s| puts "#{s.id} #{s.text} #{s.created_at} #{s.expires}" }; nil
