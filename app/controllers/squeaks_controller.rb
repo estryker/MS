@@ -280,7 +280,7 @@ class SqueaksController < ApplicationController
 
     if params.has_key? :format
       # Ugh! total hack! Heroku has messed with the data ...
-      image = [Squeak.image[1..-1]].pack('H*')
+      image = [squeak.image[1..-1]].pack('H*')
       
       if params[:format] =~ /jpe?g/i  
         send_data image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
