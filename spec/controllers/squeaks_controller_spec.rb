@@ -62,7 +62,10 @@ describe SqueaksController do
     before(:each) do 
       @squeak = Factory(:squeak) 
       get :show, {:format => 'xml', :id => @squeak.id}
-      @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+      @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)     
+      @squeak2 = Factory(:squeak)    
+      get :show, {:format => 'xml', :id => @squeak2.id}
+      @xml2 = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
     end
     it "should have squeak as the root element" do 
       assert @xml.has_key?('squeak'), "response: #{@xml.to_s}"
@@ -92,27 +95,22 @@ describe SqueaksController do
       assert @xml['squeak'].has_key?('has_image'), "response: #{@xml.to_s}"
     end
 
-    describe "squeak with image" do 
-      before(:each) do 
-        @squeak = Factory(:squeak) 
-        get :show, {:format => 'xml', :id => @squeak.id}
-        @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false) 
-        @squeak2 = Factory(:squeak)    
-        get :show, {:format => 'xml', :id => @squeak2.id}
-        @xml2 = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
-      end 
-      it "should have has_image set to true" do 
-        assert @xml['squeak']['has_image'] == 'true', "xml #{@xml.to_s}"
-      end
-      it "hex escaped input should have a binary image" do 
-        get :squeak_image, {:id => @squeak.id, :format => 'jpg'}
-        assert response.body == 0xFFFF, "img: #{@squeak.image.each_byte{|b| "%02X"}.join('')} body: \'#{response.body.each_byte{|b| "%02X"}.join('')}\'"
-      end     
-      it "binary input should have a binary image" do 
-        get :squeak_image, {:id => @squeak2.id, :format => 'jpg'}
-        assert response.body == 0xFFFF, "img: #{@squeak2.image.each_byte{|b| "%02X"}.join('')} body: \'#{response.body.each_byte{|b| "%02X"}.join('')}\'"
-      end
+   # describe "squeak with image" do 
+
+    it "should have has_image set to true" do 
+      assert @xml['squeak']['has_image'] == 'true', "xml #{@xml.to_s}"
     end
+    it "hex escaped input should have a binary image" do 
+      get :squeak_image, {:id => @squeak.id, :format => 'jpg'}
+      assert response != nil
+      assert response.body == "\xFF\xFF", "img: #{@squeak.image.each_byte.map {|b| '%02X' % b}.join('')} body: \'#{response.body.each_byte.map {|b| '%02X' % b}.join('')}\'"
+    end     
+    it "binary input should have a binary image" do 
+      get :squeak_image, {:id => @squeak2.id, :format => 'jpg'}
+      assert response.body != nil
+      assert response.body == "\xFF\xFF", "img: #{@squeak2.image.each_byte.map {|b| '%02X' % b}.join('')} body: \'#{response.body.each_byte.map {|b| '%02X' % b}.join('')}\'"
+    end
+    # end
   end
   
   #describe "GET 'new'" do

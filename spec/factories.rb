@@ -5,7 +5,7 @@ Factory.define :user do |user|
   #user.password              "foobar"
   #user.password_confirmation "foobar"
 end
-images = ["xFFFF",["xFFFF"[1..-1]].pack("H*")]
+
 
 Factory.define :squeak do |squeak|
   squeak.latitude   54.1
@@ -14,7 +14,8 @@ Factory.define :squeak do |squeak|
   squeak.time_utc 0.hours.ago
   squeak.duration  2
   squeak.expires  2.hours.from_now
-
-  squeak.sequence(:image) { |n| images[n]}
+  # @images = ["xFFFF",["xFFFF"[1..-1]].pack("H*")]
+  #squeak.sequence(:image) { |n| @images[n]}
+  squeak.image  "xFFFF"
 #end
 end
