@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'xmlsimple'
 
 describe SqueaksController do
   render_views
@@ -15,6 +16,105 @@ describe SqueaksController do
     @bad_long_params = {:longitude=>180.1}
   end
 
+  describe "POST XML to create squeak" do 
+    it "should accept XML with all necessary fields" do 
+
+    end
+    it "should complain when no latitude is given" do 
+    end
+    it "should complain when no longitude is given" do 
+    end
+    it "should complain when a latitude < 0 is given" do 
+    end
+    it "should complain when a latitude > 90 is given" do 
+    end
+    it "should complain when a longitude < -180 is given" do 
+    end
+    it "should complain when a longitude > 180 is given" do 
+    end
+    it "should complain when a duration < 0 is given" do 
+    end
+    it "should complain when a duration == 0 is given" do 
+    end
+    it "should complain when a duration > 24 hours is given" do 
+    end
+  end
+
+  describe "GET XML by id" do 
+    # create one squeak with an image, 
+    # one squeak without an image
+ 
+=begin 
+    example returned XML: 
+     <squeak>
+      <id>637</id>
+      <latitude>39.191021</latitude>
+      <longitude>-76.81881</longitude>
+      <duration>2.0</duration>
+      <expires>2012-06-10T01:14:28Z</expires>
+      <created-at>2012-06-09T23:14:28Z</created-at>
+      <text>Boys night out. Seats available at pub dog.</text>
+      <timezone/>
+      <has_image>true</has_image>
+     </squeak>
+=end
+
+    before(:each) do 
+      @squeak = Factory(:squeak) 
+      get :show, {:format => 'xml', :id => @squeak.id}
+      @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+    end
+    it "should have squeak as the root element" do 
+      assert @xml.has_key?('squeak'), "response: #{@xml.to_s}"
+    end
+    it "should have an id" do 
+      assert @xml['squeak'].has_key?('id'), "response: #{@xml.to_s}"
+    end
+    it "should have latitude" do 
+      assert @xml['squeak'].has_key?('latitude'), "response: #{@xml.to_s}"    
+    end
+    it "should have longitude" do 
+      assert @xml['squeak'].has_key?('longitude'), "response: #{@xml.to_s}"    
+    end
+    it "should have duration" do 
+      assert @xml['squeak'].has_key?('duration'), "response: #{@xml.to_s}"    
+    end
+    it "should have expires" do 
+      assert @xml['squeak'].has_key?('expires'), "response: #{@xml.to_s}"    
+    end
+    it "should have text" do 
+      assert @xml['squeak'].has_key?('text'), "response: #{@xml.to_s}"    
+    end
+    it "should have timezone" do 
+      assert @xml['squeak'].has_key?('timezone'), "response: #{@xml.to_s}"    
+    end
+    it "should have has_image" do 
+      assert @xml['squeak'].has_key?('has_image'), "response: #{@xml.to_s}"
+    end
+
+    describe "squeak with image" do 
+      before(:each) do 
+        @squeak = Factory(:squeak) 
+        get :show, {:format => 'xml', :id => @squeak.id}
+        @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false) 
+        @squeak2 = Factory(:squeak)    
+        get :show, {:format => 'xml', :id => @squeak2.id}
+        @xml2 = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+      end 
+      it "should have has_image set to true" do 
+        assert @xml['squeak']['has_image'] == 'true', "xml #{@xml.to_s}"
+      end
+      it "hex escaped input should have a binary image" do 
+        get :squeak_image, {:id => @squeak.id, :format => 'jpg'}
+        assert response.body == 0xFFFF, "img: #{@squeak.image.each_byte{|b| "%02X"}.join('')} body: \'#{response.body.each_byte{|b| "%02X"}.join('')}\'"
+      end     
+      it "binary input should have a binary image" do 
+        get :squeak_image, {:id => @squeak2.id, :format => 'jpg'}
+        assert response.body == 0xFFFF, "img: #{@squeak2.image.each_byte{|b| "%02X"}.join('')} body: \'#{response.body.each_byte{|b| "%02X"}.join('')}\'"
+      end
+    end
+  end
+  
   #describe "GET 'new'" do
   #  it "should be successful" do
   #    get 'new'
@@ -155,3 +255,7 @@ describe SqueaksController do
     end
   end
 end
+
+__END__
+
+

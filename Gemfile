@@ -42,6 +42,8 @@ gem 'omniauth-twitter'
 gem 'koala'
 gem 'twitter'
 
+gem 'xml-simple'
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

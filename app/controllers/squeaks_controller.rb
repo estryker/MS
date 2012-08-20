@@ -224,16 +224,25 @@ class SqueaksController < ApplicationController
       # use the green icon for older squeaks
       icon_url = "#{root_url}images/old_squeak_marker.png"
     end
-    uri = URI("http://maps.googleapis.com/")
+
+    uri = URI("http://dev.openstreetmap.org/")
     http = Net::HTTP.start(uri.host, uri.port)
+
+    # uri = URI("http://maps.googleapis.com/")
+    # http = Net::HTTP.start(uri.host, uri.port)
     # e.g. http://maps.googleapis.com/maps/api/staticmap?center=54.1,-1.7&zoom=13&size=200x200&maptype=roadmap&markers=icon:http://mapsqueak.heroku.com/images/old_squeak_marker.png%7C54.1,-1.7&sensor=true
 
-    format = "png"
-    if params.has_key? :format
-      format = params[:format]
-    end
+    #if params.has_key? :format
+    #  format = params[:format]
+    #end
+    # map_string =  "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
 
-    map_string =  "/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
+    # map_string = "/~pafciu17/?module=map&center=#{squeak.longitude},#{squeak.latitude}&width=200&height=200&zoom=14&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
+    uri = URI("http://open.mapquestapi.com/")
+    http = Net::HTTP.start(uri.host, uri.port)
+    format = "png"
+
+    map_string = "/staticmap/v4/getmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
 
     send_data http.get(map_string).body, :type => "image/#{format}", :disposition => 'inline'
   end
@@ -260,19 +269,27 @@ class SqueaksController < ApplicationController
       format = params[:format]
     end
 
+    # google maps api
     # redirect_to "http://maps.googleapis.com/maps/api/staticmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=13&size=200x200&maptype=roadmap&markers=icon:#{icon_url}%7C#{squeak.latitude},#{squeak.longitude}&format=#{format}&sensor=true"
 
     #box_low = "#{squeak.longitude - 0.25},#{squeak.latitude - 0.25}"
     #box_high = "#{squeak.longitude + 0.25},#{squeak.latitude + 0.25},"
 
+    # open stretmap api
     # e.g. http://pafciu17.dev.openstreetmap.org/?module=map&bbox=-77.123299,38.918027,-76.623299,39.418027&width=200&points=-76.873299,39.168027&pointImageUrl=http://mapsqueak.heroku.com/images/new_squeak_marker.png
 
     # if we want a bounding box (needs tweaking)
     #puts "http://dev.openstreetmap.org/~pafciu17/?module=map&bbox=#{box_low},#{box_high}&width=200&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
     #redirect_to "http://dev.openstreetmap.org/~pafciu17/?module=map&bbox=#{box_low},#{box_high}&width=200&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
-    
-    redirect_to "http://dev.openstreetmap.org/~pafciu17/?module=map&center=#{squeak.longitude},#{squeak.latitude}&width=200&height=200&zoom=14&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
-    
+ 
+    # this is not encouraged by open streetmaps b/c it puts a load on the server
+    # redirect_to "http://dev.openstreetmap.org/~pafciu17/?module=map&center=#{squeak.longitude},#{squeak.latitude}&width=200&height=200&zoom=14&points=#{squeak.longitude},#{squeak.latitude}&pointImageUrl=#{icon_url}"
+
+    # but this one doesn't allow for custom icons
+    # redirect_to "http://staticmap.openstreetmap.de/staticmap.php?center=#{squeak.longitude},#{squeak.latitude}&zoom=14&size=200x200&maptype=mapnik&markers=#{squeak.longitude},#{squeak.latitude},#{icon_url}" # pipe separate for multiple: lightblue1|40.711614,-74.012318,lightblue2|40.718217,-73.998284,lightblue3"
+
+    # mapquest API
+    redirect_to "http://open.mapquestapi.com/staticmap/v4/getmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
   end
 
   def squeak_image
