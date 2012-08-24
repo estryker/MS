@@ -15,7 +15,8 @@ Factory.define :squeak do |squeak|
   squeak.duration  2
   squeak.expires  2.hours.from_now
   # @images = ["xFFFF",["xFFFF"[1..-1]].pack("H*")]
-  #squeak.sequence(:image) { |n| @images[n]}
-  squeak.image  "xFFFF"
+
+  squeak.sequence(:image) {|n| ["xFFFF",["xFFFF"[1..-1]].pack("H*")][n%2] }
+  #squeak.image  "xFFFF"
 #end
 end

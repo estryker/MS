@@ -39,4 +39,8 @@
     <div class="actions">
     <%= f.submit "Squeak!" %>
   </div>
+    <% salt = Base64.encode64([rand((1<<64) - 1)].pack("V") + [rand((1<<64) - 1)].pack("V")).strip %>
+    <% md5 =  Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "OIA9cj6nTfiV4EHkfDZc2A",salt)).strip %>
+    <%= f.hidden_field :salt, :value => "#{salt}" %>
+    <%= f.hidden_field :hash, :value => "#{md5}" %>
 <% end %>

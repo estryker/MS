@@ -28,6 +28,20 @@ class SqueaksController < ApplicationController
         puts "HMAC correct \'#{hmac}\'"
       else
         puts "No HMAC match: \'#{hmac}\' vs received: \'#{params[:squeak][:hash]}\'"
+        err = "Couldn't create squeak: Incorrect HMAC received"
+        respond_to do | format |
+          format.html do
+            render :new
+          end
+          
+          format.json do
+            render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+          end
+          format.xml do
+            render :xml => {:error => err, :status =>:unprocessable_entity}
+          end
+        end
+        return
       end
       
       # TODO: determine if we need to store these
@@ -35,6 +49,20 @@ class SqueaksController < ApplicationController
       params[:squeak].delete :hash
     else
       puts "No HMAC received"
+      err = "Couldn't create squeak: No HMAC received"
+      respond_to do | format |
+        format.html do
+          render :new
+        end
+        
+        format.json do
+          render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+        end
+        format.xml do
+          render :xml => {:error => err, :status =>:unprocessable_entity}
+        end
+      end
+      return
     end
 
     @squeak = Squeak.new(params[:squeak])

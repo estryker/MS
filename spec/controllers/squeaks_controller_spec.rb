@@ -16,27 +16,92 @@ describe SqueaksController do
     @bad_long_params = {:longitude=>180.1}
   end
 
-  describe "POST XML to create squeak" do 
-    it "should accept XML with all necessary fields" do 
+  describe "GET map preview" do 
+    it "should be redirected to mapquestapi" do 
+      get :map_preview, {:id => @squeak.id }
+      response.should be_redirect, "body: #{response.body}"
+      assert response.body =~ /mapquestapi/i, "body: #{response.body}"
+    end
+  end
 
+  describe "POST XML to create squeak" do 
+    before (:each) do 
+      @squeak_xml = %Q(<squeak>
+      <latitude>39.191021</latitude>
+      <longitude>-76.81881</longitude>
+      <duration>2.0</duration>
+      <text>Squeak text here</text>
+      <timezone>EDT</timezone>
+     </squeak>)
+      @squeak_hash = XmlSimple.xml_in(@squeak_xml,:keeproot => false, :ForceArray => false).merge({:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="})
     end
+
+    it "should accept XML with all necessary fields" do 
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      response.should be_success, @squeak_hash.to_s
+    end
+
     it "should complain when no latitude is given" do 
+      @squeak_hash.delete('latitude')
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
+
     it "should complain when no longitude is given" do 
+      @squeak_hash.delete('longitude')
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
-    it "should complain when a latitude < 0 is given" do 
+    it "should complain when a latitude < -90 is given" do 
+      @squeak_hash['latitude'] = -90.1
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a latitude > 90 is given" do 
+      @squeak_hash['latitude'] = 90.01
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a longitude < -180 is given" do 
+      @squeak_hash['longitude'] = -180.01
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a longitude > 180 is given" do 
+      @squeak_hash['longitude'] = 180.01
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a duration < 0 is given" do 
+      @squeak_hash['duration'] = -1
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a duration == 0 is given" do 
+      @squeak_hash['duration'] = 0
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
     end
     it "should complain when a duration > 24 hours is given" do 
+      @squeak_hash['duration'] = 24.01
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
+    end
+    it "should silently truncate to 140 characters" do 
+      @squeak_hash['text'] = "X" * 141
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak/), "response: #{response.body}"
+    end
+    it "should not allow missing HMAC" do 
+      @squeak_hash.delete(:salt)
+      @squeak_hash.delete(:hash)
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak: No HMAC received/), "response: #{response.body}"
+    end    
+    it "should not allow incorrect HMAC" do 
+      @squeak_hash[:hash] = "wrong"
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      assert response.body.match(/Couldn't create squeak: Incorrect HMAC/), "response: #{response.body}"
     end
   end
 
@@ -244,7 +309,7 @@ describe SqueaksController do
         response.should be_success
       end
       it "responds to a json request with a json response" do
-        post(:create, {:squeak => @good_params},:content_type => 'application/json')
+        post(:create, {:format => 'json', :squeak => @good_params},:content_type => 'application/json')
         parsed_body = JSON.parse(response.body)
         parsed_body[:squeak][:latitude].should == @good_params[:latitude]
         parsed_body[:squeak][:longitude].should == @good_params[:longitude]        
