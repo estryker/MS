@@ -123,7 +123,7 @@ class ShareRequestsController < ApplicationController
           # debug
           #caption = Time.now < squeak.expires ? "Valid for #{time_ago_in_words(squeak.expires)}" : "Expired #{time_ago_in_words(squeak.expires)} ago."
           display_time = squeak.expires.strftime("%A, %b %d %I:%M %p") + " #{squeak.timezone}"
-          caption = Time.now < squeak.expires ? "Valid until #{display_time} (#{time_ago_in_words(squeak.expires)}") : "Expired at #{display_time} (#{time_ago_in_words(squeak.expires)} ago)."
+          caption = Time.now < squeak.expires ? "Valid until #{display_time} (#{time_ago_in_words(squeak.expires)})" : "Expired at #{display_time} (#{time_ago_in_words(squeak.expires)} ago)."
 
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
