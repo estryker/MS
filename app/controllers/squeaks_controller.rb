@@ -324,16 +324,9 @@ class SqueaksController < ApplicationController
     squeak = Squeak.find(params[:id])
 
     if params.has_key? :format
-      # Ugh! total hack! ActiveRecord and postgres 9.1 don't mix well? It is returning the data in bytea hex format
-
-      image = squeak.image
-      snippet = squeak.image[0..100]
-      if snippet =~ /^x[0-9a-fA-F]+$/
-        image = [squeak.image[1..-1]].pack('H*')
-      end
       
       if params[:format] =~ /jpe?g/i  
-        send_data image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
+        send_data squeak.image, :type => "image/jpeg", :disposition => 'inline' # @squeak_image = squeak.image
 
       elsif params[:format] =~ /xml/i 
         @id = squeak.id

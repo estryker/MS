@@ -91,6 +91,24 @@ class Squeak < ActiveRecord::Base
     result["squeak"]["has_image"] = self.image.nil? ? "false" : "true"
     result
   end
+
+  def image
+    if self[:image].nil?
+      puts "IMAGE is nil"
+      return nil
+    else      
+      # Ugh! total hack! ActiveRecord and postgres 9.1 don't mix well? It is returning the data in bytea hex format
+
+      im = self[:image]
+      snippet = im[0..100]
+      if snippet =~ /^x[0-9a-fA-F]+$/
+        im = [self[:image][1..-1]].pack('H*')
+      end
+
+      return im
+    end
+  end
+
   #   result["user"]["name"] = name.capitalize
   
   #:private
