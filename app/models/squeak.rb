@@ -94,7 +94,7 @@ class Squeak < ActiveRecord::Base
 
   def image
     if self[:image].nil?
-      puts "IMAGE is nil"
+      # puts "IMAGE is nil"
       return nil
     else      
       # Ugh! total hack! ActiveRecord and postgres 9.1 don't mix well? It is returning the data in bytea hex format
