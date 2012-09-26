@@ -174,7 +174,7 @@ class SqueaksController < ApplicationController
     end
     #@squeaks = all_squeaks.first(num_squeaks)
     # note that gmaps4rails doesn't like newlines in the description
-    @squeaks = all_squeaks.first(num_squeaks).each {|s| s.text.gsub!(/[\n\r]+/,' ')}
+    @squeaks = all_squeaks.first(num_squeaks).sort {|a,b| a.id <=> b.id}.each {|s| s.text.gsub!(/[\n\r]+/,' ')}
     respond_to do |format|
       format.json do
 
