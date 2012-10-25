@@ -31,6 +31,7 @@ class SqueaksController < ApplicationController
         err = "Couldn't create squeak: Incorrect HMAC received"
         respond_to do | format |
           format.html do
+            @squeak = Squeak.new
             render :new
           end
           
@@ -52,6 +53,7 @@ class SqueaksController < ApplicationController
       err = "Couldn't create squeak: No HMAC received"
       respond_to do | format |
         format.html do
+          @squeak = Squeak.new
           render :new
         end
         
