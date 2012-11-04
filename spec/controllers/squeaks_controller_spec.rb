@@ -26,11 +26,13 @@ describe SqueaksController do
 
   describe "POST XML to create squeak" do 
     before (:each) do 
+      @squeak_time = Time.now.utc
       @squeak_xml = %Q(<squeak>
       <latitude>39.191021</latitude>
       <longitude>-76.81881</longitude>
       <duration>2.0</duration>
       <text>Squeak text here</text>
+      <time_utc>#{@squeak_time}</time_utc>
       <timezone>EDT</timezone>
      </squeak>)
       @squeak_hash = XmlSimple.xml_in(@squeak_xml,:keeproot => false, :ForceArray => false).merge({:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="})
@@ -39,6 +41,13 @@ describe SqueaksController do
     it "should accept XML with all necessary fields" do 
       post :create, {:format => 'xml', :squeak => @squeak_hash}
       response.should be_success, @squeak_hash.to_s
+    end
+    
+    it "should accept a squeak without time_utc" do 
+      hash = @squeak_hash.dup
+      hash.delete(:time_utc)
+      post :create, {:format => 'xml', :squeak => hash}
+      response.should be_success, hash.to_s
     end
 
     it "should complain when no latitude is given" do 
@@ -125,6 +134,7 @@ describe SqueaksController do
 =end
 
     before(:each) do 
+      # TODO: put @squeak_time in the squeak
       @squeak = Factory(:squeak) 
       get :show, {:format => 'xml', :id => @squeak.id}
       @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)     
@@ -149,6 +159,12 @@ describe SqueaksController do
     end
     it "should have expires" do 
       assert @xml['squeak'].has_key?('expires'), "response: #{@xml.to_s}"    
+    end
+    it "should have time_utc" do 
+      assert @xml['squeak'].has_key?('time_utc'), "response: #{@xml.to_s}"    
+    end
+    it "should have correct time_utc" do 
+      assert DateTime.parse(@xml['squeak']['time_utc']).to_time == @squeak_time, "response: #{@xml.to_s}, vs #{@squeak_time}"    
     end
     it "should have text" do 
       assert @xml['squeak'].has_key?('text'), "response: #{@xml.to_s}"    
@@ -257,8 +273,9 @@ describe SqueaksController do
   describe "POST 'create'" do
 
     before(:each) do
-        @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test', :duration => 8}
-        @bad_duration = {:duration => 9}  
+      @squeak_time = Time.now.utc
+      @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test', :duration => 8, :time_utc => @squeak_time.to_s}
+      @bad_duration = {:duration => 25}  
     end
 
     #describe "failure due to bad lat squeak" do
@@ -314,6 +331,13 @@ describe SqueaksController do
         parsed_body[:squeak][:latitude].should == @good_params[:latitude]
         parsed_body[:squeak][:longitude].should == @good_params[:longitude]        
         parsed_body[:squeak][:text].should == @good_params[:text]                
+      end
+
+      it "should return the correct time in XML if set in params" do 
+        post :create, {:squeak => @good_params},:content_type => 'application/xml'
+        parsed_body = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+        time_from_xml = DateTime.parse(parsed_body[:squeak][:time_utc]).to_time
+        assert time_from_xml == @squeak_time, "from XML: #{time_from_xml} vs. #{@squeak_time}"
       end
     end
   end

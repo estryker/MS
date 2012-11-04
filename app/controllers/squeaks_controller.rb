@@ -75,22 +75,25 @@ class SqueaksController < ApplicationController
     if params.has_key?(:address) and not (params[:address].nil? or params[:address].empty?)
       geo = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address])
       if geo.success?
-      @squeak.latitude = geo.lat
-      @squeak.longitude = geo.lng
+        @squeak.latitude = geo.lat
+        @squeak.longitude = geo.lng
       else
-      flash[:error] = "Bad Address format: \'#{params[:address]}\'"
+        flash[:error] = "Bad Address format: \'#{params[:address]}\'"
       end
     else
-    
-    @squeak.latitude = params[:latitude] if params.has_key? :latitude
-    @squeak.longitude = params[:longitude] if params.has_key? :longitude
+      
+      @squeak.latitude = params[:latitude] if params.has_key? :latitude
+      @squeak.longitude = params[:longitude] if params.has_key? :longitude
     end
 
     # @squeak.time_utc = 0.hours.ago
     # @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
-    now = DateTime.now.utc
-    @squeak.time_utc = now
-    @squeak.expires = now + (params[:squeak][:duration].to_f / 24.0)
+    # TODO: verify that the time_utc gets parsed correctly
+    unless params[:squeak].has_key?(:time_utc)
+      now = DateTime.now.utc
+      @squeak.time_utc = now
+    end
+    @squeak.expires = @squeak.time_utc + (params[:squeak][:duration].to_f / 24.0)
 
     respond_to do | format |
       if(@squeak.save)
