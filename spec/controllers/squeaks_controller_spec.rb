@@ -135,7 +135,8 @@ describe SqueaksController do
 
     before(:each) do 
       # TODO: put @squeak_time in the squeak
-      @squeak = Factory(:squeak) 
+      @squeak_time = Time.now.utc
+      @squeak = Factory(:squeak, :time_utc => @squeak_time) 
       get :show, {:format => 'xml', :id => @squeak.id}
       @xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)     
       @squeak2 = Factory(:squeak)    
@@ -164,7 +165,7 @@ describe SqueaksController do
       assert @xml['squeak'].has_key?('time_utc'), "response: #{@xml.to_s}"    
     end
     it "should have correct time_utc" do 
-      assert DateTime.parse(@xml['squeak']['time_utc']).to_time == @squeak_time, "response: #{@xml.to_s}, vs #{@squeak_time}"    
+      assert (DateTime.parse(@xml['squeak']['time_utc']).to_time.utc - @squeak_time).abs < 1.0, "response: #{@xml.to_s}, vs #{@squeak_time}, a difference of #{DateTime.parse(@xml['squeak']['time_utc']).to_time.utc - @squeak_time}"    
     end
     it "should have text" do 
       assert @xml['squeak'].has_key?('text'), "response: #{@xml.to_s}"    
@@ -274,7 +275,7 @@ describe SqueaksController do
 
     before(:each) do
       @squeak_time = Time.now.utc
-      @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test', :duration => 8, :time_utc => @squeak_time.to_s}
+      @good_params = {:latitude => 54, :longitude=>-1.69, :text =>'test', :duration => 8, :time_utc => @squeak_time.to_s, :salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
       @bad_duration = {:duration => 25}  
     end
 
@@ -318,26 +319,27 @@ describe SqueaksController do
       #  flash[:success].should =~ /created/
       #end
       it "should accept a json request" do
-        post :create, {:squeak => @good_params},:content_type => 'application/json'
+        post :create, {:squeak => @good_params , :format => 'json'} # ,:content_type => 'application/json'
         response.should be_success
       end    
       it "should accept an xml request" do
-        post :create, {:squeak => @good_params},:content_type => 'application/xml'
+        post :create, {:squeak => @good_params,:format => 'xml'} # ,:content_type => 'application/xml'
         response.should be_success
       end
       it "responds to a json request with a json response" do
-        post(:create, {:format => 'json', :squeak => @good_params},:content_type => 'application/json')
+        post :create, {:squeak => @good_params, :format => 'json'}  # :content_type => 'application/json',
         parsed_body = JSON.parse(response.body)
-        parsed_body[:squeak][:latitude].should == @good_params[:latitude]
-        parsed_body[:squeak][:longitude].should == @good_params[:longitude]        
-        parsed_body[:squeak][:text].should == @good_params[:text]                
+        parsed_body['squeak']['latitude'].should == @good_params[:latitude]
+        parsed_body['squeak']['longitude'].should == @good_params[:longitude]        
+        parsed_body['squeak']['text'].should == @good_params[:text]                
       end
-
+      
       it "should return the correct time in XML if set in params" do 
-        post :create, {:squeak => @good_params},:content_type => 'application/xml'
-        parsed_body = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
-        time_from_xml = DateTime.parse(parsed_body[:squeak][:time_utc]).to_time
-        assert time_from_xml == @squeak_time, "from XML: #{time_from_xml} vs. #{@squeak_time}"
+        post :create, {:squeak => @good_params, :format => 'xml'}
+        body = response.body
+        parsed_body = XmlSimple.xml_in(body,:keeproot => true, :ForceArray => false)
+        time_from_xml = DateTime.parse(parsed_body['squeak']['time_utc']).to_time.utc
+        assert (time_from_xml - @squeak_time).abs < 1.0, "from XML: #{time_from_xml} vs. #{@squeak_time}, from response: #{body}"
       end
     end
   end

@@ -89,11 +89,23 @@ class SqueaksController < ApplicationController
     # @squeak.time_utc = 0.hours.ago
     # @squeak.expires = params[:squeak][:duration].to_f.hours.from_now
     # TODO: verify that the time_utc gets parsed correctly
+
+    # puts "params: #{params[:squeak].inspect}"
+    # puts "before time_utc check:  #{@squeak.time_utc} (#{@squeak.time_utc.class})"
+
+    ## Note: params get auto parsed into ActiveSupport::TimeWithZone objects
+    ## We have been using DateTime objects.  We need to be careful here. 
+    ## I'm sticking with DateTime objects b/c I've had some strange behaviors with heroku
+
     unless params[:squeak].has_key?(:time_utc)
       now = DateTime.now.utc
       @squeak.time_utc = now
     end
-    @squeak.expires = @squeak.time_utc + (params[:squeak][:duration].to_f / 24.0)
+    # puts "after time_utc check: #{@squeak.time_utc} (#{@squeak.time_utc.class})"
+
+    @squeak.expires = @squeak.time_utc.to_datetime + (params[:squeak][:duration].to_f / 24.0)
+    # old_way = DateTime.now.utc  + (params[:squeak][:duration].to_f / 24.0)
+    # puts "expires: #{@squeak.expires} (#{@squeak.expires.class}) vs #{old_way} (#{old_way.class})"
 
     respond_to do | format |
       if(@squeak.save)

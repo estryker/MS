@@ -21,7 +21,9 @@ describe ShareRequestsController do
       user = Koala::Facebook::API.new(user_info['access_token'])
       
       auth = OmniAuth.config.mock_auth[:facebook]
-      auth[:credentials][:token] = user_info['access_token']
+      puts 'auth: ' + auth.to_s
+      # auth: {"provider"=>"facebook", "uid"=>"1234", "info"=>{"name"=>"Fletch F. Fletch", "urls"=>{:Facebook=>"http://www.facebook.com/fletch", "Website"=>nil}, "nickname"=>"Fletch", "last_name"=>"Fletcher", "first_name"=>"Fletch"}, "credentials"=>{"token"=>"asdfkjowefnadjfsakfdh"}, "extra"=>{"user_hash"=>{:name=>"Fletch F. Fletch", :timezone=>-5, :gender=>"male", :id=>"...", :last_name=>"Fletcher", :updated_time=>"2010-01-01T12:00:00+0000", :verified=>true, :locale=>"en_US", :link=>"http://www.facebook.com/fletch", :email=>"fletch.f.fletch@yahoo.com", :first_name=>"Fletch"}}}
+      auth['credentials']['token'] = user_info['access_token']
 
       request.env["omniauth.auth"] = auth
       post 'share_request/create' # how do I post to another controller??
