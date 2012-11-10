@@ -142,6 +142,7 @@ describe SqueaksController do
       @squeak2 = Factory(:squeak)    
       get :show, {:format => 'xml', :id => @squeak2.id}
       @xml2 = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+
     end
     it "should have squeak as the root element" do 
       assert @xml.has_key?('squeak'), "response: #{@xml.to_s}"
@@ -192,9 +193,29 @@ describe SqueaksController do
       assert response.body != nil
       assert response.body == "\xFF\xFF", "img: #{@squeak2.image.each_byte.map {|b| '%02X' % b}.join('')} body: \'#{response.body.each_byte.map {|b| '%02X' % b}.join('')}\'"
     end
+
+
     # end
   end
-  
+
+  describe "GET 'index'" do 
+    before(:each) do   # A squeak from the future!
+      @future_squeak = Factory(:squeak, :time_utc =>  Time.now.utc + 5.minutes)
+    end
+    
+    it "should not return a squeak whose start time is in the future" do 
+      get :index, {:format => 'xml'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+      assert xml['squeaks'].nil?, "now: #{Time.now} squeak: #{xml['squeaks']}"
+    end
+    # params.has_key?(:num_squeaks) and params.has_key?(:center_latitude) and params.has_key?(:center_longitude)
+    it "should not return a squeak whose start time is in the future when num_squeaks, lat/long are provided" do
+      get :index, {:format => 'xml', :num_squeaks => 10, :center_latitude => @future_squeak.latitude, :center_longitude => @future_squeak.longitude } 
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+      assert xml['squeaks'].nil?, "now: #{Time.now} squeak: #{xml['squeaks']}"
+    end 
+  end
+
   #describe "GET 'new'" do
   #  it "should be successful" do
   #    get 'new'

@@ -43,7 +43,7 @@ class Squeak < ActiveRecord::Base
 #                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
  
   validates :duration, :presence => true,
-                      :numericality => {:greater_than => 0.0,:less_than_or_equal_to => 24}
+  :numericality => {:greater_than => 0.0} # ,:less_than_or_equal_to => 24}
 
   # before_save :decode_image
 
