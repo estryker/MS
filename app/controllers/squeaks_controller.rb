@@ -287,7 +287,15 @@ class SqueaksController < ApplicationController
     http = Net::HTTP.start(uri.host, uri.port)
     format = "png"
 
-    map_string = "/staticmap/v4/getmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
+    lat_shift = 0.0
+    long_shift = 0.0
+    unless squeak.image.nil?
+      # uncenter the marker to put in the upper left corner to make room for image
+      # on twitter posts
+      lat_shift = 0.001
+      long_shift = 0.002
+    end
+    map_string = "/staticmap/v4/getmap?center=#{squeak.latitude - lat_shift},#{squeak.longitude + long_shift}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
 
     send_data http.get(map_string).body, :type => "image/#{format}", :disposition => 'inline'
   end
@@ -334,7 +342,15 @@ class SqueaksController < ApplicationController
     # redirect_to "http://staticmap.openstreetmap.de/staticmap.php?center=#{squeak.longitude},#{squeak.latitude}&zoom=14&size=200x200&maptype=mapnik&markers=#{squeak.longitude},#{squeak.latitude},#{icon_url}" # pipe separate for multiple: lightblue1|40.711614,-74.012318,lightblue2|40.718217,-73.998284,lightblue3"
 
     # mapquest API
-    redirect_to "http://open.mapquestapi.com/staticmap/v4/getmap?center=#{squeak.latitude},#{squeak.longitude}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
+    lat_shift = 0.0
+    long_shift = 0.0
+    unless squeak.image.nil?
+      # uncenter the marker to put in the upper left corner to make room for image
+      # on twitter posts
+      lat_shift = 0.001
+      long_shift = 0.002
+    end
+    redirect_to "http://open.mapquestapi.com/staticmap/v4/getmap?center=#{squeak.latitude - lat_shift},#{squeak.longitude + long_shift}&zoom=15&size=200,200&type=map&imagetype=#{format}&xis=#{icon_url},1,C,#{squeak.latitude},#{squeak.longitude}"
   end
 
   def squeak_image
