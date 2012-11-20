@@ -110,7 +110,7 @@ class ShareRequestsController < ApplicationController
     link = "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}"
     squeak_link = link
     begin 
-      squeak_link = BitlyShortener.shorten(link)
+      squeak_link = BitlyShortener.shorten(link).short_url
     rescue Exception => e
       puts e.message + ' ' + e.backtrace.join("\n")
     end
@@ -184,9 +184,9 @@ class ShareRequestsController < ApplicationController
 
         # TODO: if the squeak has an image, then this is the way to go
         if squeak.image.nil?
-          Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})
+          Twitter.update(tweet,{:lat => squeak.latitude,:long => squeak.longitude})
         else
-          Twitter.update_with_media(squeak.text, {'io' => StringIO.new(squeak.image), 'type' => 'jpeg'},{:lat => squeak.latitude,:long => squeak.longitude})
+          Twitter.update_with_media(tweet, {'io' => StringIO.new(squeak.image), 'type' => 'jpeg'},{:lat => squeak.latitude,:long => squeak.longitude})
         end        
       rescue Exception => e
         # flash[:error] = "Error: couldn't post to twitter"
