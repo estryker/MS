@@ -15,7 +15,7 @@ describe ShareRequestsController do
       test_sign_in(@user)   
       
       # need to get an oath token somehow ...
-      test_users = Koala::Facebook::TestUsers.new(:app_id => '107582139349630', :secret => "ca16bbd5834ab7d4b012ec5e84a0d003")
+      test_users = Koala::Facebook::TestUsers.new(:app_id => '107582139349630', :secret => '25da8dc7ba1ee69eba5fc2c316ea6528')
       user_info = test_users.create(true, "offline_access,read_stream,manage_pages,publish_stream")
       login_url = user_info['login_url']
       user = Koala::Facebook::API.new(user_info['access_token'])

@@ -1,5 +1,9 @@
 class ShareRequestsController < ApplicationController
   require 'net/http'
+  Bitly.use_api_version_3
+  BitlyShortener = Bitly.new('o_11vp9b9mda', 'R_5b7f47f7cf4b8281ce82e10ae324a5c6')
+
+
 
   # so the mobile app can create a session
   protect_from_forgery :except => [:create]
@@ -102,6 +106,15 @@ class ShareRequestsController < ApplicationController
 
     # TODO: if the squeak has an image, use that instead
     picture_url = squeak_map_preview(squeak)
+
+    link = "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}"
+    squeak_link = link
+    begin 
+      squeak_link = BitlyShortener.shorten(link)
+    rescue Exception => e
+      puts e.message + ' ' + e.backtrace.join("\n")
+    end
+
     case provider_name
     when 'facebook'
       user = Koala::Facebook::API.new(auth.token)
@@ -130,7 +143,7 @@ class ShareRequestsController < ApplicationController
           #`curl -F 'access_token=#{auth.token}' -F 'message=I just posted to MapSqueak!' -F 'link=http://mapsqueak.heroku.com/squeaks/#{squeak.id}' -F 'caption=#{caption} https://graph.facebook.com/#{auth.uid}/feed`
           facebook_args = { 
             :description => "MapSqueak. Intersecting people, place & time.",
-            :link => "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}", # :link => "#{root_url}squeaks/#{squeak.id}", # 
+            :link =>  squeak_link, # :link => "#{root_url}squeaks/#{squeak.id}", # 
             :name => squeak.text,
             :caption => caption
           }
@@ -158,10 +171,17 @@ class ShareRequestsController < ApplicationController
         Twitter.configure do |config|
           config.consumer_key = 'K1tkT7Jpi3Ujl0Ftv2V1A' # key 
           config.consumer_secret = 'UzXlol9ZoDd5uJzuhJpiEFtT0reBcQdTO8XSLVp1k' # YOUR_CONSUMER_SECRET
-          config.oauth_token = auth.token
-          config.oauth_token_secret = auth.secret
+          config.oauth_token = auth.token || "565418060-8n1fSDtUJguYtrm8A2Vrin5Yu3Yhaqo8agzgvMgY"
+          config.oauth_token_secret = auth.secret || "Fe5gczCZg0Av21dpeoBb5YDtezpph1ef0b37gajW8"
         end
-        
+
+        tweet = squeak.text
+        if squeak.text.length + squeak_link.length + 1 > 140
+          tweet = squeak.text[0 ... (136 - squeak_link.length)] + '... ' + squeak_link
+        else
+          tweet = squeak.text + ' ' + squeak_link
+        end
+
         # TODO: if the squeak has an image, then this is the way to go
         if squeak.image.nil?
           Twitter.update(squeak.text,{:lat => squeak.latitude,:long => squeak.longitude})

@@ -43,6 +43,7 @@ gem 'omniauth-twitter'
 
 gem 'koala'
 gem 'twitter'
+gem 'bitly'
 
 gem 'xml-simple'
 
