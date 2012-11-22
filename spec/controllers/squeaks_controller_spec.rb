@@ -38,6 +38,20 @@ describe SqueaksController do
       @squeak_hash = XmlSimple.xml_in(@squeak_xml,:keeproot => false, :ForceArray => false).merge({:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="})
     end
 
+    it "should accept XML with a category" do 
+      hash = @squeak_hash.dup
+      hash[:category => 'info']
+      post :create, {:format => 'xml', :squeak => hash}
+      response.should be_success, hash.to_s
+    end
+
+    it "should accept XML with a source" do 
+      hash = @squeak_hash.dup
+      hash[:source => 'foobar']
+      post :create, {:format => 'xml', :squeak => hash}
+      response.should be_success, hash.to_s
+    end
+
     it "should accept XML with all necessary fields" do 
       post :create, {:format => 'xml', :squeak => @squeak_hash}
       response.should be_success, @squeak_hash.to_s
@@ -177,7 +191,12 @@ describe SqueaksController do
     it "should have has_image" do 
       assert @xml['squeak'].has_key?('has_image'), "response: #{@xml.to_s}"
     end
-
+    it "should have category" do 
+      assert @xml['squeak'].has_key?('category'), "response: #{@xml.to_s}"
+    end  
+    it "should have source" do 
+      assert @xml['squeak'].has_key?('source'), "response: #{@xml.to_s}"
+    end
    # describe "squeak with image" do 
 
     it "should have has_image set to true" do 
@@ -208,12 +227,51 @@ describe SqueaksController do
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
       assert xml['squeaks'].nil?, "now: #{Time.now} squeak: #{xml['squeaks']}"
     end
-    # params.has_key?(:num_squeaks) and params.has_key?(:center_latitude) and params.has_key?(:center_longitude)
+   # params.has_key?(:num_squeaks) and params.has_key?(:center_latitude) and params.has_key?(:center_longitude)
     it "should not return a squeak whose start time is in the future when num_squeaks, lat/long are provided" do
       get :index, {:format => 'xml', :num_squeaks => 10, :center_latitude => @future_squeak.latitude, :center_longitude => @future_squeak.longitude } 
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
       assert xml['squeaks'].nil?, "now: #{Time.now} squeak: #{xml['squeaks']}"
     end 
+  end
+  
+  describe "GET 'index' with parameters" do 
+    before(:each) do   # A squeak from the future!
+      @relic_squeak = Factory(:squeak, :expires =>  Time.now.utc - 23.hours)
+      @valid_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour )
+      @test_cat_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat' )
+      @test_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:source => 'test_source' )
+      @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2' )
+    end
+    
+    it "should return relics by default" do 
+      get :index, {:format => 'xml'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].length == 5, "squeaks: #{xml['squeaks']}"
+    end
+
+    it "should not return relics when include_relics is set to no" do 
+      get :index, {:format => 'xml', :include_relics => 'no'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].length == 4, "squeaks: #{xml['squeaks']}"
+    end
+
+    it "should return squeaks with the right category if requested" do 
+      get :index, {:format => 'xml', :category => 'test_cat'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+    end
+
+    it "should return squeaks with the right source if requested" do 
+      get :index, {:format => 'xml', :source => 'test_source'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+    end   
+    it "should return squeaks with the right source and category if requested" do 
+      get :index, {:format => 'xml',  :category => 'test_cat2', :source => 'test_source2'}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+    end
   end
 
   #describe "GET 'new'" do

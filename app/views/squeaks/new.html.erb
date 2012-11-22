@@ -19,6 +19,10 @@
     <%= f.text_field :longitude,:placeholder => 'Enter numeric longitude ...' %>
   </div>
   <div class="field">
+    <%= f.label :category %><br />
+    <%= f.text_field :category,:placeholder => 'Enter optional category ...' %>
+  </div>
+  <div class="field">
     <%= f.label :squeak %><br />
     <%= f.text_field :text,:placeholder => 'Enter message ...' %>
   </div>
@@ -43,4 +47,5 @@
     <% md5 =  Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "OIA9cj6nTfiV4EHkfDZc2A",salt)).strip %>
     <%= f.hidden_field :salt, :value => "#{salt}" %>
     <%= f.hidden_field :hash, :value => "#{md5}" %>
+    <%= f.hidden_field :source, :value => "user" %>
 <% end %>

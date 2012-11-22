@@ -17,6 +17,8 @@ xml.squeaks do
      xml.text squeak.text
      xml.timezone squeak.timezone
      xml.has_image squeak.image.nil? ? "false" : "true"
+     xml.category squeak.category
+     xml.source squeak.source
    end
   end
 end

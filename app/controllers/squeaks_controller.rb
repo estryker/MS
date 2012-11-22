@@ -158,6 +158,28 @@ class SqueaksController < ApplicationController
         box_size = z 
       end
     end
+    #include_relics = [yes|no, on|off]
+    #created_since = [date - what format?  ddmmyymmss?, what timezone?  do we store all squeaks in GMT/UTC?]
+    #sources=[squeaks | publicfeeds | all etc]
+    num_days_for_relics = 1
+    if params.has_key? :include_relics and params[:include_relics].downcase.strip == 'no'
+      num_days_for_relics = 0
+    end
+      
+    created_since = DateTime.now.utc
+    if params.has_key? :created_since
+      created_since = DateTime.parse(params[:created_since].utc)
+    end
+
+    sources = []
+    if params.has_key? :sources
+      sources = params[:sources].split(',')
+    end
+
+    categories = []
+    if params.has_key? :categories
+      categories = params[:categories].split(',')
+    end
 
     # Squeak.all(:conditions => ["expires > ?",DateTime.now.utc])
     all_squeaks = []
@@ -176,8 +198,24 @@ class SqueaksController < ApplicationController
       lower_long = ((center_long + 180 - box_size) % 360) - 180
       upper_long = ((center_long + 180 + box_size) % 360) - 180
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
-      all_squeaks = Squeak.where(["time_utc <= ? AND expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?",
-                                  DateTime.now.utc, DateTime.now.utc - 1,lower_lat,upper_lat,lower_long,upper_long])
+
+      where_statement = "time_utc <= ? AND expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?"
+      where_items = [DateTime.now.utc, DateTime.now.utc - num_days_for_relics,lower_lat,upper_lat,lower_long,upper_long]
+
+      source_string = sources.map {|s| "source = '#{s}'"}.join(' OR ')
+      category_string = categories.map {|c| "category = '#{c}'"}.join(' OR ')
+
+      unless source_string.nil? or source_string.empty?
+        where_statement += " AND (" + source_string + ")"
+      end
+
+      unless category_string.nil? or category_string.empty?
+        where_statement += " AND (" + category_string + ")"
+      end
+
+      where_clause = [where_statement] + where_items # no need for this: + sources + categories
+      puts where_clause
+      all_squeaks = Squeak.where(where_clause)
 
       # This won't wrap around correctly:
       # .where(:latitude => (lower_lat .. upper_lat),:longitude => (lower_long  .. upper_long))  
