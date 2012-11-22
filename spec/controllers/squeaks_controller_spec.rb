@@ -244,33 +244,35 @@ describe SqueaksController do
       @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2' )
     end
     
+    ## Note the 6th squeak comes from the @squeak up above
     it "should return relics by default" do 
-      get :index, {:format => 'xml'}
+      get :index, {:format => 'xml',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude }
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].length == 5, "squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
+    ## Note the 5th squeak comes from the @squeak up above
     it "should not return relics when include_relics is set to no" do 
-      get :index, {:format => 'xml', :include_relics => 'no'}
+      get :index, {:format => 'xml', :include_relics => 'no',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].length == 4, "squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 5, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
     it "should return squeaks with the right category if requested" do 
-      get :index, {:format => 'xml', :category => 'test_cat'}
+      get :index, {:format => 'xml', :categories => 'test_cat',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
     it "should return squeaks with the right source if requested" do 
-      get :index, {:format => 'xml', :source => 'test_source'}
+      get :index, {:format => 'xml', :sources => 'test_source',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end   
     it "should return squeaks with the right source and category if requested" do 
-      get :index, {:format => 'xml',  :category => 'test_cat2', :source => 'test_source2'}
+      get :index, {:format => 'xml',  :categories => 'test_cat2', :sources => 'test_source2',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].length == 1, "squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
   end
 
