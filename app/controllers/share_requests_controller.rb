@@ -109,11 +109,12 @@ class ShareRequestsController < ApplicationController
 
     link = "http://www.mapsqueak.com/squeak.php?id=#{squeak.id}"
     squeak_link = link
-    begin 
-      squeak_link = BitlyShortener.shorten(link).short_url
-    rescue Exception => e
-      puts e.message + ' ' + e.backtrace.join("\n")
-    end
+    # **Removing the bit.ly shortener for squeak sharing for simplification purposes. 
+    #begin 
+    #  squeak_link = BitlyShortener.shorten(link).short_url
+    #rescue Exception => e
+    #  puts e.message + ' ' + e.backtrace.join("\n")
+    #end
 
     case provider_name
     when 'facebook'
