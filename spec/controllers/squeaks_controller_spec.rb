@@ -38,30 +38,44 @@ describe SqueaksController do
       @squeak_hash = XmlSimple.xml_in(@squeak_xml,:keeproot => false, :ForceArray => false).merge({:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="})
     end
 
+    it "should complain when given a bogus param in the squeak section" do 
+      hash = @squeak_hash.dup
+      hash["foo"] = 'bar'
+      post :create, {:format => 'xml', :squeak => hash}
+      assert response.body.match(/Couldn't create squeak/), "hash: #{hash.inspect} response: #{response.body}"
+    end
+
+    it "should accept a request with a rand parameter" do 
+      hash = @squeak_hash.dup
+      hash["category"] = 'info'
+      post :create, {:format => 'xml', :squeak => hash, :rand => '1234'}
+      response.should be_success,"hash: #{hash.inspect}"
+    end
+
     it "should accept XML with a category" do 
       hash = @squeak_hash.dup
-      hash[:category => 'info']
+      hash["category"] = 'info'
       post :create, {:format => 'xml', :squeak => hash}
-      response.should be_success, hash.to_s
+      response.should be_success,"hash: #{hash.inspect}"
     end
 
     it "should accept XML with a source" do 
       hash = @squeak_hash.dup
-      hash[:source => 'foobar']
+      hash["source"] = 'foobar'
       post :create, {:format => 'xml', :squeak => hash}
-      response.should be_success, hash.to_s
+      response.should be_success, "hash: #{hash.inspect}"
     end
 
     it "should accept XML with all necessary fields" do 
       post :create, {:format => 'xml', :squeak => @squeak_hash}
-      response.should be_success, @squeak_hash.to_s
+      response.should be_success, "hash: #{@squeak_hash.inspect}"
     end
     
     it "should accept a squeak without time_utc" do 
       hash = @squeak_hash.dup
       hash.delete(:time_utc)
       post :create, {:format => 'xml', :squeak => hash}
-      response.should be_success, hash.to_s
+      response.should be_success, "hash: #{hash.inspect}"
     end
 
     it "should complain when no latitude is given" do 
