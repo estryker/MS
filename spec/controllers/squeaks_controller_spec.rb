@@ -45,13 +45,6 @@ describe SqueaksController do
       assert response.body.match(/Couldn't create squeak/), "hash: #{hash.inspect} response: #{response.body}"
     end
 
-    it "should accept a request with a rand parameter" do 
-      hash = @squeak_hash.dup
-      hash["category"] = 'info'
-      post :create, {:format => 'xml', :squeak => hash, :rand => '1234'}
-      response.should be_success,"hash: #{hash.inspect}"
-    end
-
     it "should accept XML with a category" do 
       hash = @squeak_hash.dup
       hash["category"] = 'info'
@@ -226,8 +219,6 @@ describe SqueaksController do
       assert response.body != nil
       assert response.body == "\xFF\xFF", "img: #{@squeak2.image.each_byte.map {|b| '%02X' % b}.join('')} body: \'#{response.body.each_byte.map {|b| '%02X' % b}.join('')}\'"
     end
-
-
     # end
   end
 
@@ -256,20 +247,38 @@ describe SqueaksController do
       @test_cat_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat' )
       @test_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:source => 'test_source' )
       @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2' )
+      @created_old_squeak =  Factory(:squeak, :created_at => Time.now.utc - 5.days, :expires =>  Time.now.utc + 1.hour )
     end
     
+    it "should accept a request with a rand parameter" do 
+      get :index, {:format => 'xml', :num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude, :rand => '1234'}
+      response.should be_success,"response: #{response.body}"
+    end
+
+    it "should accept a request with a created_since parameter" do 
+      get :index, {:format => 'xml', :num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude, :created_since => (Time.now.utc- 1.day).to_s} 
+      response.should be_success,"response: #{response.body}"
+    end
+
+    it "should not return squeaks created older than requested" do 
+      get :index, {:format => 'xml',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude, :created_since => (Time.now.utc - 1.day).to_s }
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+    end
+
+
     ## Note the 6th squeak comes from the @squeak up above
     it "should return relics by default" do 
       get :index, {:format => 'xml',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude }
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 7, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
     ## Note the 5th squeak comes from the @squeak up above
     it "should not return relics when include_relics is set to no" do 
       get :index, {:format => 'xml', :include_relics => 'no',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].first["squeak"].length == 5, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
     it "should return squeaks with the right category if requested" do 
@@ -309,7 +318,7 @@ describe SqueaksController do
   describe "PUT 'update'" do
 
     before(:each) do
- 
+      @attr = { :latitude => 51.0, :longitude => -1.0 , :text => 'foobar', :expires => '2012-11-28 00:00:00',:category => 'cat', :source=>'src', :timezone=>'XXX',:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
     end
 
 #    describe "failure due to wrong user" do
@@ -327,9 +336,9 @@ describe SqueaksController do
 
     describe "failure due to bad lat squeak" do
 
-      it "should redirect to the 'edit' page" do
+      it "should render to the 'edit' page" do
         put :update, {:id => @squeak.id, :squeak => @bad_lat_params}
-        response.should redirect_to(:action => 'edit')
+        response.should render_template('edit')
       end
 
     end
@@ -337,22 +346,55 @@ describe SqueaksController do
 
       it "should render the 'edit' page" do
         put :update, {:id => @squeak.id, :squeak => @bad_long_params}
-        response.should redirect_to(:action => 'edit')
+        response.should render_template('edit')
       end
 
     end
-    describe "success" do
+   
+    describe "failure due to missing HMAC with XML format" do 
+      it "should respond with a complaint" do 
+        @attr.delete(:salt)
+        @attr.delete(:hash)
+        put :update, {:id => @squeak, :squeak => @attr, :format => 'xml'}
+        assert response.body.match(/Couldn't create squeak: No HMAC received/), "response: #{response.body}"
+      end    
+    end
 
+    describe "success" do
       before(:each) do
-        @attr = { :latitude => 51.0, :longitude => -1.0 }
+  
       end
+
+      it "should be successful when sent via XML" do
+        put :update, {:id => @squeak, :squeak => @attr,:format => 'xml'}
+        @squeak.reload
+        response.should be_success, "attr: #{@attr.inspect}"
+      end    
 
       it "should change the squeak's attributes" do
         put :update, {:id => @squeak, :squeak => @attr}
         @squeak.reload
         @squeak.latitude.should  == @attr[:latitude]
         @squeak.longitude.should == @attr[:longitude]
+        @squeak.text.should == @attr[:text]
+        @squeak.expires.to_time.should == DateTime.parse(@attr[:expires]).to_time
+        @squeak.category.should == @attr[:category]
+        @squeak.source.should == @attr[:source]
+        @squeak.timezone.should == @attr[:timezone]
       end
+  
+      it "should change the squeak's attributes when sent via XML" do
+        put :update, {:id => @squeak, :squeak => @attr,:format => 'xml'}
+        @squeak.reload
+        @squeak.latitude.should  == @attr[:latitude]
+        @squeak.longitude.should == @attr[:longitude]
+        @squeak.text.should == @attr[:text]
+        @squeak.expires.to_time.should == DateTime.parse(@attr[:expires]).to_time
+        @squeak.category.should == @attr[:category]
+        @squeak.source.should == @attr[:source]
+        @squeak.timezone.should == @attr[:timezone]
+      end
+
 
       it "should redirect to the squeaks show page" do
         put :update, {:id => @squeak, :squeak => @attr}

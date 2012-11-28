@@ -11,6 +11,12 @@ class SqueaksController < ApplicationController
   end
 
   def create
+    return unless authenticate_squeak?(params,nil,:new)
+
+    # TODO: determine if we need to store these
+    params[:squeak].delete :salt
+    params[:squeak].delete :hash
+   
     # I much prefer working with Time objects ... but they don't seem to give the right year and month in the db
     # TODO: truncate the text to 140
     if params[:squeak].has_key? :encoded_image
@@ -19,54 +25,7 @@ class SqueaksController < ApplicationController
     elsif params.has_key? :image_file
       params[:squeak][:image] = params[:image_file].read
     end
-
-    # for authentication
-    if params[:squeak].has_key? :salt and params[:squeak].has_key? :hash
-      key = "OIA9cj6nTfiV4EHkfDZc2A" # test
-      hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt])).strip
-      if hmac == params[:squeak][:hash].strip
-        puts "HMAC correct \'#{hmac}\'"
-      else
-        puts "No HMAC match: \'#{hmac}\' vs received: \'#{params[:squeak][:hash]}\'"
-        err = "Couldn't create squeak: Incorrect HMAC received"
-        respond_to do | format |
-          format.html do
-            @squeak = Squeak.new
-            render :new
-          end
-          
-          format.json do
-            render :json => {:error => err}.to_json, :status =>:unprocessable_entity
-          end
-          format.xml do
-            render :xml => {:error => err, :status =>:unprocessable_entity}
-          end
-        end
-        return
-      end
-      
-      # TODO: determine if we need to store these
-      params[:squeak].delete :salt
-      params[:squeak].delete :hash
-    else
-      puts "No HMAC received"
-      err = "Couldn't create squeak: No HMAC received"
-      respond_to do | format |
-        format.html do
-          @squeak = Squeak.new
-          render :new
-        end
-        
-        format.json do
-          render :json => {:error => err}.to_json, :status =>:unprocessable_entity
-        end
-        format.xml do
-          render :xml => {:error => err, :status =>:unprocessable_entity}
-        end
-      end
-      return
-    end
-
+    
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
     user = current_user  || anonymous_user
@@ -166,9 +125,10 @@ class SqueaksController < ApplicationController
       num_days_for_relics = 0
     end
       
-    created_since = DateTime.now.utc
+    # By default, only return squeaks that have been created in the last year. 
+    created_since = DateTime.now.utc - 365
     if params.has_key? :created_since
-      created_since = DateTime.parse(params[:created_since].utc)
+      created_since = DateTime.parse(params[:created_since]).utc
     end
 
     sources = []
@@ -199,8 +159,8 @@ class SqueaksController < ApplicationController
       upper_long = ((center_long + 180 + box_size) % 360) - 180
       # make a bounding box to make the query quicker. 5 degrees in all directions should do the trick
 
-      where_statement = "time_utc <= ? AND expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?"
-      where_items = [DateTime.now.utc, DateTime.now.utc - num_days_for_relics,lower_lat,upper_lat,lower_long,upper_long]
+      where_statement = "created_at > ? AND time_utc <= ? AND expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?"
+      where_items = [created_since, DateTime.now.utc, DateTime.now.utc - num_days_for_relics,lower_lat,upper_lat,lower_long,upper_long]
 
       source_string = sources.map {|s| "source = '#{s}'"}.join(' OR ')
       category_string = categories.map {|c| "category = '#{c}'"}.join(' OR ')
@@ -221,7 +181,7 @@ class SqueaksController < ApplicationController
       # .where(:latitude => (lower_lat .. upper_lat),:longitude => (lower_long  .. upper_long))  
     else  
       # this will happen on the web client. I don't care about performance on it right now
-      all_squeaks = Squeak.where(["time_utc <= ? AND expires > ?",DateTime.now.utc, DateTime.now.utc]) 
+      all_squeaks = Squeak.where(["created_at > ? AND time_utc <= ? AND expires > ?",created_since, DateTime.now.utc, DateTime.now.utc]) 
     end
     
     all_squeaks.sort! do |a,b| 
@@ -262,8 +222,15 @@ class SqueaksController < ApplicationController
     @title = "Update Squeak id #{@squeak.id}"
     if @squeak and @squeak.user_id == user.id
 
+      return unless authenticate_squeak?(params,@squeak,:edit)
+
       @squeak.latitude = params[:squeak][:latitude]
       @squeak.longitude = params[:squeak][:longitude]
+      @squeak.text = params[:squeak][:text]
+      @squeak.expires = DateTime.parse(params[:squeak][:expires])
+      @squeak.category = params[:squeak][:category]
+      @squeak.source = params[:squeak][:source]
+      @squeak.timezone = params[:squeak][:timezone]
       respond_to do | format |
         if(@squeak.save)
           format.html do
@@ -271,10 +238,16 @@ class SqueaksController < ApplicationController
             #redirect_to(@squeak)
             redirect_to :action => 'show'
           end
-          format.json do
+            format.json do
           # make sure that the json has the id of the squeak so the user gets
           # the id in return, and can update facebook/google+ accordingly
             render :json => @squeak, :status=>:updated, :location=>@squeak
+          end    
+  
+          format.xml do
+            # TODO: why was I doing this ??
+            # render :xml => @squeak.to_xml, :status=>:created
+            render :partial => @squeak
           end
         else
           err = "Couldn't update squeak"
@@ -283,6 +256,9 @@ class SqueaksController < ApplicationController
           end
           format.json do
             render :json => {:error => err}.to_json
+          end
+          format.xml do
+            render :xml => {:error => err, :status =>:unprocessable_entity}
           end
         end
       end
@@ -295,6 +271,9 @@ class SqueaksController < ApplicationController
         end
         format.json do 
           render :json => {:error => err}.to_json
+        end 
+        format.xml do
+          render :xml => {:error => err, :status =>:unprocessable_entity}
         end
       end
     end
@@ -408,6 +387,51 @@ class SqueaksController < ApplicationController
   end
   
   :private
+
+  def authenticate_squeak?(params,current_squeak,fail_page)
+    # for authentication
+    if params[:squeak].has_key? :salt and params[:squeak].has_key? :hash
+      key = "OIA9cj6nTfiV4EHkfDZc2A" # test
+      hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt])).strip
+      if hmac == params[:squeak][:hash].strip
+        puts "HMAC correct \'#{hmac}\'"
+        return true
+      else
+        puts "No HMAC match: \'#{hmac}\' vs received: \'#{params[:squeak][:hash]}\'"
+        err = "Couldn't create squeak: Incorrect HMAC received"
+        respond_to do | format |
+          format.html do
+            @squeak = Squeak.new if current_squeak.nil?
+            render fail_page
+          end
+          format.json do
+            render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+          end
+          format.xml do
+            render :xml => {:error => err, :status =>:unprocessable_entity}
+          end
+        end
+        return false
+      end
+    else
+      puts "No HMAC received"
+      err = "Couldn't create squeak: No HMAC received"
+      respond_to do | format |
+        format.html do
+          @squeak = Squeak.new
+          render fail_page
+        end
+        
+        format.json do
+          render :json => {:error => err}.to_json, :status =>:unprocessable_entity
+        end
+        format.xml do
+          render :xml => {:error => err, :status =>:unprocessable_entity}
+        end
+      end
+      return false
+    end
+  end
 
   def show_squeak(params, page_title)
     # I'm commenting this out so that anyone can view anybody's squeak by id (not by user name)
