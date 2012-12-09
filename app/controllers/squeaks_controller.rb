@@ -105,7 +105,7 @@ class SqueaksController < ApplicationController
 
   def index
     # TODO: use better defaults? get these from other means?
-    num_squeaks = 1000
+    num_squeaks = 10000
     center_lat = 0.0
     center_long = 0.0
     # 1 degree latitude = 110.574km at 0 degrees to  111.69km at 90 degrees
@@ -187,11 +187,11 @@ class SqueaksController < ApplicationController
     all_squeaks.sort! do |a,b| 
       ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
     end
+
+    # trim by distance first, then sort by id
     # note that gmaps4rails doesn't like newlines in the description
-    @squeaks = all_squeaks.first(num_squeaks).each {|s| s.text.gsub!(/[\n\r]+/,' ')}
+    @squeaks = all_squeaks.first(num_squeaks).sort {|a,b| a.id <=> b.id}.each {|s| s.text.gsub!(/[\n\r]+/,' ')}
     
-    # note that gmaps4rails doesn't like newlines in the description
-    # @squeaks = all_squeaks.first(num_squeaks).sort {|a,b| a.id <=> b.id}.each {|s| s.text.gsub!(/[\n\r]+/,' ')}
     respond_to do |format|
       format.json do
 
