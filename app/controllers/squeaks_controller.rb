@@ -184,14 +184,19 @@ class SqueaksController < ApplicationController
       all_squeaks = Squeak.where(["created_at > ? AND time_utc <= ? AND expires > ?",created_since, DateTime.now.utc, DateTime.now.utc]) 
     end
     
-    all_squeaks.sort! do |a,b| 
+    # Inplace sorting was working up until the call to 'first' during debugging. I have no idea why. 
+    sorted_squeaks = all_squeaks.sort do |a,b| 
       ((a.latitude - center_lat)**2 + (a.longitude - center_long)**2) <=> ((b.latitude - center_lat)**2 + (b.longitude - center_long)**2)
     end
 
+    #puts sorted_squeaks.map {|s| s.id.to_s}.join(' ')
+    #puts sorted_squeaks.first(num_squeaks).map {|s| s.id.to_s}.join(' ')
+    
     # trim by distance first, then sort by id
     # note that gmaps4rails doesn't like newlines in the description
-    @squeaks = all_squeaks.first(num_squeaks).sort {|a,b| a.id <=> b.id}.each {|s| s.text.gsub!(/[\n\r]+/,' ')}
-    
+    # debug: @squeaks = sorted_squeaks.first(num_squeaks).each {|s| s.text.gsub!(/[\n\r]+/,' ')}    
+    @squeaks = sorted_squeaks.first(num_squeaks).sort {|a,b| a.id <=> b.id}.each {|s| s.text.gsub!(/[\n\r]+/,' ')}
+
     respond_to do |format|
       format.json do
 
