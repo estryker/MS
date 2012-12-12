@@ -242,12 +242,15 @@ describe SqueaksController do
   
   describe "GET 'index' with parameters" do 
     before(:each) do   # A squeak from the future!
-      @relic_squeak = Factory(:squeak, :expires =>  Time.now.utc - 23.hours)
-      @valid_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour )
-      @test_cat_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat' )
-      @test_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:source => 'test_source' )
-      @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2' )
-      @created_old_squeak =  Factory(:squeak, :created_at => Time.now.utc - 5.days, :expires =>  Time.now.utc + 1.hour )
+      # in Factories :  squeak.latitude   54.1  squeak.longitude  -1.4
+      # order in distance (using the @squeak up above as the 0th one, should be: 0,2,4,3,5,6)
+      @relic_squeak = Factory(:squeak, :expires =>  Time.now.utc - 23.hours, :latitude => 55.2,:longitude=>-1.9)
+      @valid_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour, :latitude => 54.1,:longitude=>-1.5 )
+      @test_cat_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat', :latitude => 55.3,:longitude=>-2 )
+      @test_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:source => 'test_source', :latitude => 54.2,:longitude=>-1.5 )
+      @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2', :latitude => 55.4,:longitude=>-2.1 )
+      @created_old_squeak =  Factory(:squeak, :created_at => Time.now.utc - 5.days, :expires =>  Time.now.utc + 1.hour, :latitude => 55.5,:longitude=>-2.2 )
+      @squeak_ids = [1,3,2,5,4,6,7]
     end
     
     it "should accept a request with a rand parameter" do 
@@ -291,11 +294,28 @@ describe SqueaksController do
       get :index, {:format => 'xml', :sources => 'test_source',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
       assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
-    end   
-    it "should return squeaks with the right source and category if requested" do 
-      get :index, {:format => 'xml',  :categories => 'test_cat2', :sources => 'test_source2',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
+    end 
+    it "should return squeaks with the right source and category if requested" do
+      get :index, {:format => 'xml', :categories => 'test_cat2', :sources => 'test_source2',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
       assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+    end
+    
+    it "should return squeaks in sorted order by id" do 
+      get :index, {:format => 'xml', :num_squeaks => 10, :center_latitude => @squeak.latitude, :center_longitude => @relic_squeak.longitude}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      ids = xml['squeaks'].first['squeak'].map {|s| s["id"].first.to_i}
+
+      # this is a little silly b/c all the squeak_ids are in there, and after sorting it becomes 1,2,3,4,5,6,7 BUT the 
+      # next test is the real test here. 
+      assert ids == @squeak_ids.sort, "correct order: #{@id_order.inspect} vs received #{ids.inspect}, #{xml.inspect}"
+    end
+
+    it "should return closest squeaks, then ordered correctly" do 
+      get :index, {:format => 'xml', :num_squeaks => 4, :center_latitude => @squeak.latitude, :center_longitude => @relic_squeak.longitude}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
+      ids = xml['squeaks'].first['squeak'].map {|s| s["id"].first.to_i}
+      assert ids == @squeak_ids.first(4).sort, "correct order: #{@squeak_ids.first(4).sort.inspect} vs received #{ids.inspect}"
     end
   end
 
