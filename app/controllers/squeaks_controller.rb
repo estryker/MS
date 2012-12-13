@@ -65,7 +65,10 @@ class SqueaksController < ApplicationController
     @squeak.expires = @squeak.time_utc.to_datetime + (params[:squeak][:duration].to_f / 24.0)
     # old_way = DateTime.now.utc  + (params[:squeak][:duration].to_f / 24.0)
     # puts "expires: #{@squeak.expires} (#{@squeak.expires.class}) vs #{old_way} (#{old_way.class})"
-
+    
+    # if we don't have a source, it is a 'user' squeak to help handle old clients
+    params[:squeak][:source] ||= 'user'
+    
     respond_to do | format |
       if(@squeak.save)
         format.html do
@@ -162,11 +165,12 @@ class SqueaksController < ApplicationController
       where_statement = "created_at > ? AND time_utc <= ? AND expires > ? AND latitude > ? AND latitude < ? AND longitude > ? AND longitude < ?"
       where_items = [created_since, DateTime.now.utc, DateTime.now.utc - num_days_for_relics,lower_lat,upper_lat,lower_long,upper_long]
 
+      # note: we're adding an empty source string to return squeaks with an empty source
       source_string = sources.map {|s| "source = '#{s}'"}.join(' OR ')
       category_string = categories.map {|c| "category = '#{c}'"}.join(' OR ')
 
       unless source_string.nil? or source_string.empty?
-        where_statement += " AND (" + source_string + ")"
+        where_statement += " AND (" + source_string + ") OR SOURCE IS NULL"
       end
 
       unless category_string.nil? or category_string.empty?
