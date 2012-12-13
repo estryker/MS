@@ -18,7 +18,7 @@ xml.squeaks do
      xml.timezone squeak.timezone
      xml.has_image squeak.image.nil? ? "false" : "true"
      xml.category squeak.category
-     xml.source squeak.source
+     xml.source (squeak.source || (squeak.text.include?('bit.ly') ? 'highways_uk' : 'user') )
    end
   end
 end
