@@ -39,8 +39,9 @@
     <% md5 =  Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'), "OIA9cj6nTfiV4EHkfDZc2A",salt)).strip %>
     <%= f.hidden_field :salt, :value => "#{salt}" %>
     <%= f.hidden_field :hash, :value => "#{md5}" %>
+   <% if @squeak.source.nil? or @squeak.source.empty? %>
     <%= f.hidden_field :source, :value => "user" %>
-
+   <% end %>
   <div class="actions">
     <%= f.submit "Save squeak" %>
   </div>

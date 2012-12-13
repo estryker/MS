@@ -25,6 +25,9 @@ class SqueaksController < ApplicationController
     elsif params.has_key? :image_file
       params[:squeak][:image] = params[:image_file].read
     end
+
+    # if we don't have a source, it is a 'user' squeak to help handle old clients
+    params[:squeak][:source] ||= 'user'
     
     @squeak = Squeak.new(params[:squeak])
     @title = "Create Squeak"
@@ -66,8 +69,6 @@ class SqueaksController < ApplicationController
     # old_way = DateTime.now.utc  + (params[:squeak][:duration].to_f / 24.0)
     # puts "expires: #{@squeak.expires} (#{@squeak.expires.class}) vs #{old_way} (#{old_way.class})"
     
-    # if we don't have a source, it is a 'user' squeak to help handle old clients
-    params[:squeak][:source] ||= 'user'
     
     respond_to do | format |
       if(@squeak.save)
@@ -170,7 +171,7 @@ class SqueaksController < ApplicationController
       category_string = categories.map {|c| "category = '#{c}'"}.join(' OR ')
 
       unless source_string.nil? or source_string.empty?
-        where_statement += " AND (" + source_string + ") OR SOURCE IS NULL"
+        where_statement += " AND (" + source_string + " OR SOURCE IS NULL)"
       end
 
       unless category_string.nil? or category_string.empty?
@@ -242,6 +243,10 @@ class SqueaksController < ApplicationController
       @squeak.category = params[:squeak][:category]
       @squeak.source = params[:squeak][:source]
       @squeak.timezone = params[:squeak][:timezone]
+
+      puts "source: " + params[:squeak][:source]
+      puts @squeak.inspect
+
       respond_to do | format |
         if(@squeak.save)
           format.html do

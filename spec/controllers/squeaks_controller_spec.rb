@@ -38,6 +38,11 @@ describe SqueaksController do
       @squeak_hash = XmlSimple.xml_in(@squeak_xml,:keeproot => false, :ForceArray => false).merge({:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="})
     end
 
+    it "should accept XML with all necessary fields" do 
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      response.should be_success, "hash: #{@squeak_hash.inspect}"
+    end
+
     it "should complain when given a bogus param in the squeak section" do 
       hash = @squeak_hash.dup
       hash["foo"] = 'bar'
@@ -59,10 +64,6 @@ describe SqueaksController do
       response.should be_success, "hash: #{hash.inspect}"
     end
 
-    it "should accept XML with all necessary fields" do 
-      post :create, {:format => 'xml', :squeak => @squeak_hash}
-      response.should be_success, "hash: #{@squeak_hash.inspect}"
-    end
     
     it "should accept a squeak without time_utc" do 
       hash = @squeak_hash.dup
@@ -132,6 +133,11 @@ describe SqueaksController do
       @squeak_hash[:hash] = "wrong"
       post :create, {:format => 'xml', :squeak => @squeak_hash}
       assert response.body.match(/Couldn't create squeak: Incorrect HMAC/), "response: #{response.body}"
+    end
+    it "should set the source to user if none is given" do
+      post :create, {:format => 'xml', :squeak => @squeak_hash}
+      xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => false)
+      assert xml["squeak"]["source"] == 'user', "return: #{xml.inspect}"
     end
   end
 
@@ -270,7 +276,7 @@ describe SqueaksController do
     end
 
 
-    ## Note the 6th squeak comes from the @squeak up above
+    ## Note the 7th squeak comes from the @squeak up above
     it "should return relics by default" do 
       get :index, {:format => 'xml',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude }
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
@@ -290,10 +296,10 @@ describe SqueaksController do
       assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
-    it "should return squeaks with the right source if requested" do 
+    it "should return squeaks with the right source or empty source if requested" do 
       get :index, {:format => 'xml', :sources => 'test_source',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].first["squeak"].length == 1, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end 
     it "should return squeaks with the right source and category if requested" do
       get :index, {:format => 'xml', :categories => 'test_cat2', :sources => 'test_source2',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
