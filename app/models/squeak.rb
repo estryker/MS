@@ -42,8 +42,9 @@ class Squeak < ActiveRecord::Base
 # validates :expires, :presence => true,
 #                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
  
-  validates :duration, :presence => true,
-  :numericality => {:greater_than => 0.0} # ,:less_than_or_equal_to => 24}
+  validates :duration, :presence => true, :squeak_duration => true # using custom validator
+  # :numericality => {:greater_than => 0.0} 
+  # ,:less_than_or_equal_to => 24} # :less_than_or_equal_to => user.role.max_squeak_duration }
 
   # before_save :decode_image
 

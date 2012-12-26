@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   # attribute to join on
   has_many :squeaks
   has_many :authorizations
+  has_one :role
   attr_accessible :name, :email
 
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i

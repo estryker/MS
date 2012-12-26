@@ -37,7 +37,7 @@ class Authorization < ActiveRecord::Base
       # Note that info/email may be nil (e.g. Twitter)
 
       if user.nil?
-        user = User.create :name => auth_hash["info"]["name"]
+        user = User.create :name => auth_hash["info"]["name"] #, :role_id => Role.where(:name=>'admin').id 
       end
       # puts user.inspect
 
