@@ -1,7 +1,23 @@
 class UsersController < ApplicationController
   before_filter :authenticate, :only => [:edit, :update, :show]
   before_filter :correct_user, :only => [:edit, :update, :show]
-  
+ 
+  def search 
+    @users = []
+    if params[:search_term] =~ /^[0-9]$/
+      @users = User.where(["id = ? ",params[:search_term]]).order("name ASC").paginate(:page => params[:page])
+    else
+      term = '%' + params[:search_term] + '%'
+      @users = User.where(["name like ? OR email like ?",term,term]).order("name ASC").paginate(:page => params[:page])
+    end
+
+    respond_to do | format |
+      format.json {render :json=> @users}
+      format.xml {render :xml=> @users}
+      format.html {render 'list'}
+    end
+  end
+ 
   def new
     @title = "Sign up"
     @user = User.new

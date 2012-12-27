@@ -1,0 +1,47 @@
+2012-11-15T23:55:43+00:00 heroku[web.1]: Process exited with status 0
+2012-11-15T23:55:47+00:00 heroku[web.1]: Starting process with command `bundle exec thin -p 28731 -e production -R /home/heroku_rack/heroku.ru start`
+2012-11-15T23:55:52+00:00 heroku[api]: Starting process with command `console` by e.stryker@gmail.com
+2012-11-15T23:55:58+00:00 heroku[run.1]: Awaiting client
+2012-11-15T23:55:58+00:00 heroku[run.1]: Starting process with command `console`
+2012-11-15T23:55:59+00:00 heroku[run.1]: Client connection closed. Sending SIGHUP to all processes
+2012-11-15T23:55:59+00:00 heroku[run.1]: State changed from starting to complete
+2012-11-15T23:56:01+00:00 heroku[run.1]: Process exited with status 127
+2012-11-15T23:56:11+00:00 app[web.1]: >> Thin web server (v1.3.1 codename Triple Espresso)
+2012-11-15T23:56:11+00:00 app[web.1]: >> Maximum connections set to 1024
+2012-11-15T23:56:11+00:00 app[web.1]: >> Listening on 0.0.0.0:28731, CTRL+C to stop
+2012-11-15T23:56:13+00:00 heroku[web.1]: State changed from starting to up
+2012-11-15T23:56:14+00:00 app[web.1]: 
+2012-11-15T23:56:14+00:00 app[web.1]: 
+2012-11-15T23:56:14+00:00 app[web.1]: Started GET "/index" for 74.61.241.193 at 2012-11-15 15:56:14 -0800
+2012-11-15T23:56:24+00:00 app[web.1]: 
+2012-11-15T23:56:24+00:00 app[web.1]:   
+2012-11-15T23:56:24+00:00 app[web.1]: 
+2012-11-15T23:56:24+00:00 app[web.1]: 
+2012-11-15T23:56:24+00:00 app[web.1]: ):
+2012-11-15T23:56:24+00:00 app[web.1]: PGError (could not translate host name "ec2-107-21-250-157.compute-1.amazonaws.com" to address: Name or service not known
+2012-11-15T23:56:24+00:00 app[web.1]: cache: [GET /index] miss
+2012-11-15T23:56:24+00:00 app[web.1]: 
+2012-11-15T23:56:24+00:00 app[web.1]: 
+2012-11-15T23:56:24+00:00 app[web.1]: Started GET "/squeaks/12022.json" for 88.208.252.131 at 2012-11-15 15:56:24 -0800
+2012-11-15T23:56:24+00:00 heroku[router]: at=info method=GET path=/index host=mapsqueak.heroku.com fwd= dyno=web.1 queue=0 wait=0ms connect=1ms service=10181ms status=500 bytes=728
+2012-11-15T23:56:24+00:00 heroku[nginx]: 74.61.241.193 - - [15/Nov/2012:23:56:24 +0000] "GET /index HTTP/1.1" 500 728 "-" "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20100101 Firefox/16.0" mapsqueak.heroku.com
+2012-11-15T23:56:24+00:00 app[web.1]:   Processing by SqueaksController#show as JSON
+2012-11-15T23:56:24+00:00 app[web.1]:   Parameters: {"id"=>"12022"}
+2012-11-15T23:56:24+00:00 heroku[router]: at=info method=GET path=/squeaks/12022.json host=mapsqueak.heroku.com fwd= dyno=web.1 queue=0 wait=0ms connect=1ms service=1748ms status=200 bytes=300
+2012-11-15T23:56:25+00:00 app[web.1]: Completed 200 OK in 359ms (Views: 6.3ms | ActiveRecord: 305.9ms)
+2012-11-15T23:56:25+00:00 app[web.1]: cache: [GET /squeaks/12022.json] miss
+2012-11-15T23:56:25+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd= dyno=web.1 queue=0 wait=0ms connect=1ms service=665ms status=200 bytes=0
+2012-11-15T23:56:25+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-11-15T23:56:25+00:00 heroku[nginx]: 74.61.241.193 - - [15/Nov/2012:23:56:25 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:16.0) Gecko/20100101 Firefox/16.0" mapsqueak.heroku.com
+2012-11-15T23:56:28+00:00 heroku[router]: at=info method=POST path=/_heroku/console?session_action=create&session_id=1839546 host=mapsqueak.heroku.com fwd= dyno=web.1 queue=0 wait=0ms connect=1ms service=430ms status=200 bytes=19
+2012-11-15T23:56:28+00:00 heroku[nginx]: 75.101.220.63 - app1859410 [15/Nov/2012:23:56:28 +0000] "POST /_heroku/console?session_action=create&session_id=1839546 HTTP/1.1" 200 19 "-" "-" mapsqueak.heroku.com
+2012-11-15T23:57:13+00:00 app[web.1]: 
+2012-11-15T23:57:13+00:00 app[web.1]: 
+2012-11-15T23:57:13+00:00 app[web.1]: Started GET "/squeaks/12022.json" for 88.208.252.131 at 2012-11-15 15:57:13 -0800
+2012-11-15T23:57:13+00:00 app[web.1]:   Processing by SqueaksController#show as JSON
+2012-11-15T23:57:13+00:00 app[web.1]:   Parameters: {"id"=>"12022"}
+2012-11-15T23:57:13+00:00 app[web.1]: cache: [GET /squeaks/12022.json] miss
+2012-11-15T23:57:13+00:00 app[web.1]: Completed 200 OK in 32ms (Views: 1.2ms | ActiveRecord: 30.0ms)
+2012-11-15T23:57:13+00:00 heroku[router]: at=info method=GET path=/squeaks/12022.json host=mapsqueak.heroku.com fwd= dyno=web.1 queue=0 wait=0ms connect=1ms service=53ms status=200 bytes=300
+2012-11-15T23:57:13+00:00 heroku[nginx]: 88.208.252.131 - - [15/Nov/2012:23:57:13 +0000] "GET /squeaks/12022.json HTTP/1.0" 200 300 "-" "-" mapsqueak.heroku.com
+

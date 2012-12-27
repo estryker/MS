@@ -10,6 +10,24 @@ class SqueaksController < ApplicationController
     @user = current_user  || anonymous_user
   end
 
+  def search
+    squeaks = nil
+    if params[:search_term] =~ /^[0-9]$/
+      squeaks = Squeak.where(["id = ?",params[:search_term]])
+    else
+      term = '%' + params[:search_term] + '%'
+      squeaks = Squeak.where(["text like ? ",term])
+    end
+    @num_squeaks = squeaks.length
+    @squeaks = squeaks.order("created_at DESC").paginate(:page => params[:page]) unless squeaks.nil?
+
+    respond_to do | format |
+      format.json {render :json=> @squeaks}
+      format.xml {render :xml=> @squeaks}
+      format.html {render 'list'}
+    end 
+  end
+
   def create
     return unless authenticate_squeak?(params,nil,:new)
 

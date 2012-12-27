@@ -1,0 +1,19 @@
+<h1>
+Squeak Search Results 
+</h1>
+
+<table class="profile">
+  <tr>
+    <td class="main">
+      <% if @squeaks.nil? || @squeaks.empty? %>
+      No squeaks by that description.
+      <% else %>
+      <table class="squeaks" summary="Squeaks">
+        <h3> <%= pluralize(@num_squeaks, 'squeak') %> </h3> 
+        <%= render @squeaks %>
+      </table>
+      <%= will_paginate @squeaks  %>
+      <% end %>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,18 @@
+<h1>
+User Search Results 
+</h1>
+
+<table class="profile">
+  <tr>
+    <td class="main">
+      <% if @users.nil? or @users.empty? %>
+      No users by that description. 
+      <% else %>
+      <table class="users" summary="Users">
+        <%= render @users %>
+      </table>
+      <%= will_paginate @users, :params=>{:id=>users.id} %>
+      <% end %>
+    </td>
+  </tr>
+</table>

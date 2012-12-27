@@ -1,0 +1,15 @@
+To migrate from 
+
+heroku maintenance:on -a mapsqueak
+heroku pgbackups:capture --expire -a mapsqueak
+heroku pgbackups:restore HEROKU_POSTGRESQL_BLUE -a mapsqueak
+heroku pg:promote HEROKU_POSTGRESQL_BLUE -a mapsqueak
+heroku maintenance:off -a mapsqueak
+
+
+before:
+heroku pg:psql HEROKU_POSTGRESQL_SILVER -a mapsqueak
+select count(*) from squeaks; 2342
+after:
+heroku pg:psql HEROKU_POSTGRESQL_BLUE -a mapsqueak
+select count(*) from squeaks;

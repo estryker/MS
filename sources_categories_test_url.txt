@@ -1,0 +1,2 @@
+http://localhost:3000/index?num_squeaks=100&center_latitude=39&center_longitude=76.8&sources=user,highways_uk&categories=all&include_relics=no
+http://localhost:3000/index?num_squeaks=100&center_latitude=39&center_longitude=76.8&sources=user,highways_uk&categories=traffic&include_relics=no

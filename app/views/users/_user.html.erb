@@ -1,0 +1,24 @@
+<tr>
+  <td class="user">
+    <%= gravatar_for user %>
+    <%= link_to user.name,  :action => 'edit', :id => user %> 
+    
+    <p>
+      Number of squeaks: <%= user.num_squeaks %>
+    </p>
+    
+    <% if user.num_squeaks > 1 %>
+    
+    <span class="timestamp">
+      <p>
+	First squeak posted <%= time_ago_in_words(user.first_squeak.created_at) %> ago, 
+	last squeak posted <%= time_ago_in_words(user.last_squeak.created_at) %> ago.
+      </p>
+      <% elsif user.num_squeaks == 1 %>
+      <p>
+	Only squeak posted <%= time_ago_in_words(user.first_squeak.created_at) %> ago.
+      </p>
+      <% end %>
+    </span>
+  </td>
+</tr>

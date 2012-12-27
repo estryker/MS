@@ -33,6 +33,18 @@ class User < ActiveRecord::Base
     self.role_id == Role.where(:name => 'admin').first.id
   end
 
+  def num_squeaks
+    (self.squeaks || []).length
+  end
+
+  def first_squeak
+    (self.squeaks || []).sort {|a,b| a.created_at <=> b.created_at}.first
+  end
+
+  def last_squeak
+    (self.squeaks || []).sort {|a,b| a.created_at <=> b.created_at}.last
+  end
+
 :private
   # by default, make the User have the 'user' role
   def init
