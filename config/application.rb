@@ -41,5 +41,7 @@ module MapsqueakProto
     
     # adding this based on gmaps4rails git hub page
     #config.assets.enabled = true
+    
+    config.autoload_paths += %W["#{config.root}/app/validators/"]
   end
 end

@@ -22,19 +22,22 @@ class Squeak < ActiveRecord::Base
   include ActionView::Helpers::DateHelper
   include ApplicationHelper
   
- belongs_to :user # , :primary_key => :user_email
- 
- numeric_regex = /^-?[0-9.]+$/
- 
- validates :latitude, :presence => true, 
-                  :format => {:with => numeric_regex},
-                  :numericality => {:greater_than_or_equal_to => -90,:less_than_or_equal_to => 90}
- validates :longitude, :presence => true,
-                      :format => {:with => numeric_regex},
+  require "#{Rails.root}/app/validators/squeak_validators.rb"
+  
+  belongs_to :user # , :primary_key => :user_email
+  
+  numeric_regex = /^-?[0-9.]+$/
+  
+  validates :latitude, :presence => true, 
+      :format => {:with => numeric_regex},
+      :numericality => {:greater_than_or_equal_to => -90,:less_than_or_equal_to => 90}
+  
+  validates :longitude, :presence => true,
+      :format => {:with => numeric_regex},
                       :numericality => {:greater_than_or_equal_to => -180,:less_than_or_equal_to => 180}
                       
- validates :text, :presence => true,
-                  :length       => { :within => 1..140 }
+  validates :text, :presence => true,
+      :length       => { :within => 1..140 }
                   
  # **Note this is giving us problems on Heroku.  Squeaks with a duration of 23.7 hours or greater
  #   are sometimes being rejected. We'll just rely on duration for now. 

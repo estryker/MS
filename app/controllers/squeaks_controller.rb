@@ -232,7 +232,7 @@ class SqueaksController < ApplicationController
     user = current_user || anonymous_user
     @squeak = Squeak.find(params[:id])
     @title = "Update Squeak id #{@squeak.id}"
-    if @squeak and @squeak.user_id == user.id
+    if @squeak and (@squeak.user_id == user.id || user.admin?)
 
       return unless authenticate_squeak?(params,@squeak,:edit)
 

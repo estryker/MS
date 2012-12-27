@@ -29,6 +29,7 @@ class UsersController < ApplicationController
   
   def create
     @user = User.new(params[:user])
+    
     if @user.save
       sign_in @user
       flash[:success] = "Welcome to MapSqueak!"
@@ -56,11 +57,11 @@ class UsersController < ApplicationController
   
   private 
     def authenticate
-      deny_access unless signed_in?
+      deny_access unless signed_in? 
     end
     
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(index_path) unless current_user?(@user)
+      redirect_to(index_path) unless current_user?(@user) || current_user.admin?
     end
 end

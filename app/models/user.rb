@@ -3,8 +3,10 @@ class User < ActiveRecord::Base
   # attribute to join on
   has_many :squeaks
   has_many :authorizations
-  has_one :role
+  belongs_to :role # foreign key is  role_id by default
   attr_accessible :name, :email
+
+  after_initialize :init
 
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
@@ -26,6 +28,19 @@ class User < ActiveRecord::Base
     end
     auth
   end
+
+  def admin?
+    self.role_id == Role.where(:name => 'admin').first.id
+  end
+
+:private
+  # by default, make the User have the 'user' role
+  def init
+    if self.role_id.nil?
+      self.role_id = Role.where(:name => 'user').first.id
+    end
+  end
+
 end
 
 # == Schema Information

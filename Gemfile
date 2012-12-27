@@ -23,6 +23,7 @@ gem 'thin'
 gem 'gravatar_image_tag', '1.0.0.pre2'
 
 gem 'rails', '3.1.1'
+# gem 'rails', '3.2.9' # date_validator not happy for some reason
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

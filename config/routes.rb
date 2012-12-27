@@ -17,10 +17,10 @@ MapsqueakProto::Application.routes.draw do
   match '/about',    :to => 'pages#about'
   match '/terms',    :to => 'pages#terms'
   match '/contact',    :to => 'pages#contact'
-# root :to => 'squeaks#index'
-  root :to => 'squeaks#proper_home'
+  match '/admin', :to => 'pages#admin'
 
-  
+  # root :to => 'squeaks#index'
+  root :to => 'squeaks#proper_home'
 
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]

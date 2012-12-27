@@ -24,9 +24,13 @@
       </li>
       <% end %>
       <li>
-	<%= link_to "Manage Logins", signin_path %>
+	<%= link_to "Logins", signin_path %>
       </li>
-      
+      <% if current_user && current_user.admin? %>
+      <li>
+	<%= link_to "Admin", admin_path %>
+      </li>
+      <% end %>
 
       <li> <%= link_to logo, squeaks_new_path %> </li>
     </ul> 
