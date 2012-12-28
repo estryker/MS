@@ -250,12 +250,12 @@ describe SqueaksController do
     before(:each) do   # A squeak from the future!
       # in Factories :  squeak.latitude   54.1  squeak.longitude  -1.4
       # order in distance (using the @squeak up above as the 0th one, should be: 0,2,4,3,5,6)
-      @relic_squeak = Factory(:squeak, :expires =>  Time.now.utc - 23.hours, :latitude => 55.2,:longitude=>-1.9)
-      @valid_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour, :latitude => 54.1,:longitude=>-1.5 )
-      @test_cat_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat', :latitude => 55.3,:longitude=>-2 )
-      @test_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:source => 'test_source', :latitude => 54.2,:longitude=>-1.5 )
-      @test_cat_src_squeak = Factory(:squeak, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2', :latitude => 55.4,:longitude=>-2.1 )
-      @created_old_squeak =  Factory(:squeak, :created_at => Time.now.utc - 5.days, :expires =>  Time.now.utc + 1.hour, :latitude => 55.5,:longitude=>-2.2 )
+      @relic_squeak = Factory(:squeak, :created_at => Time.now.utc - 24.hours, :expires =>  Time.now.utc - 23.hours, :latitude => 55.2,:longitude=>-1.9)
+      @valid_squeak = Factory(:squeak, :created_at => Time.now.utc - 1.hour,:expires =>  Time.now.utc + 1.hour, :latitude => 54.1,:longitude=>-1.5 )
+      @test_cat_squeak = Factory(:squeak, :created_at => Time.now.utc - 1.hour, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat', :latitude => 55.3,:longitude=>-2 )
+      @test_src_squeak = Factory(:squeak, :created_at => Time.now.utc - 1.hour, :expires =>  Time.now.utc + 1.hour,:source => 'test_source', :latitude => 54.2,:longitude=>-1.5 )
+      @test_cat_src_squeak = Factory(:squeak, :created_at => Time.now.utc - 1.hour, :expires =>  Time.now.utc + 1.hour,:category => 'test_cat2',:source => 'test_source2', :latitude => 55.4,:longitude=>-2.1 )
+      @created_old_squeak =  Factory(:squeak, :created_at => Time.now.utc - 27.hours, :expires =>  Time.now.utc - 23.hours, :latitude => 55.5,:longitude=>-2.2 )
       @squeak_ids = [1,3,2,5,4,6,7]
     end
     
@@ -314,14 +314,16 @@ describe SqueaksController do
 
       # this is a little silly b/c all the squeak_ids are in there, and after sorting it becomes 1,2,3,4,5,6,7 BUT the 
       # next test is the real test here. 
-      assert ids == @squeak_ids.sort, "correct order: #{@id_order.inspect} vs received #{ids.inspect}, #{xml.inspect}"
+      correct_ids = @squeak_ids.sort
+      assert ids == correct_ids, "correct order: #{correct_ids} vs received #{ids.inspect}, #{xml.inspect}"
     end
 
     it "should return closest squeaks, then ordered correctly" do 
       get :index, {:format => 'xml', :num_squeaks => 4, :center_latitude => @squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
       ids = xml['squeaks'].first['squeak'].map {|s| s["id"].first.to_i}
-      assert ids == @squeak_ids.first(4).sort, "correct order: #{@squeak_ids.first(4).sort.inspect} vs received #{ids.inspect}"
+      correct_ids = @squeak_ids.first(4).sort
+      assert ids == correct_ids, "correct order: #{correct_ids.inspect} vs received #{ids.inspect}"
     end
   end
 
@@ -344,7 +346,7 @@ describe SqueaksController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @attr = { :latitude => 51.0, :longitude => -1.0 , :text => 'foobar', :expires => '2012-11-28 00:00:00',:category => 'cat', :source=>'src', :timezone=>'XXX',:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
+      @attr = { :latitude => 51.0, :longitude => -1.0 , :text => 'foobar', :expires => Time.now.to_s,:category => 'cat', :source=>'src', :timezone=>'XXX',:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
     end
 
 #    describe "failure due to wrong user" do

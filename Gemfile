@@ -29,6 +29,8 @@ gem 'rails', '3.1.1'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'gmaps4rails', '0.8.8'
+# need to get asset pipleline working
+# gem 'gmaps4rails', '1.5.6'
 
 gem "jquery-rails"
 

@@ -85,14 +85,14 @@ class Squeak < ActiveRecord::Base
     #color: #666;
 
     caption = Time.now < self.expires ? "Expires in #{time_ago_in_words(self.expires)}" : "Expired #{time_ago_in_words(self.expires)} ago."
-    "<font size=4 face='arial,sans-serif'>#{self.text} </font> <br/> <font color='#666' size=2 face='arial,sans-serif'> #{caption} </font>"
+    "<font size=4 face='arial,sans-serif'>#{self.text} </font> <br/> <font color='#666' size=2 face='arial,sans-serif'> #{caption} </font>" 
   end
 
   def gmaps4rails_marker_picture
     {
       "picture" => "/images/#{self.created_at < 5.minutes.ago ? 'old' : 'new'}_squeak_marker.png",  # self.image_path, # image_path column has to contain something like '/assets/my_pic.jpg'.
-      "width" => 32, #beware to resize your pictures properly
-      "height" => 32 #beware to resize your pictures properly
+      "width" => 33, #beware to resize your pictures properly
+      "height" => 33 #beware to resize your pictures properly
     }
   end
 
