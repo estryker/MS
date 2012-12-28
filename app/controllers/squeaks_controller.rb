@@ -11,15 +11,16 @@ class SqueaksController < ApplicationController
   end
 
   def search
-    squeaks = nil
-    if params[:search_term] =~ /^[0-9]$/
-      squeaks = Squeak.where(["id = ?",params[:search_term]])
+    @squeaks = nil
+    per_page = 10
+    if params[:search_term] =~ /^[0-9]+$/
+      @squeaks = Squeak.where(["id = ?",params[:search_term]]).order("created_at DESC").paginate(:page => params[:page], :per_page => per_page)
     else
-      term = '%' + params[:search_term] + '%'
-      squeaks = Squeak.where(["text like ? ",term])
+      term = '%' + params[:search_term].downcase + '%'
+      @squeaks = Squeak.where(["lower(text) like ? ",term]).order("created_at DESC").paginate(:page => params[:page], :per_page => per_page)
     end
-    @num_squeaks = squeaks.length
-    @squeaks = squeaks.order("created_at DESC").paginate(:page => params[:page]) unless squeaks.nil?
+    # @num_squeaks = squeaks.length
+    # @squeaks = squeaks.order("created_at DESC").paginate(:page => params[:page]) unless squeaks.nil?
 
     respond_to do | format |
       format.json {render :json=> @squeaks}
@@ -265,6 +266,10 @@ class SqueaksController < ApplicationController
       puts "source: " + params[:squeak][:source]
       puts @squeak.inspect
 
+      if user.admin?
+        @squeak.disable_expires_validation = true
+      end
+
       respond_to do | format |
         if(@squeak.save)
           format.html do
@@ -286,7 +291,8 @@ class SqueaksController < ApplicationController
         else
           err = "Couldn't update squeak"
           format.html do
-            redirect_to :action => :edit
+            #redirect_to :action => :edit
+            render 'edit'
           end
           format.json do
             render :json => {:error => err}.to_json

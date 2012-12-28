@@ -19,6 +19,8 @@
 #
 
 class Squeak < ActiveRecord::Base
+  attr_accessor :disable_expires_validation
+
   include ActionView::Helpers::DateHelper
   include ApplicationHelper
   
@@ -39,13 +41,20 @@ class Squeak < ActiveRecord::Base
   validates :text, :presence => true,
       :length       => { :within => 1..140 }
                   
- # **Note this is giving us problems on Heroku.  Squeaks with a duration of 23.7 hours or greater
- #   are sometimes being rejected. We'll just rely on duration for now. 
- # we'll allow for some slop in this
-# validates :expires, :presence => true,
-#                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
+  # **Note this is giving us problems on Heroku.  Squeaks with a duration of 23.7 hours or greater
+  #   are sometimes being rejected. We'll just rely on duration for now. 
+  # we'll allow for some slop in this
+  # validates :expires, :presence => true,
+  #                    :date => { :after => DateTime.now.utc, :before => DateTime.now.utc + 1.05 }
+
+  # This custom validation uses the expires time set and either the created_at or the current
+  # time to validate the expiration.  This is used for new squeaks and when editing. 
+  # Can be disabled so that admins may change them, but it puts the onus on the controller to verify admin
+  validates :expires, :presence => true, :squeak_expiration => true, :unless => :disable_expires_validation
  
-  validates :duration, :presence => true, :squeak_duration => true # using custom validator
+  # The duration gets validated via the expiration time
+  # validates :duration, :presence => true, :squeak_duration => true # using custom validator 
+
   # :numericality => {:greater_than => 0.0} 
   # ,:less_than_or_equal_to => 24} # :less_than_or_equal_to => user.role.max_squeak_duration }
 

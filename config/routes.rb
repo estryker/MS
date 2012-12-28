@@ -4,12 +4,13 @@ MapsqueakProto::Application.routes.draw do
   get "sessions/new"
   get "users/new"
 
+ 
   resources :squeaks
   get "squeaks/new"
   match 'squeaks/map_preview/:id', :to => 'squeaks#map_preview'
   match 'squeaks/image/:id', :to => 'squeaks#squeak_image'
   match 'squeaks/map_image/:id', :to => 'squeaks#map_image'
-  post "squeaks/search"
+  match "squeak_search", :to => 'squeaks#search'
 
   match '/index', :to => 'squeaks#index'
   match '/mobile', :to => 'pages#mobile_app'
@@ -23,7 +24,7 @@ MapsqueakProto::Application.routes.draw do
   root :to => 'squeaks#proper_home'
 
   resources :users
-  match "users/search", :to=> 'users#search'
+  get "user_search", :to => "users#search"
 
   resources :sessions, :only => [:new, :create, :destroy]
 

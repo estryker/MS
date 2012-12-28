@@ -11,7 +11,7 @@ User Search Results
       <table class="users" summary="Users">
         <%= render @users %>
       </table>
-      <%= will_paginate @users, :params=>{:id=>users.id} %>
+      <%= will_paginate @users %>
       <% end %>
     </td>
   </tr>

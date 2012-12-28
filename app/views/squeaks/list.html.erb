@@ -9,10 +9,9 @@ Squeak Search Results
       No squeaks by that description.
       <% else %>
       <table class="squeaks" summary="Squeaks">
-        <h3> <%= pluralize(@num_squeaks, 'squeak') %> </h3> 
         <%= render @squeaks %>
       </table>
-      <%= will_paginate @squeaks  %>
+      <%= will_paginate @squeaks %>
       <% end %>
     </td>
   </tr>
