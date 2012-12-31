@@ -198,7 +198,7 @@ class SqueaksController < ApplicationController
       end
 
       where_clause = [where_statement] + where_items # no need for this: + sources + categories
-      puts where_clause
+      # puts where_clause
       all_squeaks = Squeak.where(where_clause)
 
       # This won't wrap around correctly:
@@ -263,8 +263,8 @@ class SqueaksController < ApplicationController
       @squeak.source = params[:squeak][:source]
       @squeak.timezone = params[:squeak][:timezone]
 
-      puts "source: " + params[:squeak][:source]
-      puts @squeak.inspect
+      # puts "source: " + params[:squeak][:source]
+      # puts @squeak.inspect
 
       if user.admin?
         @squeak.disable_expires_validation = true
@@ -434,7 +434,7 @@ class SqueaksController < ApplicationController
       key = "OIA9cj6nTfiV4EHkfDZc2A" # test
       hmac = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('md5'),key,params[:squeak][:salt])).strip
       if hmac == params[:squeak][:hash].strip
-        puts "HMAC correct \'#{hmac}\'"
+        # puts "HMAC correct \'#{hmac}\'"
         return true
       else
         puts "No HMAC match: \'#{hmac}\' vs received: \'#{params[:squeak][:hash]}\'"
