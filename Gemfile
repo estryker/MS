@@ -45,7 +45,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 
 gem 'koala'
-gem 'twitter'
+gem 'twitter' # check for updates for this. now up to 4.4.4
 gem 'bitly'
 
 gem 'xml-simple'
