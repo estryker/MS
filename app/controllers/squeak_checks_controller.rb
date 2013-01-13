@@ -25,7 +25,8 @@ class SqueakChecksController < ApplicationController
     if(@squeak_check.save)
       respond_to_user("Squeak check accepted!",0,index_path)
     else
-      respond_to_user("Couldn't save squeak check",1,squeak)
+      err_msg = @squeak_check.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
+      respond_to_user("Couldn't save squeak check #{err_msg}",1,squeak)
     end
   end
 

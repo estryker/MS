@@ -17,10 +17,10 @@ TODO: make a check mark filled in / not filled in graphic, and only allow a user
 -->
 <% if @checked_by_user.nil? %>
   <%= button_to 'Concur!', {:controller => "squeak_checks",  :action => 'create',:squeak_id=> @squeak.id} %>
-<% elsif @checked_by_user.true? %>
-  <%= button_to 'Unconcur!', {:controller => "squeak_checks",  :action => 'update',:squeak_id=> @squeak.id,:check => 'false'} %>
-<% elsif @checked_by_user.false? %>
-  <%= button_to 'Reconcur!', {:controller => "squeak_checks",  :action => 'update',:squeak_id=> @squeak.id,:check => 'true'} %>
+<% elsif @checked_by_user %>
+  <%= button_to 'Unconcur!', {:controller => "squeak_checks",  :action => 'update',:squeak_id=> @squeak.id,:checked => 'false'} %>
+<% elsif @checked_by_user == false %>
+  <%= button_to 'Reconcur!', {:controller => "squeak_checks",  :action => 'update',:squeak_id=> @squeak.id,:checked => 'true'} %>
 <% end %>
 ReSqueaked: <%= @num_resqueaks %>
 Checked: <%= @num_checks %>

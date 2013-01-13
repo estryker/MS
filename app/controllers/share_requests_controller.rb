@@ -23,10 +23,11 @@ class ShareRequestsController < ApplicationController
         if share_request.save 
           respond_to_user("Squeak successfully resqueaked",0,index_path)
         else
-          respond_to_user("Couldn't save share request",1,squeak)
+          err_msg = share_request.errors.map {|attr,msg| puts "#{attr} - #{msg}"}.join(' ')
+          respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
         end
 
-      elsif signed_in_to?(params[:provider]) or
+      elsif signed_in_to?(params[:provider]) 
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
         share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
 
@@ -41,7 +42,8 @@ class ShareRequestsController < ApplicationController
             respond_to_user("Couldn't complete share request to #{params[:provider]} : #{e.message}",1,squeak)
           end
         else
-          respond_to_user("Couldn't save share request",1,squeak)
+          err_msg = share_request.errors.map {|attr,msg| puts "#{attr} - #{msg}"}.join(' ')
+          respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
         end
       else
         #format.html do 

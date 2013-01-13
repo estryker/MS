@@ -483,10 +483,10 @@ class SqueaksController < ApplicationController
     @num_checks = SqueakCheck.where(:squeak_id => @squeak.id).count
 
     sq = SqueakCheck.where(:squeak_id => @squeak.id,:user_id => current_user.id)
-    if sq.nil?
+    if sq.nil? or sq.empty?
       @checked_by_user = nil
     else
-      @checked_by_user = sq.checked
+      @checked_by_user = sq.first.checked
     end
 
     respond_to do |format|
