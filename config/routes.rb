@@ -1,9 +1,23 @@
 MapsqueakProto::Application.routes.draw do
+  get "squeak_check/new"
+
+  get "squeak_check/create"
+
+  get "squeak_check/update"
+
+  get "squeak_check/edit"
+
+  get "squeak_check/destroy"
+
+  get "squeak_check/index"
+
+  get "squeak_check/show"
+
   resources :share_requests, :except => [:edit, :destroy]
+  resources :squeak_checks, :except => [:destroy]
 
   get "sessions/new"
   get "users/new"
-
  
   resources :squeaks
   get "squeaks/new"

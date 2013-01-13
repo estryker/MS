@@ -477,6 +477,18 @@ class SqueaksController < ApplicationController
     # I'm commenting this out so that anyone can view anybody's squeak by id (not by user name)
     # user = current_user || anonymous_user
     @squeak = Squeak.find(params[:id])
+
+    # TODO: correct the syntax here
+    @num_resqueaks = ShareRequest.where({:squeak_id => @squeak.id,:provider => 'mapsqueak'}, {:group => :user_id}).uniq.count
+    @num_checks = SqueakCheck.where(:squeak_id => @squeak.id).count
+
+    sq = SqueakCheck.where(:squeak_id => @squeak.id,:user_id => current_user.id)
+    if sq.nil?
+      @checked_by_user = nil
+    else
+      @checked_by_user = sq.checked
+    end
+
     respond_to do |format|
 
       if @squeak # and @squeak.user_email == user.email

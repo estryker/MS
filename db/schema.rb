@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121226195534) do
+ActiveRecord::Schema.define(:version => 20130112214139) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -22,6 +22,22 @@ ActiveRecord::Schema.define(:version => 20121226195534) do
     t.string   "secret"
     t.string   "token"
   end
+
+  create_table "geo_events", :force => true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "begins_utc"
+    t.datetime "expires_utc"
+    t.string   "text"
+    t.float    "duration"
+    t.string   "category"
+    t.string   "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "geo_events", ["latitude"], :name => "index_geo_events_on_latitude"
+  add_index "geo_events", ["longitude"], :name => "index_geo_events_on_longitude"
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -34,6 +50,16 @@ ActiveRecord::Schema.define(:version => 20121226195534) do
     t.integer  "user_id"
     t.integer  "squeak_id"
     t.string   "provider"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "squeak_checks", :force => true do |t|
+    t.integer  "squeak_id"
+    t.integer  "user_id"
+    t.float    "checked_from_latitude"
+    t.float    "checked_from_longitude"
+    t.boolean  "checked"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

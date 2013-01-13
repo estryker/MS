@@ -20,5 +20,23 @@ class ApplicationController < ActionController::Base
     def text
       @info[:text]
     end
+  end 
+  
+  def respond_to_user(message_text,code,path)
+    m = Message.new(message_text,code)
+    if request.env["HTTP_USER_AGENT"].include? 'iPhone'
+      render :xml => m
+    else
+      respond_to do | format |     
+        format.html do 
+          if code == 0
+            flash[:message] = m.text
+          else
+            flash[:error] = m.text
+          end
+          redirect_to path
+        end
+      end
+    end
   end
 end
