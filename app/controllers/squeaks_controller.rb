@@ -478,23 +478,23 @@ class SqueaksController < ApplicationController
     # user = current_user || anonymous_user
     @squeak = Squeak.find(params[:id])
 
-    # TODO: correct the syntax here
-    @num_resqueaks = ShareRequest.where({:squeak_id => @squeak.id,:provider => 'mapsqueak'}, {:group => :user_id}).uniq.count
-    @num_checks = SqueakCheck.where(:squeak_id => @squeak.id).count
-
-    sq = SqueakCheck.where(:squeak_id => @squeak.id,:user_id => current_user.id)
-    if sq.nil? or sq.empty?
-      @checked_by_user = nil
-    else
-      @squeak_check = sq.first
-      @checked_by_user = @squeak_check.checked
-    end
-
     respond_to do |format|
 
       if @squeak # and @squeak.user_email == user.email
         @squeak.text.gsub!(/[\n\r]+/,' ')
-   
+      
+        # TODO: correct the syntax here
+        @num_resqueaks = ShareRequest.where({:squeak_id => @squeak.id,:provider => 'mapsqueak'}, {:group => :user_id}).uniq.count
+        @num_checks = SqueakCheck.where(:squeak_id => @squeak.id).count
+        
+        sq = SqueakCheck.where(:squeak_id => @squeak.id,:user_id => (current_user || anonymous_user).id)
+        if sq.nil? or sq.empty?
+          @checked_by_user = nil
+        else
+          @squeak_check = sq.first
+          @checked_by_user = @squeak_check.checked
+        end
+
         format.html do
           @title = page_title
           @zoom = 14 # TODO: make this configurable

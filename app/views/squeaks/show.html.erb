@@ -16,11 +16,11 @@ post method not working, and I prefer having a 'button' anyways
 TODO: make a check mark filled in / not filled in graphic, and only allow a user to concur if they haven't done so. And allow them to unconcur
 -->
 <% if @checked_by_user.nil? %>
-  <%= button_to 'Concur!', {:controller => "squeak_checks",  :action => 'create',:squeak_id=> @squeak.id} %>
+  <%= button_to 'Concur!', {:controller => "squeak_checks",  :action => 'create',:squeak_id=> @squeak.id},{:class => "unchecked_button"} %>
 <% elsif @checked_by_user %>
-  <%= button_to 'Unconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'false'},:method => 'put'  %>
+  <%= button_to 'Unconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'false'},{:class => "checked_button", :method => 'put'}  %>
 <% elsif @checked_by_user == false %>
-  <%= button_to 'Reconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'true'},:method => 'put' %>
+  <%= button_to 'Reconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'true'},{:class => "unchecked_button",  :method => 'put'} %>
 <% end %>
 ReSqueaked: <%= @num_resqueaks %>
 Checked: <%= @num_checks %>

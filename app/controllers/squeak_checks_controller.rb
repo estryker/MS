@@ -6,7 +6,7 @@ class SqueakChecksController < ApplicationController
   end
 
   def create
-    user_id = current_user.id
+    user_id = (current_user || anonymous_user).id
 
     squeak = Squeak.find(params[:squeak_id])
     if squeak.nil?
@@ -23,7 +23,7 @@ class SqueakChecksController < ApplicationController
 
     # TODO: put 'respond_to_user' in a helper we can all see
     if(@squeak_check.save)
-      respond_to_user("Squeak check accepted!",0,index_path)
+      respond_to_user("Squeak check accepted!",0,current_path)
     else
       err_msg = @squeak_check.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
       respond_to_user("Couldn't save squeak check #{err_msg}",1,squeak)
@@ -40,12 +40,12 @@ class SqueakChecksController < ApplicationController
       if params[:checked] == 'true'
         squeak_check.checked = true
         if squeak_check.save
-          respond_to_user("Squeak check updated, checked set to true",0,index_path)
+          respond_to_user("Squeak check updated, checked set to true",0,current_path)
         end
       elsif  params[:checked] == 'false'
         squeak_check.checked = false
         if squeak_check.save
-          respond_to_user("Squeak check updated, checked set to false",0,index_path)
+          respond_to_user("Squeak check updated, checked set to false",0,current_path)
         end
       end
     end

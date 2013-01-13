@@ -260,19 +260,37 @@ form.new_squeak textarea {
 }
 
 .facebook_share_button {
-    background:url(/images/fb_share.110x50.jpeg) no-repeat;
+    background:url(/images/facebookicon_64.png) no-repeat;
     cursor:pointer;
-    width: 110px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
     border: none;	
     color : transparent;
     font-size : 0
 }
 .tweet_button {
-    background:url(/images/tweet_110x50.jpeg) no-repeat;
+    background:url(/images/TwitterIcon_64.png) no-repeat;
     cursor:pointer;
-    width: 110px;
-    height: 50px;
+    width: 64px;
+    height: 64px;
+    border: none;
+    color : transparent;
+    font-size : 0
+}
+.checked_button {
+    background:url(/images/CheckMark_64.png) no-repeat;
+    cursor:pointer;
+    width: 64px;
+    height: 64px;
+    border: none;
+    color : transparent;
+    font-size : 0
+}
+.unchecked_button {
+    background:url(/images/CheckMarkGrey_64.png) no-repeat;
+    cursor:pointer;
+    width: 64px;
+    height: 64px;
     border: none;
     color : transparent;
     font-size : 0
