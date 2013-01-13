@@ -13,5 +13,10 @@
 #
 
 class SqueakCheck < ActiveRecord::Base
-  validates_uniqueness_of [:squeak_id, :user_id]
+  belongs_to :user
+  belongs_to :squeak
+
+  # This makes a unique compound key.  Beware of race conditions:
+  # http://apidock.com/rails/v3.0.5/ActiveRecord/Validations/ClassMethods/validates_uniqueness_of under "Concurrency and Integrity"
+  validates_uniqueness_of :squeak_id, :scope => :user_id  
 end

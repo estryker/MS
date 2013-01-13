@@ -486,7 +486,8 @@ class SqueaksController < ApplicationController
     if sq.nil? or sq.empty?
       @checked_by_user = nil
     else
-      @checked_by_user = sq.first.checked
+      @squeak_check = sq.first
+      @checked_by_user = @squeak_check.checked
     end
 
     respond_to do |format|

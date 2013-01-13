@@ -39,10 +39,14 @@ class SqueakChecksController < ApplicationController
     if params.has_key? :checked
       if params[:checked] == 'true'
         squeak_check.checked = true
-        respond_to_user("Squeak check updated, checked set to true",0,index_path)
+        if squeak_check.save
+          respond_to_user("Squeak check updated, checked set to true",0,index_path)
+        end
       elsif  params[:checked] == 'false'
         squeak_check.checked = false
-        respond_to_user("Squeak check updated, checked set to false",0,index_path)
+        if squeak_check.save
+          respond_to_user("Squeak check updated, checked set to false",0,index_path)
+        end
       end
     end
   end

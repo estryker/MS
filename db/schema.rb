@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130112214139) do
+ActiveRecord::Schema.define(:version => 20130113032421) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(:version => 20130112214139) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "squeak_checks", ["squeak_id", "user_id"], :name => "index_squeak_checks_on_squeak_id_and_user_id", :unique => true
 
   create_table "squeaks", :force => true do |t|
     t.float    "latitude"
