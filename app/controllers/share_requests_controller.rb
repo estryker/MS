@@ -3,8 +3,6 @@ class ShareRequestsController < ApplicationController
   Bitly.use_api_version_3
   BitlyShortener = Bitly.new('o_11vp9b9mda', 'R_5b7f47f7cf4b8281ce82e10ae324a5c6')
 
-
-
   # so the mobile app can create a session
   protect_from_forgery :except => [:create]
   
@@ -14,14 +12,47 @@ class ShareRequestsController < ApplicationController
   def create
     # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
     squeak = Squeak.find(params[:squeak_id])
-
-  
+    user = current_user || anonymous_user
     if squeak.nil?
       # throw an appropriate error and redirect to the index_path
       respond_to_user("Can't find squeak with id of #{params[:squeak_id]}",1,index_path)
     else
-     
-      if signed_in_to?(params[:provider])
+      if params[:provider] == 'mapsqueak'
+        share_request = ShareRequest.new({:user_id => user.id,:squeak_id => squeak.id,:provider=>'mapsqueak'})
+        # create a copy of the squeak if resqueaked? want to give the original the most credit, but want these to show up on the user's profile. 
+        if share_request.save 
+          # TODO: consider deferring most of this to the squeaks_controller create method. except
+          # we'd have to deal with the image issue, and hash/salt issue. Pick your poison
+          squeak_time = DateTime.now.utc
+          curr_duration = (squeak.expires - 0.hours.ago).to_f / 1.hour
+          role_id =  user.role_id
+          max_duration = Role.find(role_id).max_squeak_duration
+
+          duration = 1
+          if curr_duration > max_duration 
+            duration = max_duration
+          elsif curr_duration > 0
+            duration = curr_duration
+          end
+
+          expires = squeak_time + (duration.to_f / 24.0)
+          resqueak = Squeak.new(:latitude => squeak.latitude, :longitude => squeak.longitude, 
+                                :time_utc => squeak_time, :expires => expires,
+                                :source => squeak.source,:category => squeak.category,:user_id => user.id,
+                                :text => squeak.text, :duration => duration, :timezone => squeak.timezone,
+                                :image => squeak.image )
+          if resqueak.save
+            respond_to_user("Squeak successfully resqueaked. Edit as necessary.",0,edit_squeak_path(resqueak.id))
+          else
+            err_msg = resqueak.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
+            respond_to_user("Couldn't resqueak: #{err_msg}",1,squeak)
+          end
+        else
+          err_msg = share_request.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
+          respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
+        end
+
+      elsif signed_in_to?(params[:provider]) 
         #request = ShareRequest.new(params.merge({:user_id => current_user.id}))
         share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>params[:provider]})
 
@@ -36,7 +67,8 @@ class ShareRequestsController < ApplicationController
             respond_to_user("Couldn't complete share request to #{params[:provider]} : #{e.message}",1,squeak)
           end
         else
-          respond_to_user("Couldn't save share request",1,squeak)
+          err_msg = share_request.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
+          respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
         end
       else
         #format.html do 
@@ -56,24 +88,6 @@ class ShareRequestsController < ApplicationController
   end
 
   :private
-
-  def respond_to_user(message_text,code,path)
-    m = Message.new(message_text,code)
-    if request.env["HTTP_USER_AGENT"].include? 'iPhone'
-      render :xml => m
-    else
-      respond_to do | format |     
-        format.html do 
-          if code == 0
-            flash[:message] = m.text
-          else
-            flash[:error] = m.text
-          end
-          redirect_to path
-        end
-      end
-    end
-  end
 
   # TODO: I may want to do this by squeak id, not the squeak itself for
   # ease during redirection

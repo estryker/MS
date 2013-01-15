@@ -39,4 +39,6 @@ module ApplicationHelper
     # "#{root_url}images/mapsqueak_logo.png"
     "#{root_url}squeaks/map_preview/#{squeak.id}"
   end
+
+ 
 end

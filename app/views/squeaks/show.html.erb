@@ -9,3 +9,18 @@ post method not working, and I prefer having a 'button' anyways
 <%= link_to image_tag('/images/twitter_64.png'), {:controller => "share_requests", :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id} ,{:method => :post}%>
 -->
 <%= button_to 'Tweet!', {:controller => "share_requests",  :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id}, {:class => "tweet_button"} %>
+
+<%= button_to 'ReSqueak', {:controller => "share_requests",  :action => 'create', :provider=> "mapsqueak", :squeak_id=> @squeak.id}, {:class => "resqueak_button"} %>
+
+<!-- 
+TODO: make a check mark filled in / not filled in graphic, and only allow a user to concur if they haven't done so. And allow them to unconcur
+-->
+<% if @checked_by_user.nil? %>
+  <%= button_to 'Concur!', {:controller => "squeak_checks",  :action => 'create',:squeak_id=> @squeak.id},{:class => "unchecked_button"} %>
+<% elsif @checked_by_user %>
+  <%= button_to 'Unconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'false'},{:class => "checked_button", :method => 'put'}  %>
+<% elsif @checked_by_user == false %>
+  <%= button_to 'Reconcur!', {:controller => "squeak_checks",  :action => 'update',:id=> @squeak_check.id,:checked => 'true'},{:class => "unchecked_button",  :method => 'put'} %>
+<% end %>
+ReSqueaked: <%= @num_resqueaks %>
+Checked: <%= @num_checks %>

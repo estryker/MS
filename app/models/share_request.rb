@@ -15,5 +15,5 @@ class ShareRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :squeak
   # TODO: add mapsqueak to the inclusion list (for re-squeaks)
-  validates :provider, :presence => true, :inclusion => { :in => %w[facebook twitter] }
+  validates :provider, :presence => true, :inclusion => { :in => %w[facebook twitter mapsqueak] }
 end

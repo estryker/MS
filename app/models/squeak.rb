@@ -16,6 +16,8 @@
 #  user_id    :integer
 #  image      :binary
 #  timezone   :string(255)
+#  category   :string(255)
+#  source     :string(255)
 #
 
 class Squeak < ActiveRecord::Base
