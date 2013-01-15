@@ -295,3 +295,12 @@ form.new_squeak textarea {
     color : transparent;
     font-size : 0
 }
+.resqueak_button {
+    background:url(/images/resqueak_circle_64.png) no-repeat;
+    cursor:pointer;
+    width: 64px;
+    height: 64px;
+    border: none;
+    color : transparent;
+    font-size : 0
+}

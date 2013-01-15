@@ -88,7 +88,6 @@ class SqueaksController < ApplicationController
     # old_way = DateTime.now.utc  + (params[:squeak][:duration].to_f / 24.0)
     # puts "expires: #{@squeak.expires} (#{@squeak.expires.class}) vs #{old_way} (#{old_way.class})"
     
-    
     respond_to do | format |
       if(@squeak.save)
         format.html do

@@ -23,7 +23,7 @@ class SqueakChecksController < ApplicationController
 
     # TODO: put 'respond_to_user' in a helper we can all see
     if(@squeak_check.save)
-      respond_to_user("Squeak check accepted!",0,current_path)
+      respond_to_user("Squeak check accepted!",0,squeak)
     else
       err_msg = @squeak_check.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
       respond_to_user("Couldn't save squeak check #{err_msg}",1,squeak)
@@ -34,18 +34,19 @@ class SqueakChecksController < ApplicationController
     squeak_check = SqueakCheck.find(params[:id])
     if squeak_check.nil?
       respond_to_user("Couldn't find squeak check with id #{params[:squeak_id]}",1,index_path)
-      return
-    end
-    if params.has_key? :checked
-      if params[:checked] == 'true'
-        squeak_check.checked = true
-        if squeak_check.save
-          respond_to_user("Squeak check updated, checked set to true",0,current_path)
-        end
-      elsif  params[:checked] == 'false'
-        squeak_check.checked = false
-        if squeak_check.save
-          respond_to_user("Squeak check updated, checked set to false",0,current_path)
+    else
+      squeak = Squeak.find(squeak_check.squeak_id)
+      if params.has_key? :checked
+        if params[:checked] == 'true'
+          squeak_check.checked = true
+          if squeak_check.save
+            respond_to_user("Squeak check updated, checked set to true",0,squeak)
+          end
+        elsif  params[:checked] == 'false'
+          squeak_check.checked = false
+          if squeak_check.save
+            respond_to_user("Squeak check updated, checked set to false",0,squeak)
+          end
         end
       end
     end

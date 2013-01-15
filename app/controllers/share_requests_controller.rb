@@ -12,18 +12,43 @@ class ShareRequestsController < ApplicationController
   def create
     # we expect params to have :squeak_id and :provider. We will determine the :user_id of the requester
     squeak = Squeak.find(params[:squeak_id])
- 
+    user = current_user || anonymous_user
     if squeak.nil?
       # throw an appropriate error and redirect to the index_path
       respond_to_user("Can't find squeak with id of #{params[:squeak_id]}",1,index_path)
     else
       if params[:provider] == 'mapsqueak'
-        share_request = ShareRequest.new({:user_id => current_user.id,:squeak_id => params[:squeak_id],:provider=>'mapsqueak'})
+        share_request = ShareRequest.new({:user_id => user.id,:squeak_id => squeak.id,:provider=>'mapsqueak'})
         # create a copy of the squeak if resqueaked? want to give the original the most credit, but want these to show up on the user's profile. 
         if share_request.save 
-          respond_to_user("Squeak successfully resqueaked",0,index_path)
+          # TODO: consider deferring most of this to the squeaks_controller create method. except
+          # we'd have to deal with the image issue, and hash/salt issue. Pick your poison
+          squeak_time = DateTime.now.utc
+          curr_duration = (squeak.expires - 0.hours.ago).to_f / 1.hour
+          role_id =  user.role_id
+          max_duration = Role.find(role_id).max_squeak_duration
+
+          duration = 1
+          if curr_duration > max_duration 
+            duration = max_duration
+          elsif curr_duration > 0
+            duration = curr_duration
+          end
+
+          expires = squeak_time + (duration.to_f / 24.0)
+          resqueak = Squeak.new(:latitude => squeak.latitude, :longitude => squeak.longitude, 
+                                :time_utc => squeak_time, :expires => expires,
+                                :source => squeak.source,:category => squeak.category,:user_id => user.id,
+                                :text => squeak.text, :duration => duration, :timezone => squeak.timezone,
+                                :image => squeak.image )
+          if resqueak.save
+            respond_to_user("Squeak successfully resqueaked. Edit as necessary.",0,edit_squeak_path(resqueak.id))
+          else
+            err_msg = resqueak.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
+            respond_to_user("Couldn't resqueak: #{err_msg}",1,squeak)
+          end
         else
-          err_msg = share_request.errors.map {|attr,msg| puts "#{attr} - #{msg}"}.join(' ')
+          err_msg = share_request.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
           respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
         end
 
@@ -42,7 +67,7 @@ class ShareRequestsController < ApplicationController
             respond_to_user("Couldn't complete share request to #{params[:provider]} : #{e.message}",1,squeak)
           end
         else
-          err_msg = share_request.errors.map {|attr,msg| puts "#{attr} - #{msg}"}.join(' ')
+          err_msg = share_request.errors.map {|attr,msg| "#{attr} - #{msg}"}.join(' ')
           respond_to_user("Couldn't save share request: #{err_msg}",1,squeak)
         end
       else

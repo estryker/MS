@@ -10,7 +10,7 @@ post method not working, and I prefer having a 'button' anyways
 -->
 <%= button_to 'Tweet!', {:controller => "share_requests",  :action => 'create', :provider=> "twitter", :squeak_id=> @squeak.id}, {:class => "tweet_button"} %>
 
-<%= button_to 'ReSqueak', {:controller => "share_requests",  :action => 'create', :provider=> "mapsqueak", :squeak_id=> @squeak.id} %>
+<%= button_to 'ReSqueak', {:controller => "share_requests",  :action => 'create', :provider=> "mapsqueak", :squeak_id=> @squeak.id}, {:class => "resqueak_button"} %>
 
 <!-- 
 TODO: make a check mark filled in / not filled in graphic, and only allow a user to concur if they haven't done so. And allow them to unconcur
