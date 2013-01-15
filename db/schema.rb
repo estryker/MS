@@ -23,6 +23,22 @@ ActiveRecord::Schema.define(:version => 20121226195534) do
     t.string   "token"
   end
 
+  create_table "geo_events", :force => true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "begins_utc"
+    t.datetime "expires_utc"
+    t.string   "text"
+    t.float    "duration"
+    t.string   "category"
+    t.string   "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "geo_events", ["latitude"], :name => "index_geo_events_on_latitude"
+  add_index "geo_events", ["longitude"], :name => "index_geo_events_on_longitude"
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.float    "max_squeak_duration"
