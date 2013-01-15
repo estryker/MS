@@ -484,7 +484,7 @@ class SqueaksController < ApplicationController
       
         # TODO: correct the syntax here
         @num_resqueaks = ShareRequest.where({:squeak_id => @squeak.id,:provider => 'mapsqueak'}, {:group => :user_id}).uniq.count
-        @num_checks = SqueakCheck.where(:squeak_id => @squeak.id).count
+        @num_checks = SqueakCheck.where(:squeak_id => @squeak.id, :checked => true).count
         
         sq = SqueakCheck.where(:squeak_id => @squeak.id,:user_id => (current_user || anonymous_user).id)
         if sq.nil? or sq.empty?
