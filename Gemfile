@@ -43,6 +43,7 @@ gem 'date_validator'
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter', '0.0.8'
+gem 'omniauth-istherea', '0.0.2'
 
 gem 'koala'
 gem 'twitter', '4.4.4' # check for updates for this. 

@@ -1,0 +1,417 @@
+ethan@cano:~/mapsqueak$ heroku logs --app mapsqueak
+2012-12-30T22:23:41+00:00 heroku[nginx]: 32.146.218.29 - - [30/Dec/2012:22:23:41 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.197710&center_longitude=-76.819485 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T22:23:41+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.197710&center_longitude=-76.819485 host=mapsqueak.heroku.com fwd=32.146.218.29 dyno=web.1 queue=0 wait=3ms connect=35ms service=16ms status=200 bytes=1372
+2012-12-30T22:32:06+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=1ms connect=2ms service=45ms status=200 bytes=545
+2012-12-30T23:32:40+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.196711&center_longitude=-76.817451 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=2ms service=18ms status=200 bytes=1372
+2012-12-30T23:32:40+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:32:40 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.196711&center_longitude=-76.817451 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:32:45+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:32:45 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.167921&center_longitude=-76.873379 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:10+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:10 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.167921&center_longitude=-76.873379 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:32+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:32 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:32+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=23ms status=200 bytes=1372
+2012-12-30T23:33:34+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:34 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:47:24+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=3ms connect=3ms service=18ms status=200 bytes=1372
+2012-12-30T23:47:24+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:47:24 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:47:39+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168156&center_longitude=-76.873458 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=12ms status=200 bytes=1372
+2012-12-30T23:47:39+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:47:39 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168156&center_longitude=-76.873458 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T00:00:05+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:05 +0000] "POST /squeaks.xml HTTP/1.1" 200 491 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:05+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=26ms status=200 bytes=479
+2012-12-31T00:00:10+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=3ms service=26ms status=200 bytes=473
+2012-12-31T00:00:10+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:10 +0000] "POST /squeaks.xml HTTP/1.1" 200 485 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:15+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=0ms service=33ms status=200 bytes=476
+2012-12-31T00:00:15+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:15 +0000] "POST /squeaks.xml HTTP/1.1" 200 488 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com                                                                                                
+2012-12-31T00:00:16+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:16 +0000] "POST /squeaks.xml HTTP/1.1" 200 486 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com                                                                                                
+2012-12-31T00:00:16+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=22ms status=200 bytes=474
+2012-12-31T00:32:03+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=2ms service=28ms status=200 bytes=503
+2012-12-31T00:32:03+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:32:03 +0000] "POST /squeaks.xml HTTP/1.1" 200 515 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: Started POST "/squeaks.xml" for 92.60.122.216 at 2012-12-30 16:42:01 -0800
+2012-12-31T00:42:01+00:00 app[web.1]:   Processing by SqueaksController#create as XML
+2012-12-31T00:42:01+00:00 app[web.1]: HMAC correct 'nON+xuBZmplyFRwFobnXsg=='
+2012-12-31T00:42:01+00:00 app[web.1]:   Parameters: {"squeak"=>{"latitude"=>"54.197544", "longitude"=>"-0.439775", "text"=>"Minor Disruption - up to 15 minutes delay. Congestion http://bit.ly/RpcHT1", "time_utc"=>"2012-12-31 00:42:01 UTC", "duration"=>"1.0495652677777778", "salt"=>"7A22956D", "hash"=>"nON+xuBZmplyFRwFobnXsg==\n", "category"=>"traffic_events", "source"=>"highways_uk"}}
+2012-12-31T00:42:02+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:42:02 +0000] "POST /squeaks.xml HTTP/1.1" 200 506 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:02+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=5ms service=34ms status=200 bytes=494
+2012-12-31T00:42:02+00:00 app[web.1]: Rendered squeaks/_squeak.xml.builder (1.0ms)
+2012-12-31T00:42:02+00:00 app[web.1]: Completed 200 OK in 24ms (Views: 1.7ms | ActiveRecord: 18.4ms)
+2012-12-31T00:42:02+00:00 app[web.1]: cache: [POST /squeaks.xml] invalidate, pass
+2012-12-31T01:43:05+00:00 heroku[web.1]: Idling
+2012-12-31T01:43:10+00:00 heroku[web.1]: State changed from up to down
+2012-12-31T01:53:08+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 host=mapsqueak.heroku.com fwd=24.59.165.238 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T01:53:08+00:00 heroku[nginx]: 24.59.165.238 - - [31/Dec/2012:01:53:08 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 6.0.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:33:35 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=6ms connect=6ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:34:34 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:35:50+00:00 heroku[router]: at=
+
+2012-12-31T02:35:50+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:35:50 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:36:43+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:36:43 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.197917&center_longitude=-76.819669 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:38:22+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/index host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:38:22+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:22 +0000] "GET /index HTTP/1.1" 503 601 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:38+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:38 +0000] "GET /favicon.ico HTTP/1.1" 499 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:39+00:00 heroku[web.1]: Unidling
+2012-12-31T02:38:39+00:00 heroku[web.1]: State changed from down to starting
+2012-12-31T02:38:50+00:00 heroku[web.1]: Starting process with command `bundle exec thin -p 24018 -e production -R /home/heroku_rack/heroku.ru start`
+2012-12-31T02:38:57+00:00 app[web.1]: Installed New Relic Browser Monitoring middleware
+2012-12-31T02:38:57+00:00 app[web.1]: Starting the New Relic Agent.
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Dispatcher: thin
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Application: mapsqueak
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : New Relic Ruby Agent 3.5.3 Initialized: pid = 2
+2012-12-31T02:38:59+00:00 app[web.1]: >> Thin web server (v1.3.1 codename Triple Espresso)
+2012-12-31T02:38:59+00:00 app[web.1]: >> Maximum connections set to 1024
+2012-12-31T02:38:59+00:00 app[web.1]: >> Listening on 0.0.0.0:24018, CTRL+C to stop
+2012-12-31T02:39:00+00:00 heroku[web.1]: State changed from starting to up
+2012-12-31T02:39:03+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:03 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:03+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:03+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=2ms connect=6ms service=24ms status=200 bytes=0
+2012-12-31T02:39:04+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:04+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=7ms status=200 bytes=0
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/index" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]:   Processing by SqueaksController#index as HTML
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_stylesheets.html.erb (0.9ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered .bundle/gems/ruby/1.9.1/gems/gmaps4rails-0.8.8/app/views/gmaps4rails/_gmaps4rails.html.erb (2.1ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered squeaks/index.html.erb within layouts/application (24.6ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_footer.html.erb (0.3ms)
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /index] miss
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_header.html.erb (1.8ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Completed 200 OK in 173ms (Views: 70.5ms | ActiveRecord: 40.4ms)
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/stylesheets/blueprint/screen.css" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/screen.css"):
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]:   
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/screen.css] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/javascripts/gmaps4rails.js?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=5ms service=11ms status=200 bytes=25694
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /images/mapsqueak_logo.png?1355367093] miss
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /javascripts/gmaps4rails.js?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /index HTTP/1.1" 200 3179 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/gmaps4rails.css?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/images/mapsqueak_logo.png?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=4ms status=200 bytes=4813
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /javascripts/gmaps4rails.js?1355367093 HTTP/1.1" 200 6949 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/blueprint/screen.css host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=4ms service=22ms status=404 bytes=728
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/gmaps4rails.css?1355367093 HTTP/1.1" 200 342 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/blueprint/screen.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /images/mapsqueak_logo.png?1355367093 HTTP/1.1" 200 4813 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/gmaps4rails.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=6ms service=24ms status=200 bytes=342
+2012-12-31T02:39:07+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:07 +0000] "GET /stylesheets/custom.css?1355367093 HTTP/1.1" 200 1264 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:07+00:00 heroku[router]: at=info method=GET path=/stylesheets/custom.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=2ms status=200 bytes=3951
+2012-12-31T02:39:07+00:00 app[web.1]: cache: [GET /stylesheets/custom.css?1355367093] miss
+ethan@cano:~/mapsqueak$ heroku logs --app mapsqueak
+2012-12-31T00:00:05+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=26ms status=200 bytes=479
+2012-12-31T00:00:10+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=3ms service=26ms status=200 bytes=473
+2012-12-31T00:00:10+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:10 +0000] "POST /squeaks.xml HTTP/1.1" 200 485 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:15+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=0ms service=33ms status=200 bytes=476
+2012-12-31T00:00:15+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:15 +0000] "POST /squeaks.xml HTTP/1.1" 200 488 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:16+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:16 +0000] "POST /squeaks.xml HTTP/1.1" 200 486 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:16+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=22ms status=200 bytes=474
+2012-12-31T00:32:03+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=2ms service=28ms status=200 bytes=503
+2012-12-31T00:32:03+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:32:03 +0000] "POST /squeaks.xml HTTP/1.1" 200 515 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: Started POST "/squeaks.xml" for 92.60.122.216 at 2012-12-30 16:42:01 -0800
+2012-12-31T00:42:01+00:00 app[web.1]:   Processing by SqueaksController#create as XML
+2012-12-31T00:42:01+00:00 app[web.1]: HMAC correct 'nON+xuBZmplyFRwFobnXsg=='
+2012-12-31T00:42:01+00:00 app[web.1]:   Parameters: {"squeak"=>{"latitude"=>"54.197544", "longitude"=>"-0.439775", "text"=>"Minor Disruption - up to 15 minutes delay. Congestion http://bit.ly/RpcHT1", "time_utc"=>"2012-12-31 00:42:01 UTC", "duration"=>"1.0495652677777778", "salt"=>"7A22956D", "hash"=>"nON+xuBZmplyFRwFobnXsg==\n", "category"=>"traffic_events", "source"=>"highways_uk"}}
+2012-12-31T00:42:02+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:42:02 +0000] "POST /squeaks.xml HTTP/1.1" 200 506 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:02+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=5ms service=34ms status=200 bytes=494
+2012-12-31T00:42:02+00:00 app[web.1]: Rendered squeaks/_squeak.xml.builder (1.0ms)
+2012-12-31T00:42:02+00:00 app[web.1]: Completed 200 OK in 24ms (Views: 1.
+
+2012-12-31T00:42:02+00:00 app[web.1]: cache: [POST /squeaks.xml] invalidate, pass
+2012-12-31T01:43:05+00:00 heroku[web.1]: Idling
+2012-12-31T01:43:10+00:00 heroku[web.1]: State changed from up to down
+2012-12-31T01:53:08+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 host=mapsqueak.heroku.com fwd=24.59.165.238 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T01:53:08+00:00 heroku[nginx]: 24.59.165.238 - - [31/Dec/2012:01:53:08 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 6.0.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:33:35 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=6ms connect=6ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:34:34 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:35:50+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T02:35:50+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:35:50 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:36:43+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:36:43 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.197917&center_longitude=-76.819669 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:38:22+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/index host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:38:22+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:22 +0000] "GET /index HTTP/1.1" 503 601 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:38+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:38 +0000] "GET /favicon.ico HTTP/1.1" 499 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:39+00:00 heroku[web.1]: Unidling
+2012-12-31T02:38:39+00:00 heroku[web.1]: State changed from down to starting
+2012-12-31T02:38:50+00:00 heroku[web.1]: Starting process with command `bundle exec thin -p 24018 -e production -R /home/heroku_rack/heroku.ru start`
+2012-12-31T02:38:57+00:00 app[web.1]: Installed New Relic Browser Monitoring middleware
+2012-12-31T02:38:57+00:00 app[web.1]: Starting the New Relic Agent.
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Dispatcher: thin
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Application: mapsqueak
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : New Relic Ruby Agent 3.5.3 Initialized: pid = 2
+2012-12-31T02:38:59+00:00 app[web.1]: >> Thin web server (v1.3.1 codename Triple Espresso)
+2012-12-31T02:38:59+00:00 app[web.1]: >> Maximum connections set to 1024
+2012-12-31T02:38:59+00:00 app[web.1]: >> Listening on 0.0.0.0:24018, CTRL+C to stop
+2012-12-31T02:39:00+00:00 heroku[web.1]: State changed from starting to up
+2012-12-31T02:39:03+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:03 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:03+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:03+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=2ms connect=6ms service=24ms status=200 bytes=0
+2012-12-31T02:39:04+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:04+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=7ms status=200 bytes=0
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/index" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]:   Processing by SqueaksController#index as HTML
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_stylesheets.html.erb 
+
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered .bundle/gems/ruby/1.9.1/gems/gmaps4rails-0.8.8/app/views/gmaps4rails/_gmaps4rails.html.erb (2.1ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered squeaks/index.html.erb within layouts/application (24.6ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_footer.html.erb (0.3ms)
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /index] miss
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_header.html.erb (1.8ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Completed 200 OK in 173ms (Views: 70.5ms | ActiveRecord: 40.4ms)
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/stylesheets/blueprint/screen.css" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/screen.css"):
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]:   
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/screen.css] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/javascripts/gmaps4rails.js?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=5ms service=11ms status=200 bytes=25694
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /images/mapsqueak_logo.png?1355367093] miss
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /javascripts/gmaps4rails.js?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /index HTTP/1.1" 200 3179 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/gmaps4rails.css?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/images/mapsqueak_logo.png?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=4ms status=200 bytes=4813
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /javascripts/gmaps4rails.js?1355367093 HTTP/1.1" 200 6949 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/blueprint/screen.css host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=4ms service=22ms status=404 bytes=728
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/gmaps4rails.css?1355367093 HTTP/1.1" 200 342 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/blueprint/screen.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /images/mapsqueak_logo.png?1355367093 HTTP/1.1" 200 4813 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/gmaps4rails.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=6ms service=24ms status=200 bytes=342
+2012-12-31T02:39:07+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:07 +0000] "GET /stylesheets/custom.css?1355367093 HTTP/1.1" 200 1264 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:07+00:00 heroku[router]: at=info method=GET path=/stylesheets/custom.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=2ms status=200 bytes=3951
+2012-12-31T02:39:07+00:00 app[web.1]: cache: [GET /stylesheets/custom.css?1355367093] miss
+2012-12-31T02:39:09+00:00 app[web.1]: ** [NewRelic][12/30/12 18:39:09 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Connected to NewRelic Service at collector-3.newrelic.com
+2012-12-31T02:39:10+00:00 app[web.1]: ** [NewRelic][12/30/12 18:39:10 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Reporting performance data every 60 seconds.
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: Started GET "/stylesheets/blueprint/print.css" for 74.61.241.193 at 2012-12-30 18:39:12 -0800
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/print.css"):
+2012-12-31T02:39:12+00:00 app[web.1]:   
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/print.css] miss
+2012-12-31T02:39:12+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:12 +0000] "GET /stylesheets/blueprint/print.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:40:10+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:40:10 +0000] "GET /images/old_squeak_marker.png HTTP/1.1" 200 2030 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsquea
+
+2012-12-31T02:40:10+00:00 heroku[router]: at=info method=GET path=/images/old_squeak_marker.png host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=11ms connect=5ms service=28ms status=200 bytes=2030
+2012-12-31T02:40:10+00:00 app[web.1]: cache: [GET /images/old_squeak_marker.png] miss
+ethan@cano:~/mapsqueak$ heroku logs --app mapsqueak
+2012-12-30T22:23:41+00:00 heroku[nginx]: 32.146.218.29 - - [30/Dec/2012:22:23:41 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.197710&center_longitude=-76.819485 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T22:23:41+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.197710&center_longitude=-76.819485 host=mapsqueak.heroku.com fwd=32.146.218.29 dyno=web.1 queue=0 wait=3ms connect=35ms service=16ms status=200 bytes=1372
+2012-12-30T22:32:06+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=1ms connect=2ms service=45ms status=200 bytes=545
+2012-12-30T23:32:40+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.196711&center_longitude=-76.817451 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=2ms service=18ms status=200 bytes=1372
+2012-12-30T23:32:40+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:32:40 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.196711&center_longitude=-76.817451 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:32:45+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:32:45 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.167921&center_longitude=-76.873379 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:10+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:10 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.167921&center_longitude=-76.873379 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:32+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:32 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:33:32+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=23ms status=200 bytes=1372
+2012-12-30T23:33:34+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:33:34 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:47:24+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=3ms connect=3ms service=18ms status=200 bytes=1372
+2012-12-30T23:47:24+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:47:24 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168791&center_longitude=-76.872756 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-30T23:47:39+00:00 heroku[router]: at=info method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=39.168156&center_longitude=-76.873458 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=12ms status=200 bytes=1372
+2012-12-30T23:47:39+00:00 heroku[nginx]: 74.61.241.193 - - [30/Dec/2012:23:47:39 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=39.168156&center_longitude=-76.873458 HTTP/1.1" 200 408 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T00:00:05+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:05 +0000] "POST /squeaks.xml HTTP/1.1" 200 491 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:05+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=26ms status=200 bytes=479
+2012-12-31T00:00:10+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=3ms service=26ms status=200 bytes=473
+2012-12-31T00:00:10+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:10 +0000] "POST /squeaks.xml HTTP/1.1" 200 485 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:15+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=0ms service=33ms status=200 bytes=476
+2012-12-31T00:00:15+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:15 +0000] "POST /squeaks.xml HTTP/1.1" 200 488 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com                                                                                                
+2012-12-31T00:00:16+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:16 +0000] "POST /squeaks.xml HTTP/1.1" 200 486 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com                                                                                                
+2012-12-31T00:00:16+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=22ms status=200 bytes=474
+2012-12-31T00:32:03+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=2ms service=28ms status=200 bytes=503
+2012-12-31T00:32:03+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:32:03 +0000] "POST /squeaks.xml HTTP/1.1" 200 515 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: Started POST "/squeaks.xml" for 92.60.122.216 at 2012-12-30 16:42:01 -0800
+2012-12-31T00:42:01+00:00 app[web.1]:   Processing by SqueaksController#create as XML
+2012-12-31T00:42:01+00:00 app[web.1]: HMAC correct 'nON+xuBZmplyFRwFobnXsg=='
+2012-12-31T00:42:01+00:00 app[web.1]:   Parameters: {"squeak"=>{"latitude"=>"54.197544", "longitude"=>"-0.439775", "text"=>"Minor Disruption - up to 15 minutes delay. Congestion http://bit.ly/RpcHT1", "time_utc"=>"2012-12-31 00:42:01 UTC", "duration"=>"1.0495652677777778", "salt"=>"7A22956D", "hash"=>"nON+xuBZmplyFRwFobnXsg==\n", "category"=>"traffic_events", "source"=>"highways_uk"}}
+2012-12-31T00:42:02+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:42:02 +0000] "POST /squeaks.xml HTTP/1.1" 200 506 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:02+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=5ms service=34ms status=200 bytes=494
+2012-12-31T00:42:02+00:00 app[web.1]: Rendered squeaks/_squeak.xml.builder (1.0ms)
+2012-12-31T00:42:02+00:00 app[web.1]: Completed 200 OK in 24ms (Views: 1.7ms | ActiveRecord: 18.4ms)
+2012-12-31T00:42:02+00:00 app[web.1]: cache: [POST /squeaks.xml] invalidate, pass
+2012-12-31T01:43:05+00:00 heroku[web.1]: Idling
+2012-12-31T01:43:10+00:00 heroku[web.1]: State changed from up to down
+2012-12-31T01:53:08+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 host=mapsqueak.heroku.com fwd=24.59.165.238 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T01:53:08+00:00 heroku[nginx]: 24.59.165.238 - - [31/Dec/2012:01:53:08 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 6.0.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:33:35 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=6ms connect=6ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:34:34 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:35:50+00:00 heroku[router]: at=
+
+2012-12-31T02:35:50+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:35:50 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:36:43+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:36:43 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.197917&center_longitude=-76.819669 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:38:22+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/index host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:38:22+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:22 +0000] "GET /index HTTP/1.1" 503 601 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:38+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:38 +0000] "GET /favicon.ico HTTP/1.1" 499 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:39+00:00 heroku[web.1]: Unidling
+2012-12-31T02:38:39+00:00 heroku[web.1]: State changed from down to starting
+2012-12-31T02:38:50+00:00 heroku[web.1]: Starting process with command `bundle exec thin -p 24018 -e production -R /home/heroku_rack/heroku.ru start`
+2012-12-31T02:38:57+00:00 app[web.1]: Installed New Relic Browser Monitoring middleware
+2012-12-31T02:38:57+00:00 app[web.1]: Starting the New Relic Agent.
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Dispatcher: thin
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Application: mapsqueak
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : New Relic Ruby Agent 3.5.3 Initialized: pid = 2
+2012-12-31T02:38:59+00:00 app[web.1]: >> Thin web server (v1.3.1 codename Triple Espresso)
+2012-12-31T02:38:59+00:00 app[web.1]: >> Maximum connections set to 1024
+2012-12-31T02:38:59+00:00 app[web.1]: >> Listening on 0.0.0.0:24018, CTRL+C to stop
+2012-12-31T02:39:00+00:00 heroku[web.1]: State changed from starting to up
+2012-12-31T02:39:03+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:03 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:03+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:03+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=2ms connect=6ms service=24ms status=200 bytes=0
+2012-12-31T02:39:04+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:04+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=7ms status=200 bytes=0
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/index" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]:   Processing by SqueaksController#index as HTML
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_stylesheets.html.erb (0.9ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered .bundle/gems/ruby/1.9.1/gems/gmaps4rails-0.8.8/app/views/gmaps4rails/_gmaps4rails.html.erb (2.1ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered squeaks/index.html.erb within layouts/application (24.6ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_footer.html.erb (0.3ms)
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /index] miss
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_header.html.erb (1.8ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Completed 200 OK in 173ms (Views: 70.5ms | ActiveRecord: 40.4ms)
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/stylesheets/blueprint/screen.css" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/screen.css"):
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]:   
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/screen.css] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/javascripts/gmaps4rails.js?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=5ms service=11ms status=200 bytes=25694
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /images/mapsqueak_logo.png?1355367093] miss
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /javascripts/gmaps4rails.js?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /index HTTP/1.1" 200 3179 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/gmaps4rails.css?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/images/mapsqueak_logo.png?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=4ms status=200 bytes=4813
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /javascripts/gmaps4rails.js?1355367093 HTTP/1.1" 200 6949 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/blueprint/screen.css host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=4ms service=22ms status=404 bytes=728
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/gmaps4rails.css?1355367093 HTTP/1.1" 200 342 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/blueprint/screen.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /images/mapsqueak_logo.png?1355367093 HTTP/1.1" 200 4813 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/gmaps4rails.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=6ms service=24ms status=200 bytes=342
+2012-12-31T02:39:07+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:07 +0000] "GET /stylesheets/custom.css?1355367093 HTTP/1.1" 200 1264 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:07+00:00 heroku[router]: at=info method=GET path=/stylesheets/custom.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=2ms status=200 bytes=3951
+2012-12-31T02:39:07+00:00 app[web.1]: cache: [GET /stylesheets/custom.css?1355367093] miss
+ethan@cano:~/mapsqueak$ heroku logs --app mapsqueak
+2012-12-31T00:00:05+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=26ms status=200 bytes=479
+2012-12-31T00:00:10+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=3ms service=26ms status=200 bytes=473
+2012-12-31T00:00:10+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:10 +0000] "POST /squeaks.xml HTTP/1.1" 200 485 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:15+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=0ms service=33ms status=200 bytes=476
+2012-12-31T00:00:15+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:15 +0000] "POST /squeaks.xml HTTP/1.1" 200 488 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:16+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:00:16 +0000] "POST /squeaks.xml HTTP/1.1" 200 486 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:00:16+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=1ms service=22ms status=200 bytes=474
+2012-12-31T00:32:03+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=2ms service=28ms status=200 bytes=503
+2012-12-31T00:32:03+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:32:03 +0000] "POST /squeaks.xml HTTP/1.1" 200 515 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: 
+2012-12-31T00:42:01+00:00 app[web.1]: Started POST "/squeaks.xml" for 92.60.122.216 at 2012-12-30 16:42:01 -0800
+2012-12-31T00:42:01+00:00 app[web.1]:   Processing by SqueaksController#create as XML
+2012-12-31T00:42:01+00:00 app[web.1]: HMAC correct 'nON+xuBZmplyFRwFobnXsg=='
+2012-12-31T00:42:01+00:00 app[web.1]:   Parameters: {"squeak"=>{"latitude"=>"54.197544", "longitude"=>"-0.439775", "text"=>"Minor Disruption - up to 15 minutes delay. Congestion http://bit.ly/RpcHT1", "time_utc"=>"2012-12-31 00:42:01 UTC", "duration"=>"1.0495652677777778", "salt"=>"7A22956D", "hash"=>"nON+xuBZmplyFRwFobnXsg==\n", "category"=>"traffic_events", "source"=>"highways_uk"}}
+2012-12-31T00:42:02+00:00 heroku[nginx]: 92.60.122.216 - - [31/Dec/2012:00:42:02 +0000] "POST /squeaks.xml HTTP/1.1" 200 506 "-" "curl/7.19.7 (x86_64-pc-linux-gnu) libcurl/7.19.7 OpenSSL/0.9.8k zlib/1.2.3.3 libidn/1.15" mapsqueak.heroku.com
+2012-12-31T00:42:02+00:00 heroku[router]: at=info method=POST path=/squeaks.xml host=mapsqueak.heroku.com fwd=92.60.122.216 dyno=web.1 queue=0 wait=0ms connect=5ms service=34ms status=200 bytes=494
+2012-12-31T00:42:02+00:00 app[web.1]: Rendered squeaks/_squeak.xml.builder (1.0ms)
+2012-12-31T00:42:02+00:00 app[web.1]: Completed 200 OK in 24ms (Views: 1.
+
+2012-12-31T00:42:02+00:00 app[web.1]: cache: [POST /squeaks.xml] invalidate, pass
+2012-12-31T01:43:05+00:00 heroku[web.1]: Idling
+2012-12-31T01:43:10+00:00 heroku[web.1]: State changed from up to down
+2012-12-31T01:53:08+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 host=mapsqueak.heroku.com fwd=24.59.165.238 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T01:53:08+00:00 heroku[nginx]: 24.59.165.238 - - [31/Dec/2012:01:53:08 +0000] "GET /squeaks.xml?num_squeaks=1000&center_latitude=37.178181&center_longitude=-96.054581 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 6.0.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:33:35 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:33:35+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=37.160317&center_longitude=-95.976562 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=6ms connect=6ms service= status=503 bytes=
+2012-12-31T02:34:34+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:34:34 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.175187&center_longitude=-76.860867 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:35:50+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=1ms service= status=503 bytes=
+2012-12-31T02:35:50+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:35:50 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.195317&center_longitude=-76.810719 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:36:43+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:36:43 +0000] "GET /squeaks.xml?num_squeaks=100&center_latitude=39.197917&center_longitude=-76.819669 HTTP/1.1" 503 601 "-" "MapSqueak 1.2 (iPhone; iPhone OS 5.1.1; en_US)" mapsqueak.heroku.com
+2012-12-31T02:38:22+00:00 heroku[router]: at=error code=H21 desc="Backend connection refused" method=GET path=/index host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0ms wait=0ms connect=2ms service= status=503 bytes=
+2012-12-31T02:38:22+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:22 +0000] "GET /index HTTP/1.1" 503 601 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:38+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:38:38 +0000] "GET /favicon.ico HTTP/1.1" 499 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:38:39+00:00 heroku[web.1]: Unidling
+2012-12-31T02:38:39+00:00 heroku[web.1]: State changed from down to starting
+2012-12-31T02:38:50+00:00 heroku[web.1]: Starting process with command `bundle exec thin -p 24018 -e production -R /home/heroku_rack/heroku.ru start`
+2012-12-31T02:38:57+00:00 app[web.1]: Installed New Relic Browser Monitoring middleware
+2012-12-31T02:38:57+00:00 app[web.1]: Starting the New Relic Agent.
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Dispatcher: thin
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Application: mapsqueak
+2012-12-31T02:38:57+00:00 app[web.1]: ** [NewRelic][12/30/12 18:38:57 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : New Relic Ruby Agent 3.5.3 Initialized: pid = 2
+2012-12-31T02:38:59+00:00 app[web.1]: >> Thin web server (v1.3.1 codename Triple Espresso)
+2012-12-31T02:38:59+00:00 app[web.1]: >> Maximum connections set to 1024
+2012-12-31T02:38:59+00:00 app[web.1]: >> Listening on 0.0.0.0:24018, CTRL+C to stop
+2012-12-31T02:39:00+00:00 heroku[web.1]: State changed from starting to up
+2012-12-31T02:39:03+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:03 +0000] "GET /favicon.ico HTTP/1.1" 200 0 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:03+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:03+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=2ms connect=6ms service=24ms status=200 bytes=0
+2012-12-31T02:39:04+00:00 app[web.1]: cache: [GET /favicon.ico] miss
+2012-12-31T02:39:04+00:00 heroku[router]: at=info method=GET path=/favicon.ico host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=7ms status=200 bytes=0
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/index" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]:   Processing by SqueaksController#index as HTML
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_stylesheets.html.erb 
+
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered .bundle/gems/ruby/1.9.1/gems/gmaps4rails-0.8.8/app/views/gmaps4rails/_gmaps4rails.html.erb (2.1ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered squeaks/index.html.erb within layouts/application (24.6ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_footer.html.erb (0.3ms)
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /index] miss
+2012-12-31T02:39:06+00:00 app[web.1]: Rendered layouts/_header.html.erb (1.8ms)
+2012-12-31T02:39:06+00:00 app[web.1]: Completed 200 OK in 173ms (Views: 70.5ms | ActiveRecord: 40.4ms)
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: Started GET "/stylesheets/blueprint/screen.css" for 74.61.241.193 at 2012-12-30 18:39:06 -0800
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/screen.css"):
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]:   
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: 
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/screen.css] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/javascripts/gmaps4rails.js?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=5ms service=11ms status=200 bytes=25694
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /images/mapsqueak_logo.png?1355367093] miss
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /javascripts/gmaps4rails.js?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /index HTTP/1.1" 200 3179 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 app[web.1]: cache: [GET /stylesheets/gmaps4rails.css?1355367093] miss
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/images/mapsqueak_logo.png?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=0ms service=4ms status=200 bytes=4813
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /javascripts/gmaps4rails.js?1355367093 HTTP/1.1" 200 6949 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/blueprint/screen.css host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=4ms service=22ms status=404 bytes=728
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/gmaps4rails.css?1355367093 HTTP/1.1" 200 342 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /stylesheets/blueprint/screen.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:06 +0000] "GET /images/mapsqueak_logo.png?1355367093 HTTP/1.1" 200 4813 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:06+00:00 heroku[router]: at=info method=GET path=/stylesheets/gmaps4rails.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=6ms service=24ms status=200 bytes=342
+2012-12-31T02:39:07+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:07 +0000] "GET /stylesheets/custom.css?1355367093 HTTP/1.1" 200 1264 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:39:07+00:00 heroku[router]: at=info method=GET path=/stylesheets/custom.css?1355367093 host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=0ms connect=1ms service=2ms status=200 bytes=3951
+2012-12-31T02:39:07+00:00 app[web.1]: cache: [GET /stylesheets/custom.css?1355367093] miss
+2012-12-31T02:39:09+00:00 app[web.1]: ** [NewRelic][12/30/12 18:39:09 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Connected to NewRelic Service at collector-3.newrelic.com
+2012-12-31T02:39:10+00:00 app[web.1]: ** [NewRelic][12/30/12 18:39:10 -0800 f6c033bd-2f14-42e8-a90b-dc421a87d83d (2)] INFO : Reporting performance data every 60 seconds.
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: Started GET "/stylesheets/blueprint/print.css" for 74.61.241.193 at 2012-12-30 18:39:12 -0800
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: ActionController::RoutingError (No route matches [GET] "/stylesheets/blueprint/print.css"):
+2012-12-31T02:39:12+00:00 app[web.1]:   
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: 
+2012-12-31T02:39:12+00:00 app[web.1]: cache: [GET /stylesheets/blueprint/print.css] miss
+2012-12-31T02:39:12+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:39:12 +0000] "GET /stylesheets/blueprint/print.css HTTP/1.1" 404 728 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsqueak.heroku.com
+2012-12-31T02:40:10+00:00 heroku[nginx]: 74.61.241.193 - - [31/Dec/2012:02:40:10 +0000] "GET /images/old_squeak_marker.png HTTP/1.1" 200 2030 "http://mapsqueak.heroku.com/index" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:17.0) Gecko/20100101 Firefox/17.0" mapsquea
+
+2012-12-31T02:40:10+00:00 heroku[router]: at=info method=GET path=/images/old_squeak_marker.png host=mapsqueak.heroku.com fwd=74.61.241.193 dyno=web.1 queue=0 wait=11ms connect=5ms service=28ms status=200 bytes=2030
+2012-12-31T02:40:10+00:00 app[web.1]: cache: [GET /images/old_squeak_marker.png] miss
+

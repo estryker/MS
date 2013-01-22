@@ -7,4 +7,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :twitter, 'K1tkT7Jpi3Ujl0Ftv2V1A', 'UzXlol9ZoDd5uJzuhJpiEFtT0reBcQdTO8XSLVp1k'
   # provider :google, 'domain.com', 'secret', :scope => 'https://mail.google.com/mail/feed/atom/'"
   # provider :google_oauth2, 'mapsqueakomni.heroku.com', :scope => 'https://www.googleapis.com/auth/plus.me'
+  provider :istherea, 'Cz5ubYbnrdnvJHmOGnFLg5DENILe20evp4VYyVDq', 'G0GMTjfoXJkJ2sJMHBbM0kdMFxogiNhOV7TAbJcG'
 end

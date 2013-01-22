@@ -91,6 +91,7 @@ GEM
       rack
     omniauth-facebook (1.4.1)
       omniauth-oauth2 (~> 1.1.0)
+    omniauth-istherea (0.0.2)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
@@ -184,6 +185,7 @@ DEPENDENCIES
   koala
   omniauth
   omniauth-facebook
+  omniauth-istherea (= 0.0.2)
   omniauth-twitter (= 0.0.8)
   pg
   rails (= 3.1.10)

@@ -16,3 +16,10 @@
 <%= link_to image_tag('/images/twitter_grey_64.png'), '/auth/twitter', :class => 'quick', :remote => true %>
 <% end  %>
 <!-- <%= link_to image_tag('/images/google_64.png'), '/auth/google', :class => 'quick', :remote => true %> -->
+
+<% if  signed_in_to?('istherea') %>
+<%= link_to image_tag('/images/mapsqueak_logo.png'), signout_path + "/istherea", :method=>:delete %>
+<% else  %>
+<%= link_to image_tag('/images/mapsqueak_logo_grey.png'), '/auth/istherea', :class => 'quick', :remote => true %>
+<% end  %>
+
