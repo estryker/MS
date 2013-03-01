@@ -1,0 +1,2 @@
+module SqueakChecksHelper
+end

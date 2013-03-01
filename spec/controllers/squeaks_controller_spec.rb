@@ -287,7 +287,7 @@ describe SqueaksController do
     it "should not return relics when include_relics is set to no" do 
       get :index, {:format => 'xml', :include_relics => 'no',:num_squeaks => 10, :center_latitude => @relic_squeak.latitude, :center_longitude => @relic_squeak.longitude}
       xml = XmlSimple.xml_in(response.body,:keeproot => true, :ForceArray => true)
-      assert xml['squeaks'].first["squeak"].length == 6, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
+      assert xml['squeaks'].first["squeak"].length == 5, "num squeaks #{xml['squeaks'].first["squeak"].length} squeaks: #{xml['squeaks']}"
     end
 
     it "should return squeaks with the right category if requested" do 
