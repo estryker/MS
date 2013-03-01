@@ -253,7 +253,6 @@ class SqueaksController < ApplicationController
     if @squeak and (@squeak.user_id == user.id || user.admin?)
 
       return unless authenticate_squeak?(params,@squeak,:edit)
-
       @squeak.latitude = params[:squeak][:latitude]
       @squeak.longitude = params[:squeak][:longitude]
       @squeak.text = params[:squeak][:text]
@@ -263,12 +262,10 @@ class SqueaksController < ApplicationController
       @squeak.timezone = params[:squeak][:timezone]
 
       # puts "source: " + params[:squeak][:source]
-      # puts @squeak.inspect
 
       if user.admin?
         @squeak.disable_expires_validation = true
       end
-
       respond_to do | format |
         if(@squeak.save)
           format.html do
@@ -288,6 +285,7 @@ class SqueaksController < ApplicationController
             render :partial => @squeak
           end
         else
+          # TODO: log this! puts ' error updating squeak' + @squeak.errors.full_messages.join("\n")
           err = "Couldn't update squeak"
           format.html do
             #redirect_to :action => :edit

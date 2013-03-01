@@ -346,7 +346,7 @@ describe SqueaksController do
   describe "PUT 'update'" do
 
     before(:each) do
-      @attr = { :latitude => 51.0, :longitude => -1.0 , :text => 'foobar', :expires => Time.now.to_s,:category => 'cat', :source=>'src', :timezone=>'XXX',:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
+      @attr = { :latitude => 51.0, :longitude => -1.0 , :text => 'foobar', :expires => 2.hours.from_now.to_s,:category => 'cat', :source=>'src', :timezone=>'XXX',:salt => "7aX5BVV1dGk=", :hash=>"lWC7UXOZ3AFK2kwt6Y2tHQ=="}
     end
 
 #    describe "failure due to wrong user" do
