@@ -4,7 +4,7 @@ group :development do
   gem 'rspec-rails', '2.6.1'
   gem 'annotate', '2.4.0'
 
-  gem 'sqlite3', '1.3.4'
+  gem 'sqlite3', '1.3.5'
 end
 
 group :test do
@@ -19,10 +19,11 @@ group :production do
 end
 
 gem 'thin'
+gem 'tilt','1.3.4'
 
 gem 'gravatar_image_tag', '1.0.0.pre2'
 
-gem 'rails', '3.1.10' # was 3.1.1
+gem 'rails', '3.2.12' # , '3.1.10' # was 3.1.1
 # gem 'rails', '3.2.9' # date_validator not happy for some reason
 
 # Bundle edge Rails instead:
@@ -34,7 +35,7 @@ gem 'gmaps4rails', '0.8.8'
 
 gem "jquery-rails"
 
-gem 'will_paginate', '3.0.pre2'
+gem 'will_paginate' # , '3.0.pre2'
 
 gem 'geokit'
 
@@ -45,7 +46,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter', '0.0.8'
 gem 'omniauth-istherea', '0.0.2'
 
-gem 'koala'
+gem 'koala', '1.6.0'
 gem 'twitter', '4.4.4' # check for updates for this. 
 gem 'bitly'
 
